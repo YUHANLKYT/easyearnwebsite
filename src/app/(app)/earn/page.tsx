@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
+import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
 import { EARN_TASKS } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
@@ -56,6 +57,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     userEmail: user.email,
     subId1: "surveys",
     subId2: "easyearn",
+  });
+  const bitlabsUrl = buildBitLabsOfferwallUrl({
+    userId: user.id,
   });
 
   const latestClaims = await prisma.taskClaim.findMany({
@@ -131,43 +135,62 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
 
       {activeTab === "surveys" ? (
         <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-          <Link
-            href="/cpx-research"
-            className="block rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:border-slate-300 sm:px-6"
-          >
-            <Image
-              src="/cpx-research-logo.svg"
-              alt="CPX Research"
-              width={220}
-              height={48}
-              priority
-              className="h-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[420px]"
-            />
-          </Link>
+          <div className="grid gap-3 md:grid-cols-2">
+            <Link
+              href="/cpx-research"
+              className="block rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:border-slate-300 sm:px-6"
+            >
+              <Image
+                src="/cpx-research-logo.svg"
+                alt="CPX Research"
+                width={220}
+                height={48}
+                priority
+                className="h-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[420px]"
+              />
+            </Link>
+            <Link
+              href="/bitlabs"
+              className="flex items-center rounded-2xl border border-slate-200 bg-white px-4 py-4 text-lg font-semibold text-slate-900 transition hover:border-slate-300 sm:px-6"
+            >
+              BitLabs
+            </Link>
+          </div>
 
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Surveys Offerwall</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Open CPX Research in a dedicated page and complete surveys. Rewards are verified through postback and
-              reflected in your wallet.
+              Open CPX Research or BitLabs in dedicated pages and complete surveys. Rewards are verified through postback
+              and reflected in your wallet.
             </p>
           </div>
 
-          {cpxSurveyUrl ? (
+          {cpxSurveyUrl || bitlabsUrl ? (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
-              <p className="mb-3">
-                CPX is connected for your account. Launch it in full view from the link below.
-              </p>
-              <Link
-                href="/cpx-research"
-                className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-              >
-                Open CPX Research
-              </Link>
+              <p className="mb-3">Your survey providers are connected. Launch an offerwall below.</p>
+              <div className="flex flex-wrap gap-2">
+                {cpxSurveyUrl ? (
+                  <Link
+                    href="/cpx-research"
+                    className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                  >
+                    Open CPX Research
+                  </Link>
+                ) : null}
+                {bitlabsUrl ? (
+                  <Link
+                    href="/bitlabs"
+                    className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                  >
+                    Open BitLabs
+                  </Link>
+                ) : null}
+              </div>
             </div>
           ) : (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              CPX is not configured yet. Add `CPX_APP_ID` and `CPX_APP_SECRET` in your environment variables.
+              Offerwalls are not configured yet. Add `CPX_APP_ID`, `CPX_APP_SECRET`, and `BITLABS_APP_TOKEN` in your
+              environment variables.
             </div>
           )}
         </section>
