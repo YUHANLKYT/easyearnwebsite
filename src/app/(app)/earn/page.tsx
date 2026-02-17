@@ -1,9 +1,9 @@
-import { createHash } from "node:crypto";
 import Image from "next/image";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
+import { buildCpxOfferwallUrl } from "@/lib/cpx";
 import { EARN_TASKS } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
 import { formatPendingDurationLabel, getOfferPendingDays } from "@/lib/pending-offers";
@@ -46,38 +46,16 @@ function getActiveTab(tab: string | undefined): EarnTab {
   return "surveys";
 }
 
-function buildCpxSurveyUrl(input: { userId: string; userName: string; userEmail: string }): string | null {
-  const appId = process.env.CPX_APP_ID?.trim() || "31489";
-  const appSecret = process.env.CPX_APP_SECRET?.trim() || process.env.CPX_POSTBACK_SECRET?.trim();
-
-  if (!appId) {
-    return null;
-  }
-
-  const url = new URL("https://offers.cpx-research.com/index.php");
-  url.searchParams.set("app_id", appId);
-  url.searchParams.set("ext_user_id", input.userId);
-  url.searchParams.set("username", input.userName);
-  url.searchParams.set("email", input.userEmail);
-  url.searchParams.set("subid_1", "surveys");
-  url.searchParams.set("subid_2", "easyearn");
-
-  if (appSecret) {
-    const secureHash = createHash("md5").update(`${input.userId}-${appSecret}`).digest("hex");
-    url.searchParams.set("secure_hash", secureHash);
-  }
-
-  return url.toString();
-}
-
 export default async function EarnPage({ searchParams }: { searchParams: SearchParams }) {
   const user = await requireUser("/earn");
   const params = await searchParams;
   const activeTab = getActiveTab(params.tab);
-  const cpxSurveyUrl = buildCpxSurveyUrl({
+  const cpxSurveyUrl = buildCpxOfferwallUrl({
     userId: user.id,
     userName: user.name,
     userEmail: user.email,
+    subId1: "surveys",
+    subId2: "easyearn",
   });
 
   const latestClaims = await prisma.taskClaim.findMany({
@@ -153,7 +131,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
 
       {activeTab === "surveys" ? (
         <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
+          <Link
+            href="/cpx-research"
+            className="block rounded-2xl border border-slate-200 bg-white px-4 py-4 transition hover:border-slate-300 sm:px-6"
+          >
             <Image
               src="/cpx-research-logo.svg"
               alt="CPX Research"
@@ -162,24 +143,27 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
               priority
               className="h-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[420px]"
             />
-          </div>
+          </Link>
 
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Surveys Offerwall</h2>
             <p className="mt-2 text-sm text-slate-600">
-              Complete CPX Research surveys below. Rewards are verified through postback and reflected in your wallet.
+              Open CPX Research in a dedicated page and complete surveys. Rewards are verified through postback and
+              reflected in your wallet.
             </p>
           </div>
 
           {cpxSurveyUrl ? (
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-              <iframe
-                title="CPX Research Surveys"
-                src={cpxSurveyUrl}
-                className="h-[1200px] w-full md:h-[1600px] xl:h-[2000px]"
-                loading="lazy"
-                allow="clipboard-read; clipboard-write"
-              />
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
+              <p className="mb-3">
+                CPX is connected for your account. Launch it in full view from the link below.
+              </p>
+              <Link
+                href="/cpx-research"
+                className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+              >
+                Open CPX Research
+              </Link>
             </div>
           ) : (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
