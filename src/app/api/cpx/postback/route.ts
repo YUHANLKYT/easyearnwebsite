@@ -60,7 +60,21 @@ function safeEquals(left: string, right: string): boolean {
 }
 
 function normalizeHash(value: string): string {
-  return value.trim().toLowerCase();
+  let normalized = value.trim();
+
+  try {
+    normalized = decodeURIComponent(normalized);
+  } catch {
+    // Ignore decode failures and keep original input.
+  }
+
+  normalized = normalized
+    .replace(/^[{(\["']+/, "")
+    .replace(/[})\]"']+$/, "")
+    .trim()
+    .toLowerCase();
+
+  return normalized;
 }
 
 function verifyHash(payload: ParsedPostback): boolean {
@@ -75,12 +89,22 @@ function verifyHash(payload: ParsedPostback): boolean {
   }
 
   const incomingHash = normalizeHash(payload.hash);
+  const normalizedSecret = normalizeHash(secret);
+  if (!incomingHash || incomingHash === "secure_hash") {
+    return false;
+  }
+
   const candidates = [
-    normalizeHash(secret),
-    md5(`${payload.userId}-${secret}`),
-    md5(`${payload.transId}-${secret}`),
-    md5(`${payload.userId}${secret}`),
-    md5(`${payload.transId}${secret}`),
+    normalizedSecret,
+    normalizeHash(md5(`${payload.userId}-${secret}`)),
+    normalizeHash(md5(`${payload.transId}-${secret}`)),
+    normalizeHash(md5(`${payload.userId}${secret}`)),
+    normalizeHash(md5(`${payload.transId}${secret}`)),
+    normalizeHash(md5(`${secret}-${payload.userId}`)),
+    normalizeHash(md5(`${secret}-${payload.transId}`)),
+    normalizeHash(md5(`${payload.userId}-${payload.transId}-${secret}`)),
+    normalizeHash(md5(`${payload.transId}-${payload.userId}-${secret}`)),
+    normalizeHash(md5(`${payload.userId}:${payload.transId}:${secret}`)),
   ];
 
   return candidates.some((candidate) => safeEquals(incomingHash, candidate));

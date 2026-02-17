@@ -47,21 +47,25 @@ function getActiveTab(tab: string | undefined): EarnTab {
 }
 
 function buildCpxSurveyUrl(input: { userId: string; userName: string; userEmail: string }): string | null {
-  const appId = process.env.CPX_APP_ID?.trim();
+  const appId = process.env.CPX_APP_ID?.trim() || "31489";
   const appSecret = process.env.CPX_APP_SECRET?.trim() || process.env.CPX_POSTBACK_SECRET?.trim();
 
-  if (!appId || !appSecret) {
+  if (!appId) {
     return null;
   }
 
-  const secureHash = createHash("md5").update(`${input.userId}-${appSecret}`).digest("hex");
   const url = new URL("https://offers.cpx-research.com/index.php");
   url.searchParams.set("app_id", appId);
   url.searchParams.set("ext_user_id", input.userId);
-  url.searchParams.set("secure_hash", secureHash);
   url.searchParams.set("username", input.userName);
   url.searchParams.set("email", input.userEmail);
   url.searchParams.set("subid_1", "surveys");
+  url.searchParams.set("subid_2", "easyearn");
+
+  if (appSecret) {
+    const secureHash = createHash("md5").update(`${input.userId}-${appSecret}`).digest("hex");
+    url.searchParams.set("secure_hash", secureHash);
+  }
 
   return url.toString();
 }
@@ -168,13 +172,15 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
           </div>
 
           {cpxSurveyUrl ? (
-            <iframe
-              title="CPX Research Surveys"
-              src={cpxSurveyUrl}
-              className="h-[780px] w-full rounded-2xl border border-slate-200 bg-white"
-              loading="lazy"
-              allow="clipboard-read; clipboard-write"
-            />
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+              <iframe
+                title="CPX Research Surveys"
+                src={cpxSurveyUrl}
+                className="h-[1200px] w-full md:h-[1600px] xl:h-[2000px]"
+                loading="lazy"
+                allow="clipboard-read; clipboard-write"
+              />
+            </div>
           ) : (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
               CPX is not configured yet. Add `CPX_APP_ID` and `CPX_APP_SECRET` in your environment variables.
