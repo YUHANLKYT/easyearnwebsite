@@ -37,10 +37,10 @@ export const metadata: Metadata = {
     description: socialDescription,
     images: [
       {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: `${APP_NAME} preview`,
+        url: "/easy-earn-logo-full.png",
+        width: 1536,
+        height: 1024,
+        alt: `${APP_NAME} logo`,
       },
     ],
   },
@@ -48,11 +48,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: APP_NAME,
     description: socialDescription,
-    images: ["/twitter-image"],
+    images: ["/easy-earn-logo-full.png"],
   },
   icons: {
-    icon: [{ url: "/easy-earn-logo.svg", type: "image/svg+xml" }],
-    apple: "/easy-earn-logo.svg",
+    icon: [{ url: "/easy-earn-logo.png", type: "image/png" }],
+    apple: "/easy-earn-logo.png",
   },
 };
 

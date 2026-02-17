@@ -88,7 +88,7 @@ export default async function HomePage({ searchParams }: { searchParams: SearchP
     <main className="mx-auto min-h-screen w-full max-w-7xl px-4 py-8 md:px-8">
       <header className="mb-6 flex items-center justify-between rounded-2xl border border-white/80 bg-white/80 px-5 py-4 backdrop-blur">
         <span className="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-900">
-          <Image src="/easy-earn-logo.svg" alt="Easy Earn" width={30} height={30} className="h-[30px] w-[30px]" />
+          <Image src="/easy-earn-logo.png" alt="Easy Earn" width={30} height={30} className="h-[30px] w-[30px]" />
           <span>{APP_NAME}</span>
         </span>
         <div className="flex items-center gap-2">

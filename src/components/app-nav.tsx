@@ -31,7 +31,7 @@ export function AppNav({ name, balanceCents, pendingBalanceCents, role }: AppNav
     <header className="sticky top-0 z-20 border-b border-white/60 bg-white/85 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 md:px-8">
         <Link href="/dashboard" className="flex items-center gap-2 text-lg font-semibold tracking-tight text-slate-900">
-          <Image src="/easy-earn-logo.svg" alt="Easy Earn" width={28} height={28} className="h-7 w-7" />
+          <Image src="/easy-earn-logo.png" alt="Easy Earn" width={28} height={28} className="h-7 w-7" />
           <span>Easy Earn</span>
         </Link>
 

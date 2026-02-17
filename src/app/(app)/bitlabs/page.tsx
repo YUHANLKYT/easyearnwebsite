@@ -30,12 +30,12 @@ export default async function BitLabsPage() {
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
-            src="/bitlabs-logo.svg"
+            src="/bitlabs-batterphoto.png"
             alt="BitLabs"
-            width={88}
-            height={88}
+            width={340}
+            height={72}
             priority
-            className="h-auto w-[72px] sm:w-[84px]"
+            className="h-auto w-full max-w-[260px] sm:max-w-[340px]"
           />
         </div>
 
