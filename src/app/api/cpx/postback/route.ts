@@ -64,7 +64,7 @@ function normalizeHash(value: string): string {
 }
 
 function verifyHash(payload: ParsedPostback): boolean {
-  const secret = process.env.CPX_POSTBACK_SECRET?.trim();
+  const secret = process.env.CPX_POSTBACK_SECRET?.trim() || process.env.CPX_APP_SECRET?.trim();
   if (!secret) {
     // Allow integration to run without verification until secret is configured.
     return true;
