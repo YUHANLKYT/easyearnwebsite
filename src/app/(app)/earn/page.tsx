@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import Image from "next/image";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
@@ -148,6 +149,17 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
 
       {activeTab === "surveys" ? (
         <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
+            <Image
+              src="/cpx-research-logo.svg"
+              alt="CPX Research"
+              width={220}
+              height={48}
+              priority
+              className="h-auto w-full max-w-[260px] sm:max-w-[340px] md:max-w-[420px]"
+            />
+          </div>
+
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Surveys Offerwall</h2>
             <p className="mt-2 text-sm text-slate-600">
