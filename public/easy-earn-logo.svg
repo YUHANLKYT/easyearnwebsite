@@ -1,0 +1,18 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="16" y1="14" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FB923C"/>
+      <stop offset="0.55" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#0EA5E9"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="24" y1="24" x2="96" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#F8FAFC" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="104" height="104" rx="28" fill="url(#bg)"/>
+  <circle cx="60" cy="60" r="33" fill="url(#chip)"/>
+  <path d="M42 70L57 55L65 63L80 48" stroke="#0F172A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M72.5 47.5H80.5V55.5" stroke="#0F172A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="60" cy="60" r="32.5" stroke="#FFFFFF" stroke-opacity="0.45"/>
+</svg>

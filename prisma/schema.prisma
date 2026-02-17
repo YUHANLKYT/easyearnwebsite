@@ -1,0 +1,293 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                  String              @id @default(cuid())
+  name                String
+  email               String              @unique
+  passwordHash        String
+  role                UserRole            @default(USER)
+  status              AccountStatus       @default(ACTIVE)
+  anonymousMode       Boolean             @default(false)
+  emailVerifiedAt     DateTime?
+  moderationNote      String?
+  referralCode        String              @unique
+  referredById        String?
+  referredBy          User?               @relation("Referrals", fields: [referredById], references: [id], onDelete: SetNull)
+  referrals           User[]              @relation("Referrals")
+  balanceCents        Int                 @default(0)
+  lifetimeEarnedCents Int                 @default(0)
+  totalWithdrawnCents Int                 @default(0)
+  lastWithdrawalAt    DateTime?
+  wheelLastSpunAt     DateTime?
+  levelCaseKeys       Int                 @default(0)
+  levelRewardsClaimed Int                 @default(0)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  sessions            Session[]
+  transactions        Transaction[]       @relation("UserTransactions")
+  sourceTransactions  Transaction[]       @relation("ReferralSourceTransactions")
+  redemptions         Redemption[]        @relation("UserRedemptions")
+  processedRedemptions Redemption[]       @relation("ProcessedRedemptions")
+  taskClaims          TaskClaim[]
+  complaints          Complaint[]         @relation("UserComplaints")
+  handledComplaints   Complaint[]         @relation("HandledComplaints")
+  chatMessages        ChatMessage[]
+  levelCaseOpens      LevelCaseOpen[]
+  streakCaseOpens     StreakCaseOpen[]
+  createdPromoCodes   PromoCode[]         @relation("PromoCodeCreator")
+  promoRedemptions    PromoCodeRedemption[]
+  emailVerificationTokens EmailVerificationToken[]
+
+  @@index([referredById])
+  @@index([lastWithdrawalAt])
+  @@index([status])
+  @@index([role])
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([expiresAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model Transaction {
+  id           String          @id @default(cuid())
+  userId       String
+  user         User            @relation("UserTransactions", fields: [userId], references: [id], onDelete: Cascade)
+  type         TransactionType
+  amountCents  Int
+  description  String
+  sourceUserId String?
+  sourceUser   User?           @relation("ReferralSourceTransactions", fields: [sourceUserId], references: [id], onDelete: SetNull)
+  createdAt    DateTime        @default(now())
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
+
+model Redemption {
+  id                  String           @id @default(cuid())
+  userId              String
+  user                User             @relation("UserRedemptions", fields: [userId], references: [id], onDelete: Cascade)
+  method              RedemptionMethod
+  payoutRegion        PayoutRegion     @default(US)
+  payoutCurrency      PayoutCurrency   @default(USD)
+  faceValueCents      Int?
+  payoutEmail         String?
+  discordUsername     String?
+  amountCents         Int
+  status              RedemptionStatus @default(PENDING)
+  note                String?
+  processedById       String?
+  processedBy         User?            @relation("ProcessedRedemptions", fields: [processedById], references: [id], onDelete: SetNull)
+  processedAt         DateTime?
+  referralBonusCents  Int              @default(0)
+  referralBonusPaidAt DateTime?
+  deliveryCode        String?
+  notificationSentAt  DateTime?
+  createdAt           DateTime         @default(now())
+
+  @@index([userId, createdAt])
+  @@index([status, createdAt])
+}
+
+model TaskClaim {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskKey    String
+  offerwallName String @default("Easy Earn Internal")
+  offerId    String?
+  offerTitle String?
+  payoutCents Int
+  pendingUntil DateTime?
+  creditedAt DateTime?
+  claimedAt  DateTime @default(now())
+
+  @@index([userId, taskKey, claimedAt])
+  @@index([claimedAt])
+  @@index([userId, pendingUntil, creditedAt])
+}
+
+model Complaint {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation("UserComplaints", fields: [userId], references: [id], onDelete: Cascade)
+  subject     String
+  message     String
+  status      ComplaintStatus @default(OPEN)
+  handledById String?
+  handledBy   User?           @relation("HandledComplaints", fields: [handledById], references: [id], onDelete: SetNull)
+  resolvedAt  DateTime?
+  createdAt   DateTime        @default(now())
+
+  @@index([status, createdAt])
+  @@index([userId, createdAt])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
+model LevelCaseOpen {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amountCents Int
+  levelAtOpen Int
+  createdAt   DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+model StreakCaseOpen {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier            Int
+  streakStartDay  DateTime
+  streakDaysAtOpen Int
+  amountCents     Int
+  createdAt       DateTime @default(now())
+
+  @@unique([userId, tier, streakStartDay])
+  @@index([userId, createdAt])
+}
+
+model PromoCode {
+  id          String               @id @default(cuid())
+  code        String               @unique
+  creatorId   String
+  creator     User                 @relation("PromoCodeCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  rewardCents Int
+  maxUses     Int
+  minLevel    Int                  @default(0)
+  usesCount   Int                  @default(0)
+  audience    PromoCodeAudience
+  isActive    Boolean              @default(true)
+  createdAt   DateTime             @default(now())
+  redemptions PromoCodeRedemption[]
+
+  @@index([creatorId, createdAt])
+  @@index([isActive, createdAt])
+}
+
+model PromoCodeRedemption {
+  id          String   @id @default(cuid())
+  promoCodeId String
+  promoCode   PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([promoCodeId, userId])
+  @@index([userId, createdAt])
+}
+
+enum TransactionType {
+  EARN
+  EARN_PENDING
+  EARN_RELEASE
+  STREAK_CASE
+  LEVEL_CASE
+  WITHDRAWAL
+  WITHDRAWAL_REFUND
+  REFERRAL_BONUS
+  PROMO_CODE_CREATE
+  PROMO_CODE_REDEEM
+  WHEEL_SPIN
+}
+
+enum PromoCodeAudience {
+  REFERRAL_ONLY
+  EVERYONE
+}
+
+enum RedemptionMethod {
+  PAYPAL
+  APPLE_GIFT_CARD
+  AMAZON_GIFT_CARD
+  GOOGLE_PLAY_GIFT_CARD
+  SPOTIFY_GIFT_CARD
+  NETFLIX_GIFT_CARD
+  PLAYSTATION_GIFT_CARD
+  NINTENDO_GIFT_CARD
+  XBOX_GIFT_CARD
+  STARBUCKS_GIFT_CARD
+  DOORDASH_GIFT_CARD
+  STEAM_GIFT_CARD
+  VALORANT_GIFT_CARD
+  LEAGUE_OF_LEGENDS_GIFT_CARD
+  DISCORD_NITRO
+  ROBLOX_GIFT_CARD
+  VISA_GIFT_CARD
+}
+
+enum PayoutRegion {
+  US
+  AUS
+  UK
+}
+
+enum PayoutCurrency {
+  USD
+  AUD
+  GBP
+}
+
+enum RedemptionStatus {
+  PENDING
+  APPROVED
+  SENT
+  CANCELED
+}
+
+enum ComplaintStatus {
+  OPEN
+  RESOLVED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum AccountStatus {
+  ACTIVE
+  MUTED
+  TERMINATED
+}
