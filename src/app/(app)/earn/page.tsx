@@ -31,6 +31,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       href: "/cpx-research",
       logoSrc: "/cpx-research-logo.svg",
       logoAlt: "CPX Research",
+      logoWidth: 220,
+      logoHeight: 48,
+      logoClass: "h-auto w-full max-w-[260px] sm:max-w-[340px]",
+      logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]",
       available: Boolean(cpxSurveyUrl),
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
       copy: "Integrated surveys with secure postback tracking into your EasyEarn wallet.",
@@ -42,6 +46,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       href: "/bitlabs",
       logoSrc: "/bitlabs-logo.svg",
       logoAlt: "BitLabs",
+      logoWidth: 88,
+      logoHeight: 88,
+      logoClass: "mx-auto h-auto w-[72px] sm:w-[84px]",
+      logoDisabledClass: "mx-auto h-auto w-[72px] opacity-70 sm:w-[84px]",
       available: Boolean(bitlabsUrl),
       gradient: "from-indigo-600 via-blue-600 to-cyan-500",
       copy: "Integrated offerwall and surveys with automated postback credit handling.",
@@ -83,10 +91,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                     <Image
                       src={offerwall.logoSrc}
                       alt={offerwall.logoAlt}
-                      width={220}
-                      height={48}
+                      width={offerwall.logoWidth}
+                      height={offerwall.logoHeight}
                       priority={offerwall.key === "cpx"}
-                      className="h-auto w-full max-w-[260px] sm:max-w-[340px]"
+                      className={offerwall.logoClass}
                     />
                   </Link>
                 ) : (
@@ -94,9 +102,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                     <Image
                       src={offerwall.logoSrc}
                       alt={offerwall.logoAlt}
-                      width={220}
-                      height={48}
-                      className="h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]"
+                      width={offerwall.logoWidth}
+                      height={offerwall.logoHeight}
+                      className={offerwall.logoDisabledClass}
                     />
                   </div>
                 )}
