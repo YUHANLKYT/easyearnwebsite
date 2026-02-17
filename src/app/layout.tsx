@@ -16,15 +16,43 @@ const bodyFont = Manrope({
   subsets: ["latin"],
 });
 
+const appUrl = (process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://ezearn.org").replace(/\/+$/, "");
+const socialDescription = "Trusted rewards platform with real offerwall payouts.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: {
     default: APP_NAME,
     template: `%s - ${APP_NAME}`,
   },
-  description:
-    "Easy Earn is a Get Paid To platform with full account flows, USD wallet tracking, referrals, levels, and withdrawals.",
+  description: socialDescription,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: appUrl,
+    siteName: APP_NAME,
+    title: APP_NAME,
+    description: socialDescription,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} preview`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: APP_NAME,
+    description: socialDescription,
+    images: ["/twitter-image"],
+  },
   icons: {
-    icon: "/easy-earn-logo.svg",
+    icon: [{ url: "/easy-earn-logo.svg", type: "image/svg+xml" }],
+    apple: "/easy-earn-logo.svg",
   },
 };
 

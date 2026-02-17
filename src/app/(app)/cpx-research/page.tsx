@@ -25,7 +25,7 @@ export default async function CpxResearchPage() {
             </p>
           </div>
           <Link
-            href="/earn?tab=surveys"
+            href="/earn"
             className="inline-flex rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
           >
             Back to Earn

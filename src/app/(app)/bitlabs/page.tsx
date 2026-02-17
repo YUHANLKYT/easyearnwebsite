@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { requireUser } from "@/lib/auth";
@@ -18,7 +19,7 @@ export default async function BitLabsPage() {
             <p className="mt-2 max-w-2xl text-slate-600">Complete BitLabs surveys and offers to earn rewards in EasyEarn.</p>
           </div>
           <Link
-            href="/earn?tab=surveys"
+            href="/earn"
             className="inline-flex rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
           >
             Back to Earn
@@ -27,6 +28,17 @@ export default async function BitLabsPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
+          <Image
+            src="/bitlabs-logo.svg"
+            alt="BitLabs"
+            width={88}
+            height={88}
+            priority
+            className="h-auto w-[72px] sm:w-[84px]"
+          />
+        </div>
+
         {bitlabsUrl ? (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
             <iframe

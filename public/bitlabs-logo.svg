@@ -1,12 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-labelledby="title desc">
   <title id="title">BitLabs</title>
   <desc id="desc">BitLabs flask icon</desc>
-  <rect x="8" y="8" width="104" height="104" rx="28" fill="#38BDF8"/>
-  <g fill="#FFFFFF">
-    <path d="M52 23h16v8l-2 3v16l20 31c4 7-1 16-10 16H44c-9 0-14-9-10-16l20-31V34l-2-3v-8z"/>
-    <path d="M45 80h30v4H45z"/>
-    <circle cx="49" cy="72" r="3"/>
-    <circle cx="70" cy="75" r="2.6"/>
-    <circle cx="60" cy="68" r="2.4"/>
+  <rect x="8" y="8" width="104" height="104" rx="16" fill="#2FA8FF"/>
+  <rect x="8.5" y="8.5" width="103" height="103" rx="15.5" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M49 24h22" stroke-width="8"/>
+    <path d="M55 24v11l-22 33c-4 6 0 14 8 14h38c8 0 12-8 8-14L65 35V24" stroke-width="7.5"/>
+    <path d="M41 71c5 0 5 4 10 4s5-4 10-4 5 4 10 4 5-4 10-4" stroke-width="4.8"/>
+    <circle cx="44" cy="75.5" r="2.2" fill="#FFFFFF" stroke-width="0"/>
+    <circle cx="77" cy="75.5" r="2.2" fill="#FFFFFF" stroke-width="0"/>
   </g>
 </svg>
