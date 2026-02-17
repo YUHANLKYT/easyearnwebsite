@@ -382,8 +382,9 @@ export function AdminConsole() {
                     ? "border-sky-300 bg-sky-50 text-sky-700"
                     : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
                 }`}
+                title={`User ID: ${match.id}`}
               >
-                {match.name} ({match.email})
+                {match.name} ({match.email}) - {match.id}
               </button>
             ))}
           </div>
@@ -395,6 +396,7 @@ export function AdminConsole() {
               <p className="font-semibold text-slate-900">
                 {lookup.user.name} ({lookup.user.email})
               </p>
+              <p className="text-xs text-slate-600">User ID: {lookup.user.id}</p>
               <p className="text-xs text-slate-600">
                 Level {lookup.user.level} - Role: {lookup.user.role} - Status: {lookup.user.status} - Referral code:{" "}
                 {lookup.user.referralCode}
