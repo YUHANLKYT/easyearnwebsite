@@ -62,28 +62,59 @@ function normalizeHash(value: string): string {
   return value.trim().toLowerCase();
 }
 
-function removeHashParamFromUrl(rawUrl: string): string {
+function decodeIfPossible(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function getHashCandidates(rawUrl: string): string[] {
   const parsed = new URL(rawUrl);
   const queryRaw = rawUrl.split("?")[1]?.split("#")[0] ?? "";
-  if (!queryRaw) {
-    return `${parsed.origin}${parsed.pathname}`;
-  }
-
   const filteredQueryParts = queryRaw
     .split("&")
     .filter((part) => part.length > 0)
     .filter((part) => !part.toLowerCase().startsWith("hash="));
+  const rawQueryWithoutHash = filteredQueryParts.join("&");
+  const canonicalQueryWithoutHash = new URLSearchParams(rawQueryWithoutHash).toString();
+  const originPath = `${parsed.origin}${parsed.pathname}`;
+  const hostPath = `${parsed.host}${parsed.pathname}`;
 
-  if (filteredQueryParts.length === 0) {
-    return `${parsed.origin}${parsed.pathname}`;
-  }
+  const baseCandidates = [
+    originPath,
+    hostPath,
+    parsed.pathname,
+    rawQueryWithoutHash,
+    canonicalQueryWithoutHash,
+    rawQueryWithoutHash ? `${originPath}?${rawQueryWithoutHash}` : originPath,
+    canonicalQueryWithoutHash ? `${originPath}?${canonicalQueryWithoutHash}` : originPath,
+    rawQueryWithoutHash ? `${hostPath}?${rawQueryWithoutHash}` : hostPath,
+    canonicalQueryWithoutHash ? `${hostPath}?${canonicalQueryWithoutHash}` : hostPath,
+    rawQueryWithoutHash ? `${parsed.pathname}?${rawQueryWithoutHash}` : parsed.pathname,
+    canonicalQueryWithoutHash ? `${parsed.pathname}?${canonicalQueryWithoutHash}` : parsed.pathname,
+  ];
 
-  return `${parsed.origin}${parsed.pathname}?${filteredQueryParts.join("&")}`;
+  return Array.from(
+    new Set(
+      baseCandidates
+        .flatMap((candidate) => [candidate, decodeIfPossible(candidate)])
+        .map((candidate) => candidate.trim())
+        .filter((candidate) => candidate.length > 0),
+    ),
+  );
 }
 
 function verifyHash(payload: ParsedPostback, rawUrl: string): boolean {
-  const secret = process.env.BITLABS_POSTBACK_SECRET?.trim() || process.env.BITLABS_APP_SECRET?.trim();
-  if (!secret) {
+  const secrets = [
+    process.env.BITLABS_POSTBACK_SECRET?.trim(),
+    process.env.BITLABS_APP_SECRET?.trim(),
+    process.env.BITLABS_SECRET_KEY?.trim(),
+    process.env.BITLABS_SERVER_TO_SERVER_KEY?.trim(),
+  ].filter((value): value is string => Boolean(value));
+
+  if (secrets.length === 0) {
     // Allow integration to run until secret is configured in production.
     return true;
   }
@@ -97,9 +128,18 @@ function verifyHash(payload: ParsedPostback, rawUrl: string): boolean {
     return false;
   }
 
-  const urlWithoutHash = removeHashParamFromUrl(rawUrl);
-  const expectedHash = normalizeHash(createHmac("sha1", secret).update(urlWithoutHash).digest("hex"));
-  return safeEquals(incomingHash, expectedHash);
+  const hashBaseCandidates = getHashCandidates(rawUrl);
+
+  for (const secret of secrets) {
+    for (const hashBase of hashBaseCandidates) {
+      const expectedHash = normalizeHash(createHmac("sha1", secret).update(hashBase).digest("hex"));
+      if (safeEquals(incomingHash, expectedHash)) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 function parsePostback(searchParams: URLSearchParams): ParsedPostback {
