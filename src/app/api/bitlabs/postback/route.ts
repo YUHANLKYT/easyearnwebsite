@@ -410,6 +410,18 @@ function buildRawUrlFromParams(request: Request, params: URLSearchParams): strin
 
 async function handleRequest(params: URLSearchParams, rawUrl: string) {
   const payload = parsePostback(params);
+  const isDebugCallback = params.get("debug")?.trim().toLowerCase() === "true";
+
+  if (isDebugCallback) {
+    const hashValid = verifyHash(payload, rawUrl);
+    return NextResponse.json({
+      ok: true,
+      debug: true,
+      hashValid,
+      ignored: "Debug callback accepted without wallet credit.",
+    });
+  }
+
   if (!payload.tx || !payload.userId) {
     return NextResponse.json({ ok: false, error: "Missing required parameters." }, { status: 400 });
   }
