@@ -5,6 +5,7 @@ import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
+import { buildTheoremReachOfferwallUrl } from "@/lib/theoremreach";
 
 type SearchParams = Promise<{
   notice?: string;
@@ -22,6 +23,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     subId2: "easyearn",
   });
   const bitlabsUrl = buildBitLabsOfferwallUrl({
+    userId: user.id,
+  });
+  const theoremreachUrl = buildTheoremReachOfferwallUrl({
     userId: user.id,
   });
   const offerwalls = [
@@ -55,6 +59,21 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       copy: "Integrated offerwall and surveys with automated postback credit handling.",
       missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
     },
+    {
+      key: "theoremreach",
+      name: "TheoremReach",
+      href: "/theoremreach",
+      logoSrc: "/theoremreach-logo.svg",
+      logoAlt: "TheoremReach",
+      logoWidth: 300,
+      logoHeight: 72,
+      logoClass: "h-auto w-full max-w-[220px] sm:max-w-[300px]",
+      logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[300px]",
+      available: Boolean(theoremreachUrl),
+      gradient: "from-sky-600 via-blue-600 to-indigo-600",
+      copy: "Integrated survey offerwall with secure callback crediting and anti-fraud pending flow.",
+      missingEnvCopy: "Missing env var: THEOREMREACH_APP_TOKEN (or THEOREMREACH_APP_ID).",
+    },
   ] as const;
 
   return (
@@ -78,7 +97,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
           <h2 className="text-lg font-semibold text-slate-900">Offerwalls</h2>
           <p className="text-xs text-slate-500">Click a logo card to open the integrated wall.</p>
         </div>
-        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        <div className="mt-4 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
           {offerwalls.map((offerwall) => (
             <article key={offerwall.key} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
               <div className={`relative bg-gradient-to-r ${offerwall.gradient} px-4 py-4`}>
