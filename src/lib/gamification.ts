@@ -44,7 +44,7 @@ export function hasUnlockedVipPlus(level: number): boolean {
 }
 
 export function getLevelCaseKeysForLevel(level: number): number {
-  if (level >= VIP_PLUS_UNLOCK_LEVEL) {
+  if (level === VIP_PLUS_UNLOCK_LEVEL) {
     return VIP_PLUS_KEYS_PER_LEVEL;
   }
   return BASE_LEVEL_KEYS_PER_LEVEL;

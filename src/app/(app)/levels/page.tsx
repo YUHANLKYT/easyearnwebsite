@@ -27,7 +27,7 @@ type SearchParams = Promise<{
 }>;
 
 function getLevelPerks(level: number) {
-  const perks = [level >= VIP_PLUS_UNLOCK_LEVEL ? "3 Level-Up Case keys" : "1 Level-Up Case key"];
+  const perks = [level === VIP_PLUS_UNLOCK_LEVEL ? "3 Level-Up Case keys" : "1 Level-Up Case key"];
 
   if (level === 1) {
     perks.unshift("Chat unlocked");
@@ -45,7 +45,7 @@ function getLevelPerks(level: number) {
     perks.push("VIP+ role", "Withdrawal priority queue");
   }
 
-  return perks.join(" • ");
+  return perks.join(" | ");
 }
 
 export default async function LevelsPage({ searchParams }: { searchParams: SearchParams }) {

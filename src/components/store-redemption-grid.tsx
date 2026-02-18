@@ -183,8 +183,8 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
               onClick={() => setSelectedRegionCode(region.code)}
               className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 selectedRegion.code === region.code
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "bg-sky-100/60 text-sky-700 hover:bg-sky-100"
+                  ? "store-chip-btn store-chip-selected shadow-sm"
+                  : "store-chip-btn store-chip-idle"
               }`}
             >
               {region.label}
@@ -270,8 +270,8 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                         }
                         className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
                           selected
-                            ? "border-sky-300 bg-sky-50 text-sky-700"
-                            : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+                            ? "amount-choice amount-choice-active"
+                            : "amount-choice amount-choice-idle"
                         }`}
                       >
                         {amountLabel ? <span className="mb-1 block text-[10px] font-bold tracking-wide">{amountLabel}</span> : null}
