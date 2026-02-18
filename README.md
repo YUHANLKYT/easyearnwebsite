@@ -91,6 +91,9 @@ DEFAULT_ADMIN_NAME="Easy Earn Admin"
 DEFAULT_ADMIN_REFERRAL_CODE="EASY"
 RESEND_API_KEY="re_xxx"
 RESEND_FROM="Easy Earn <no-reply@yourdomain.com>"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+GOOGLE_REDIRECT_URI="http://localhost:3000/auth/google/callback"
 ```
 
 3. Create/update database schema:
@@ -122,6 +125,9 @@ Open `http://localhost:3000`.
 - `DEFAULT_ADMIN_REFERRAL_CODE`
 - `RESEND_API_KEY`
 - `RESEND_FROM`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI`
 
 4. Deploy.
 

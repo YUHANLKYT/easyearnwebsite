@@ -49,6 +49,22 @@ export default async function SignInPage({ searchParams }: { searchParams: Searc
             <FlashMessage notice={params.notice} error={params.error} />
           </div>
 
+          <a
+            href={`/auth/google/start?source=signin&next=${encodeURIComponent(nextPath)}`}
+            className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+          >
+            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-200 bg-white text-[11px] font-bold text-slate-700">
+              G
+            </span>
+            Continue with Google
+          </a>
+
+          <div className="my-4 flex items-center gap-3 text-xs text-slate-400">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span>OR</span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+
           <form action="/auth/signin" method="post" className="mt-4 space-y-3">
             <input type="hidden" name="next" value={nextPath} />
             <label className="block">
