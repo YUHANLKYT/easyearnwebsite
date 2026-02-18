@@ -621,6 +621,94 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   color: #f8fafc;
 }
 
+.chat-toggle {
+  border-color: var(--ui-shell-border) !important;
+  background: var(--ui-btn-bg) !important;
+  color: var(--ui-btn-text) !important;
+}
+
+.chat-drawer {
+  border-color: var(--ui-shell-border) !important;
+  background: var(--ui-popover-bg) !important;
+}
+
+.chat-drawer-head {
+  border-color: var(--ui-shell-border) !important;
+  background: var(--ui-popover-head) !important;
+}
+
+.chat-drawer-body {
+  background: color-mix(in srgb, var(--ui-popover-bg) 82%, transparent);
+}
+
+.chat-message-card {
+  border-color: var(--ui-shell-border) !important;
+  background: color-mix(in srgb, var(--ui-popover-bg) 94%, transparent) !important;
+}
+
+.chat-drawer-compose {
+  border-color: var(--ui-shell-border) !important;
+  background: var(--ui-popover-head) !important;
+}
+
+.chat-profile-modal {
+  border-color: var(--ui-shell-border) !important;
+  background: var(--ui-popover-bg) !important;
+}
+
+.chat-profile-header {
+  border-bottom: 1px solid var(--ui-shell-border);
+  background: linear-gradient(120deg, rgba(255, 237, 213, 0.95), rgba(255, 255, 255, 0.98), rgba(224, 242, 254, 0.95));
+}
+
+.chat-profile-close {
+  border-color: var(--ui-btn-border) !important;
+  background: var(--ui-btn-bg) !important;
+  color: var(--ui-btn-text) !important;
+}
+
+.chat-profile-stat {
+  border-color: var(--ui-shell-border) !important;
+  background: color-mix(in srgb, var(--ui-popover-bg) 88%, transparent) !important;
+}
+
+.chat-profile-error {
+  border: 1px solid rgba(244, 63, 94, 0.35);
+}
+
+:root[data-theme="dark"] .chat-profile-backdrop {
+  background: rgba(2, 6, 23, 0.62) !important;
+}
+
+:root[data-theme="dark"] .chat-profile-header {
+  background: linear-gradient(120deg, rgba(30, 41, 59, 0.95), rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.95)) !important;
+}
+
+:root[data-theme="dark"] .chat-profile-modal .text-slate-900,
+:root[data-theme="dark"] .chat-profile-modal .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+:root[data-theme="dark"] .chat-profile-modal .text-slate-700,
+:root[data-theme="dark"] .chat-profile-modal .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+:root[data-theme="dark"] .chat-profile-modal .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+:root[data-theme="dark"] .chat-profile-stat {
+  background: rgba(15, 23, 42, 0.76) !important;
+  border-color: rgba(148, 163, 184, 0.32) !important;
+}
+
+:root[data-theme="dark"] .chat-profile-error {
+  background: rgba(127, 29, 29, 0.34) !important;
+  color: #fecdd3 !important;
+  border-color: rgba(244, 63, 94, 0.44) !important;
+}
+
 :root[data-theme="light"] .theme-toggle {
   background-color: rgba(255, 255, 255, 0.92);
   border-color: rgba(148, 163, 184, 0.5);

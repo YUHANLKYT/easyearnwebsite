@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
+import { buildAdGemOfferwallUrl } from "@/lib/adgem";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
@@ -23,6 +24,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     subId2: "easyearn",
   });
   const bitlabsUrl = buildBitLabsOfferwallUrl({
+    userId: user.id,
+  });
+  const adgemUrl = buildAdGemOfferwallUrl({
     userId: user.id,
   });
   const theoremreachUrl = buildTheoremReachOfferwallUrl({
@@ -58,6 +62,21 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       gradient: "from-indigo-600 via-blue-600 to-cyan-500",
       copy: "Integrated offerwall and surveys with automated postback credit handling.",
       missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
+    },
+    {
+      key: "adgem",
+      name: "AdGem",
+      href: "/adgem",
+      logoSrc: "/adgem-logo.svg",
+      logoAlt: "AdGem",
+      logoWidth: 260,
+      logoHeight: 72,
+      logoClass: "h-auto w-full max-w-[220px] sm:max-w-[260px]",
+      logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[260px]",
+      available: Boolean(adgemUrl),
+      gradient: "from-blue-600 via-indigo-600 to-cyan-500",
+      copy: "Integrated offerwall with direct player ID tracking into your EasyEarn wallet.",
+      missingEnvCopy: "Missing env var: ADGEM_APP_ID.",
     },
     {
       key: "theoremreach",

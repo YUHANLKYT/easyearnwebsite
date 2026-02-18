@@ -145,18 +145,18 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="fixed top-1/2 right-0 z-50 -translate-y-1/2 rounded-l-xl border border-slate-200 bg-white px-3 py-4 text-xs font-bold text-slate-700 shadow-xl transition hover:bg-slate-50"
+        className="chat-toggle fixed top-1/2 right-0 z-50 -translate-y-1/2 rounded-l-xl border border-slate-200 bg-white px-3 py-4 text-xs font-bold text-slate-700 shadow-xl transition hover:bg-slate-50"
         title={open ? "Collapse chat" : "Expand chat"}
       >
         {open ? ">" : "<"}
       </button>
 
       <section
-        className={`fixed top-0 right-0 z-40 h-screen w-[min(92vw,390px)] border-l border-slate-200 bg-white/95 shadow-2xl transition-transform duration-300 ${
+        className={`chat-drawer fixed top-0 right-0 z-40 h-screen w-[min(92vw,390px)] border-l border-slate-200 bg-white/95 shadow-2xl transition-transform duration-300 ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <header className="flex items-center justify-between border-b border-slate-100 bg-white px-4 py-3">
+        <header className="chat-drawer-head flex items-center justify-between border-b border-slate-100 bg-white px-4 py-3">
           <div>
             <p className="text-sm font-semibold text-slate-900">Easy Earn Chat</p>
             <p className="text-xs text-slate-500">Click a name to view stats</p>
@@ -166,13 +166,13 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
           </span>
         </header>
 
-        <div className="h-[calc(100vh-152px)] overflow-y-auto bg-slate-50/80 p-3">
+        <div className="chat-drawer-body h-[calc(100vh-152px)] overflow-y-auto bg-slate-50/80 p-3">
           {loading ? <p className="text-sm text-slate-500">Loading chat...</p> : null}
           {!loading && messages.length === 0 ? <p className="text-sm text-slate-500">No messages yet.</p> : null}
 
           <div className="space-y-2">
             {messages.map((item) => (
-              <article key={item.id} className="rounded-xl border border-slate-100 bg-white px-3 py-2">
+              <article key={item.id} className="chat-message-card rounded-xl border border-slate-100 bg-white px-3 py-2">
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-1.5">
                     <button
@@ -214,7 +214,7 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
           <div ref={endRef} />
         </div>
 
-        <div className="border-t border-slate-100 bg-white p-3">
+        <div className="chat-drawer-compose border-t border-slate-100 bg-white p-3">
           {error ? <p className="mb-2 text-xs text-rose-700">{error}</p> : null}
           {!chatUnlocked ? (
             <p className="mb-2 text-xs font-medium text-slate-600">Reach level 1 to send messages.</p>
@@ -252,10 +252,10 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       </section>
 
       {profileLoading || selectedProfile || profileError ? (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/35 p-4 backdrop-blur-sm">
+        <div className="chat-profile-backdrop fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/35 p-4 backdrop-blur-sm">
           <button type="button" onClick={closeProfileModal} className="absolute inset-0" aria-label="Close profile" />
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/70 bg-white shadow-2xl">
-            <div className="bg-gradient-to-r from-orange-100 via-white to-sky-100 px-5 py-4">
+          <div className="chat-profile-modal relative w-full max-w-md overflow-hidden rounded-3xl border border-white/70 bg-white shadow-2xl">
+            <div className="chat-profile-header bg-gradient-to-r from-orange-100 via-white to-sky-100 px-5 py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Chat Profile</p>
               {selectedProfile ? (
                 <div className="mt-2 flex items-center gap-2">
@@ -290,46 +290,46 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
             <button
               type="button"
               onClick={closeProfileModal}
-              className="absolute top-3 right-3 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600"
+              className="chat-profile-close absolute top-3 right-3 rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600"
             >
               Close
             </button>
 
             <div className="space-y-3 p-5">
-              {profileError ? <p className="rounded-xl bg-rose-50 px-3 py-2 text-xs text-rose-700">{profileError}</p> : null}
+              {profileError ? <p className="chat-profile-error rounded-xl bg-rose-50 px-3 py-2 text-xs text-rose-700">{profileError}</p> : null}
 
               {selectedProfile ? (
                 <>
                   <div className="grid grid-cols-2 gap-2">
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Balance</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.balance)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Lifetime Earned</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.lifetimeEarned)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Withdrawn</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.totalWithdrawn)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Status</p>
                       <p className="text-sm font-semibold text-slate-900">{selectedProfile.status}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Referrals</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.totalReferrals)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Active (14d)</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.activeReferrals)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Chat Messages</p>
                       <p className="text-sm font-semibold text-slate-900">{displayMetric(selectedProfile.chatMessages)}</p>
                     </div>
-                    <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
+                    <div className="chat-profile-stat rounded-xl border border-slate-100 bg-slate-50 px-3 py-2">
                       <p className="text-[11px] text-slate-500">Joined</p>
                       {selectedProfile.joinedAt ? (
                         <p className="text-sm font-semibold text-slate-900">
