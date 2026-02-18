@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/auth";
 import { REDEMPTION_OPTIONS, type PayoutCurrency, getRedemptionLabel } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 type SearchParams = Promise<{
   notice?: string;
@@ -48,6 +49,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
   const user = await requireUser("/store");
   const params = await searchParams;
   const storeOptions = REDEMPTION_OPTIONS.filter((option) => option.method !== "VISA_GIFT_CARD");
+  const canRedeem = user.status === "ACTIVE" && Boolean(user.emailVerifiedAt);
 
   const redemptions = await prisma.redemption.findMany({
     where: {
@@ -74,6 +76,15 @@ export default async function StorePage({ searchParams }: { searchParams: Search
           Your account is currently {user.status.toLowerCase()}. Withdrawal requests are disabled.
         </div>
       ) : null}
+      {!user.emailVerifiedAt ? (
+        <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          Withdrawals are disabled until your email is verified. Verify it from{" "}
+          <Link href="/settings" className="font-semibold text-rose-700 underline hover:text-rose-900">
+            Settings
+          </Link>
+          .
+        </div>
+      ) : null}
 
       <section className="rounded-3xl border border-sky-100 bg-sky-50/70 p-5">
         <p className="text-sm text-slate-600">Current wallet balance</p>
@@ -81,7 +92,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
         <p className="text-xs text-slate-500">USD</p>
       </section>
 
-      <StoreRedemptionGrid options={storeOptions} canRedeem={user.status === "ACTIVE"} />
+      <StoreRedemptionGrid options={storeOptions} canRedeem={canRedeem} />
 
       <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 px-4 py-3 text-sm text-slate-700">
         Custom Withdrawal is now built into the store grid. Add the item name, USD price, and optional wallet/email,

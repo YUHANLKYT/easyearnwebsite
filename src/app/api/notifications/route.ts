@@ -55,8 +55,10 @@ export async function GET() {
   ]);
 
   const pendingTotalCents = pendingClaims.reduce((sum, claim) => sum + claim.payoutCents, 0);
+  const requiresEmailVerification = !Boolean(user.emailVerifiedAt);
 
   return NextResponse.json({
+    requiresEmailVerification,
     pendingTotalCents,
     pendingClaims: pendingClaims.map((claim) => ({
       id: claim.id,

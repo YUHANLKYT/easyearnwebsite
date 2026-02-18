@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { FiBell } from "react-icons/fi";
 
 import { formatUSD } from "@/lib/money";
@@ -36,6 +37,7 @@ type TransactionItem = {
 };
 
 type NotificationsPayload = {
+  requiresEmailVerification: boolean;
   pendingTotalCents: number;
   pendingClaims: PendingClaimItem[];
   transactions: TransactionItem[];
@@ -115,6 +117,7 @@ export function NotificationsPopover() {
   }, [open]);
 
   const pendingCount = payload?.pendingClaims.length ?? 0;
+  const requiresEmailVerification = Boolean(payload?.requiresEmailVerification);
 
   const transactionRows = useMemo(() => payload?.transactions ?? [], [payload?.transactions]);
 
@@ -129,9 +132,13 @@ export function NotificationsPopover() {
           <FiBell className="h-4 w-4" />
           Notifications
         </span>
-        {pendingCount > 0 ? (
-          <span className="absolute -top-1 -right-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-white">
-            {pendingCount}
+        {requiresEmailVerification || pendingCount > 0 ? (
+          <span
+            className={`absolute -top-1 -right-1 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ${
+              requiresEmailVerification ? "bg-rose-600" : "bg-amber-500"
+            }`}
+          >
+            {requiresEmailVerification ? "!" : pendingCount}
           </span>
         ) : null}
       </button>
@@ -146,6 +153,18 @@ export function NotificationsPopover() {
           </div>
 
           <div className="max-h-[70vh] space-y-3 overflow-y-auto p-4">
+            {requiresEmailVerification ? (
+              <article className="rounded-xl border border-rose-200 bg-rose-50/85 p-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-rose-800">Email Verification Required</p>
+                <p className="mt-1 text-xs text-rose-800">
+                  Withdrawals are locked until your email is verified.
+                </p>
+                <Link href="/settings" className="mt-2 inline-flex text-xs font-semibold text-rose-700 hover:text-rose-800">
+                  Go to Settings to verify email
+                </Link>
+              </article>
+            ) : null}
+
             <article className="rounded-xl border border-amber-100 bg-amber-50/60 p-3">
               <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Pending Offer Credits</p>
               <p className="mt-1 text-xs text-amber-800">

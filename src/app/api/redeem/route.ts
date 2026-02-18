@@ -61,6 +61,14 @@ export async function POST(request: Request) {
     );
   }
 
+  if (!user.emailVerifiedAt) {
+    redirect(
+      buildRedirect(redirectTo, {
+        error: "Verify your email before requesting withdrawals.",
+      }),
+    );
+  }
+
   if (!parsed.success) {
     redirect(
       buildRedirect(redirectTo, {
@@ -168,6 +176,7 @@ export async function POST(request: Request) {
           id: true,
           balanceCents: true,
           status: true,
+          emailVerifiedAt: true,
         },
       });
 
@@ -177,6 +186,10 @@ export async function POST(request: Request) {
 
       if (latestUser.status !== "ACTIVE") {
         throw new Error("ACCOUNT_RESTRICTED");
+      }
+
+      if (!latestUser.emailVerifiedAt) {
+        throw new Error("EMAIL_NOT_VERIFIED");
       }
 
       await tx.user.update({
@@ -226,6 +239,14 @@ export async function POST(request: Request) {
       redirect(
         buildRedirect(redirectTo, {
           error: "Muted or terminated accounts cannot request withdrawals.",
+        }),
+      );
+    }
+
+    if (error instanceof Error && error.message === "EMAIL_NOT_VERIFIED") {
+      redirect(
+        buildRedirect(redirectTo, {
+          error: "Verify your email before requesting withdrawals.",
         }),
       );
     }
