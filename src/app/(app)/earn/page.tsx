@@ -93,9 +93,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open AdGem",
       showAccentOrb: false,
       logoPanelClass:
-        "relative block rounded-2xl border border-violet-300/45 bg-[linear-gradient(135deg,rgba(59,20,120,0.92),rgba(46,16,101,0.95))] px-4 py-4 transition hover:border-violet-200/60",
+        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
       logoPanelDisabledClass:
-        "relative rounded-2xl border border-violet-300/35 bg-[linear-gradient(135deg,rgba(59,20,120,0.85),rgba(46,16,101,0.88))] px-4 py-4",
+        "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
     },
     {
       key: "theoremreach",
