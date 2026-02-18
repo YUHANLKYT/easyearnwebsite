@@ -44,6 +44,7 @@ export async function POST(request: Request) {
 
   const nextPath = sanitizeInternalRedirect(parsed.data.next, "/dashboard");
   const normalizedReferralCode = parsed.data.referralCode?.trim().toUpperCase() || "";
+  const normalizedName = parsed.data.name.trim();
 
   const existingUser = await prisma.user.findUnique({
     where: {
@@ -58,6 +59,28 @@ export async function POST(request: Request) {
     redirect(
       buildSignupRedirect({
         error: "That email is already registered.",
+        referral: normalizedReferralCode || undefined,
+        next: nextPath,
+      }),
+    );
+  }
+
+  const existingUsername = await prisma.user.findFirst({
+    where: {
+      name: {
+        equals: normalizedName,
+        mode: "insensitive",
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (existingUsername) {
+    redirect(
+      buildSignupRedirect({
+        error: "That username already exists. Please choose a different one.",
         referral: normalizedReferralCode || undefined,
         next: nextPath,
       }),
@@ -94,7 +117,7 @@ export async function POST(request: Request) {
   const createdUser = await prisma.$transaction(async (tx) => {
     const user = await tx.user.create({
       data: {
-        name: parsed.data.name,
+        name: normalizedName,
         email: parsed.data.email,
         passwordHash,
         referralCode: generatedReferralCode,
