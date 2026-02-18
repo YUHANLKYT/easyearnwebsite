@@ -1,10 +1,47 @@
 import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
+import { type PayoutCurrency, getRedemptionLabel } from "@/lib/constants";
+import { formatUSD } from "@/lib/money";
+import { prisma } from "@/lib/prisma";
 
 type SearchParams = Promise<{
   notice?: string;
   error?: string;
 }>;
+
+function getStatusLabel(status: "PENDING" | "APPROVED" | "SENT" | "CANCELED") {
+  if (status === "PENDING") {
+    return "PROCESSING";
+  }
+  return status;
+}
+
+function getStatusClass(status: "PENDING" | "APPROVED" | "SENT" | "CANCELED") {
+  if (status === "PENDING") {
+    return "text-rose-600";
+  }
+  if (status === "APPROVED") {
+    return "text-sky-600";
+  }
+  if (status === "SENT") {
+    return "text-emerald-600";
+  }
+  return "text-slate-500";
+}
+
+function formatPayoutCurrency(cents: number | null, currency: PayoutCurrency): string | null {
+  if (cents === null) {
+    return null;
+  }
+
+  const locale = currency === "AUD" ? "en-AU" : currency === "GBP" ? "en-GB" : "en-US";
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(cents / 100);
+}
 
 function formatVerifiedDate(value: Date | null) {
   if (!value) {
@@ -24,6 +61,15 @@ export default async function SettingsPage({ searchParams }: { searchParams: Sea
   const user = await requireUser("/settings");
   const params = await searchParams;
   const verified = Boolean(user.emailVerifiedAt);
+  const redemptions = await prisma.redemption.findMany({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 8,
+  });
 
   return (
     <div className="space-y-6">
@@ -39,6 +85,103 @@ export default async function SettingsPage({ searchParams }: { searchParams: Sea
       </section>
 
       <FlashMessage notice={params.notice} error={params.error} />
+
+      <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-900">Check Withdrawal Status</h2>
+        <p className="mt-1 text-xs text-slate-500">
+          Track active and completed withdrawals here. Gift card codes appear once your withdrawal is approved/sent.
+        </p>
+        <div className="mt-4 space-y-3">
+          {redemptions.length === 0 ? (
+            <p className="text-sm text-slate-500">No withdrawals yet.</p>
+          ) : (
+            redemptions.map((redemption) => (
+              <details
+                key={redemption.id}
+                className="group rounded-xl border border-slate-100 bg-white px-3 py-3 open:border-sky-200 open:bg-sky-50/40"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 [&::-webkit-details-marker]:hidden">
+                  <div>
+                    <p className="text-sm font-medium text-slate-800">{getRedemptionLabel(redemption.method)}</p>
+                    <p className="text-xs text-slate-500">
+                      {redemption.createdAt.toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {formatPayoutCurrency(redemption.faceValueCents, redemption.payoutCurrency) ??
+                        formatUSD(redemption.amountCents)}{" "}
+                      {redemption.payoutCurrency} ({redemption.payoutRegion})
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-rose-700">-{formatUSD(redemption.amountCents)}</p>
+                    <p className={`text-xs font-semibold ${getStatusClass(redemption.status)}`}>
+                      {getStatusLabel(redemption.status)}
+                    </p>
+                    <p className="text-[11px] font-medium text-sky-700 transition group-open:text-sky-900">
+                      Click to view details
+                    </p>
+                  </div>
+                </summary>
+                <div className="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-700">
+                  {redemption.method === "CUSTOM_WITHDRAWAL" ? (
+                    <>
+                      <p className="font-semibold text-slate-800">
+                        Request: {redemption.customName ?? "Custom item"} ({formatUSD(redemption.amountCents)})
+                      </p>
+                      {redemption.customDestination ? (
+                        <p className="mt-1 text-slate-600">Wallet/Email: {redemption.customDestination}</p>
+                      ) : null}
+                      {redemption.status === "SENT" ? (
+                        <p className="mt-1 font-semibold text-emerald-700">
+                          Fulfillment: {redemption.customFulfillment ?? "Approved by admin"}
+                        </p>
+                      ) : null}
+                      {redemption.status === "CANCELED" ? (
+                        <p className="mt-1 font-semibold text-rose-700">
+                          Declined: {redemption.customDeclineReason ?? "No reason provided."}
+                        </p>
+                      ) : null}
+                    </>
+                  ) : redemption.note && (redemption.status === "APPROVED" || redemption.status === "SENT") ? (
+                    <p className="font-semibold text-emerald-700">CODE: {redemption.note}</p>
+                  ) : redemption.status === "APPROVED" ? (
+                    <p>
+                      Your withdrawal is approved. Code will appear here once delivery is finalized.
+                    </p>
+                  ) : redemption.status === "SENT" ? (
+                    <p className="text-slate-600">No code required for this payout method.</p>
+                  ) : redemption.status === "CANCELED" ? (
+                    <p className="font-semibold text-rose-700">This withdrawal was canceled and refunded.</p>
+                  ) : (
+                    <p>
+                      This withdrawal is currently <span className="font-semibold">{redemption.status}</span>.
+                    </p>
+                  )}
+
+                  {redemption.processedAt ? (
+                    <p className="mt-1 text-slate-500">
+                      Processed{" "}
+                      {redemption.processedAt.toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </p>
+                  ) : null}
+                </div>
+              </details>
+            ))
+          )}
+        </div>
+      </section>
 
       <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <h2 className="text-lg font-semibold text-slate-900">Profile & Privacy</h2>
