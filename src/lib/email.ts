@@ -1,4 +1,5 @@
 import { formatUSD } from "@/lib/money";
+import { getAppUrl } from "@/lib/app-url";
 
 type WithdrawalProcessedEmailInput = {
   toEmail: string;
@@ -137,7 +138,7 @@ export async function sendWithdrawalProcessedEmail(
 }
 
 export async function sendEmailVerificationLink(input: EmailVerificationInput): Promise<EmailDeliveryResult> {
-  const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+  const appUrl = getAppUrl();
   const verifyUrl = `${appUrl}/api/settings/email/verify?token=${encodeURIComponent(input.token)}`;
   const subject = "Verify your Easy Earn email";
 

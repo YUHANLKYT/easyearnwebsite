@@ -1,7 +1,7 @@
-const DEFAULT_DOMAIN = "https://ezearn.org";
+import { getAppUrl } from "@/lib/app-url";
 
 export default function PostbackPage() {
-  const appUrl = (process.env.NEXT_PUBLIC_APP_URL || DEFAULT_DOMAIN).replace(/\/+$/, "");
+  const appUrl = getAppUrl();
   const callbackUrl = `${appUrl}/api/postback`;
 
   return (

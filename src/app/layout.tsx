@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
 
 import { SiteFooter } from "@/components/site-footer";
+import { getAppUrl } from "@/lib/app-url";
 import { APP_NAME } from "@/lib/constants";
 
 import "./globals.css";
@@ -16,7 +17,7 @@ const bodyFont = Manrope({
   subsets: ["latin"],
 });
 
-const appUrl = (process.env.NEXT_PUBLIC_APP_URL?.trim() || "https://ezearn.org").replace(/\/+$/, "");
+const appUrl = getAppUrl();
 const socialDescription = "Trusted rewards platform with real offerwall payouts.";
 
 export const metadata: Metadata = {

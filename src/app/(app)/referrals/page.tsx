@@ -6,6 +6,7 @@ import {
   VIP_UNLOCK_LEVEL,
   WHEEL_COOLDOWN_HOURS,
 } from "@/lib/constants";
+import { getAppUrl } from "@/lib/app-url";
 import { getActiveReferralWindowStart, getLevelFromLifetimeEarnings } from "@/lib/gamification";
 import { formatUSD } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
@@ -55,7 +56,7 @@ export default async function ReferralsPage({ searchParams }: { searchParams: Se
   const activeReferrals = referrals.filter(
     (referral) => referral.lastWithdrawalAt && referral.lastWithdrawalAt >= activeWindowStart,
   );
-  const referralLink = `${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/signup?ref=${user.referralCode}`;
+  const referralLink = `${getAppUrl()}/signup?ref=${encodeURIComponent(user.referralCode)}`;
   const nextAvailableAt = user.wheelLastSpunAt
     ? new Date(user.wheelLastSpunAt.getTime() + WHEEL_COOLDOWN_HOURS * 60 * 60 * 1000).toISOString()
     : null;
