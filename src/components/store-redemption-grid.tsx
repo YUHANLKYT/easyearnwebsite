@@ -216,7 +216,10 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
 
           if (option.method === "CUSTOM_WITHDRAWAL") {
             return (
-              <article key={option.method} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
+              <article
+                key={option.method}
+                className="flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm"
+              >
                 <div className={`relative bg-gradient-to-r ${visual.gradient} px-4 py-4 text-white`}>
                   <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${visual.orb}`} />
                   <div className="relative flex items-center gap-3">
@@ -230,9 +233,9 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                   </div>
                 </div>
 
-                <div className="space-y-3 p-4">
+                <div className="flex h-full flex-col gap-3 p-4">
                   <p className="text-xs text-slate-500">USD only. Enter the exact item and price you want.</p>
-                  <form action="/api/redeem/custom" method="post" className="space-y-2">
+                  <form action="/api/redeem/custom" method="post" className="mt-auto flex h-full flex-col gap-2">
                     <input type="hidden" name="redirectTo" value="/store" />
                     <label className="block text-xs text-slate-600">
                       <span className="mb-1 block font-semibold text-slate-700">Name</span>
@@ -272,7 +275,7 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                     <button
                       type="submit"
                       disabled={!canRedeem}
-                      className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="mt-auto w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {canRedeem ? "Submit Custom Withdrawal" : "Unavailable"}
                     </button>
@@ -301,7 +304,10 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
           const usdEquivalentCents = convertFaceToUsdCents(selectedFaceValueCents, optionCurrency, fxState.rates);
 
           return (
-            <article key={option.method} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
+            <article
+              key={option.method}
+              className="flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm"
+            >
               <div className={`relative bg-gradient-to-r ${visual.gradient} px-4 py-4 text-white`}>
                 <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${visual.orb}`} />
                 <div className="relative flex items-center gap-3">
@@ -315,7 +321,7 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                 </div>
               </div>
 
-              <div className="space-y-3 p-4">
+              <div className="flex h-full flex-col gap-3 p-4">
                 <p className="text-xs text-slate-500">
                   Minimum: {formatCurrency(minAmountForRegionCents, optionCurrency, optionRegion.locale)} {optionCurrency}
                 </p>
@@ -362,7 +368,7 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                   Wallet charge: {formatUSD(usdEquivalentCents)} USD.
                 </p>
 
-                <form action="/api/redeem" method="post" className="space-y-2">
+                <form action="/api/redeem" method="post" className="mt-auto flex flex-col gap-2">
                   <input type="hidden" name="method" value={option.method} />
                   <input type="hidden" name="region" value={optionRegion.code} />
                   <input type="hidden" name="redirectTo" value="/store" />
@@ -397,7 +403,7 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
                   <button
                     type="submit"
                     disabled={!canRedeem}
-                    className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="mt-auto w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {canRedeem ? `Redeem ${option.label}` : "Unavailable"}
                   </button>
