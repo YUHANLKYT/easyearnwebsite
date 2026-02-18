@@ -15,7 +15,14 @@ export default async function AdGemPage() {
       <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">AdGem</h1>
+            <Image
+              src="/adgem-logo.webp"
+              alt="AdGem"
+              width={340}
+              height={96}
+              priority
+              className="h-auto w-full max-w-[240px] sm:max-w-[340px]"
+            />
             <p className="mt-2 max-w-2xl text-slate-600">Complete AdGem offers to earn rewards in EasyEarn.</p>
           </div>
           <Link
@@ -28,14 +35,14 @@ export default async function AdGemPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
+        <div className="rounded-2xl border border-violet-200/70 bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50 px-4 py-4 sm:px-6">
           <Image
-            src="/adgem-logo.svg"
+            src="/adgem-logo.webp"
             alt="AdGem"
-            width={260}
-            height={72}
+            width={340}
+            height={96}
             priority
-            className="h-auto w-full max-w-[220px] sm:max-w-[260px]"
+            className="h-auto w-full max-w-[240px] sm:max-w-[340px]"
           />
         </div>
 

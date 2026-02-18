@@ -28,7 +28,7 @@ export default async function TheoremReachPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
+        <div className="rounded-2xl border border-violet-200/70 bg-gradient-to-r from-indigo-50 via-violet-50 to-purple-50 px-4 py-4 sm:px-6">
           <Image
             src="/theoremreach-logo.svg"
             alt="TheoremReach"

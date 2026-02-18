@@ -145,10 +145,15 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="chat-toggle fixed top-1/2 right-0 z-50 -translate-y-1/2 rounded-l-xl border border-slate-200 bg-white px-3 py-4 text-xs font-bold text-slate-700 shadow-xl transition hover:bg-slate-50"
-        title={open ? "Collapse chat" : "Expand chat"}
+        className={`chat-toggle fixed top-1/2 z-50 -translate-y-1/2 rounded-l-xl border px-4 py-3 text-[11px] font-semibold tracking-wide shadow-xl transition-all ${
+          open ? "chat-toggle-open" : "chat-toggle-closed"
+        }`}
+        style={{
+          right: open ? "min(92vw, 390px)" : "0px",
+        }}
+        title={open ? "Close chat" : "Open chat"}
       >
-        {open ? ">" : "<"}
+        {open ? "Close Chat" : "Open Chat"}
       </button>
 
       <section
@@ -255,11 +260,11 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
         <div className="chat-profile-backdrop fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/35 p-4 backdrop-blur-sm">
           <button type="button" onClick={closeProfileModal} className="absolute inset-0" aria-label="Close profile" />
           <div className="chat-profile-modal relative w-full max-w-md overflow-hidden rounded-3xl border border-white/70 bg-white shadow-2xl">
-            <div className="chat-profile-header bg-gradient-to-r from-orange-100 via-white to-sky-100 px-5 py-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">Chat Profile</p>
+            <div className="chat-profile-header px-5 py-4">
+              <p className="chat-profile-kicker text-xs font-semibold uppercase tracking-wide">Chat Profile</p>
               {selectedProfile ? (
                 <div className="mt-2 flex items-center gap-2">
-                  <p className="text-lg font-semibold text-slate-900">{selectedProfile.name}</p>
+                  <p className="chat-profile-name text-lg font-semibold">{selectedProfile.name}</p>
                   <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-700">
                     Lv {selectedProfile.level}
                   </span>
@@ -283,7 +288,7 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
                   ) : null}
                 </div>
               ) : (
-                <p className="mt-2 text-sm text-slate-600">{profileLoading ? "Loading user stats..." : "User profile"}</p>
+                <p className="chat-profile-kicker mt-2 text-sm">{profileLoading ? "Loading user stats..." : "User profile"}</p>
               )}
             </div>
 

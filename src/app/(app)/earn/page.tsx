@@ -47,6 +47,8 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
       copy: "Integrated surveys with secure postback tracking into your EasyEarn wallet.",
       missingEnvCopy: "Missing env vars: CPX_APP_ID and CPX_APP_SECRET.",
+      hideTitleText: false,
+      ctaLabel: "Open CPX Research",
     },
     {
       key: "bitlabs",
@@ -62,21 +64,25 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       gradient: "from-indigo-600 via-blue-600 to-cyan-500",
       copy: "Integrated offerwall and surveys with automated postback credit handling.",
       missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
+      hideTitleText: false,
+      ctaLabel: "Open BitLabs",
     },
     {
       key: "adgem",
       name: "AdGem",
       href: "/adgem",
-      logoSrc: "/adgem-logo.svg",
+      logoSrc: "/adgem-logo.webp",
       logoAlt: "AdGem",
-      logoWidth: 260,
-      logoHeight: 72,
-      logoClass: "h-auto w-full max-w-[220px] sm:max-w-[260px]",
-      logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[260px]",
+      logoWidth: 320,
+      logoHeight: 96,
+      logoClass: "h-auto w-full max-w-[240px] sm:max-w-[320px]",
+      logoDisabledClass: "h-auto w-full max-w-[240px] opacity-70 sm:max-w-[320px]",
       available: Boolean(adgemUrl),
-      gradient: "from-blue-600 via-indigo-600 to-cyan-500",
+      gradient: "from-violet-600 via-purple-600 to-fuchsia-500",
       copy: "Integrated offerwall with direct player ID tracking into your EasyEarn wallet.",
       missingEnvCopy: "Missing env var: ADGEM_APP_ID.",
+      hideTitleText: true,
+      ctaLabel: "Open Offerwall",
     },
     {
       key: "theoremreach",
@@ -89,9 +95,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoClass: "h-auto w-full max-w-[220px] sm:max-w-[300px]",
       logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[300px]",
       available: Boolean(theoremreachUrl),
-      gradient: "from-sky-600 via-blue-600 to-indigo-600",
+      gradient: "from-indigo-600 via-violet-600 to-purple-500",
       copy: "Integrated survey offerwall with secure callback crediting and anti-fraud pending flow.",
       missingEnvCopy: "Missing env var: THEOREMREACH_APP_TOKEN (or THEOREMREACH_APP_ID).",
+      hideTitleText: false,
+      ctaLabel: "Open TheoremReach",
     },
   ] as const;
 
@@ -148,14 +156,14 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                 )}
               </div>
               <div className="space-y-3 p-4">
-                <h3 className="text-base font-semibold text-slate-900">{offerwall.name}</h3>
+                {offerwall.hideTitleText ? <p className="sr-only">{offerwall.name}</p> : <h3 className="text-base font-semibold text-slate-900">{offerwall.name}</h3>}
                 <p className="text-sm text-slate-600">{offerwall.copy}</p>
                 {offerwall.available ? (
                   <Link
                     href={offerwall.href}
                     className="inline-flex rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
                   >
-                    Open {offerwall.name}
+                    {offerwall.ctaLabel}
                   </Link>
                 ) : (
                   <p className="text-xs font-semibold text-amber-700">{offerwall.missingEnvCopy}</p>
