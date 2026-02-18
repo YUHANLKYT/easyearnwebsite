@@ -97,7 +97,7 @@ export async function POST(request: Request) {
   if (!sent.sent) {
     redirect(
       buildRedirect(redirectTo, {
-        error: "Verification email could not be sent. Configure SMTP in .env and try again.",
+        error: "Verification email could not be sent. Configure RESEND_API_KEY and RESEND_FROM in environment variables and try again.",
       }),
     );
   }
