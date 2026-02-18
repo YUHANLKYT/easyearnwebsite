@@ -18,10 +18,10 @@ export default async function AdGemPage() {
             <Image
               src="/adgem-logo.png"
               alt="AdGem"
-              width={340}
-              height={96}
+              width={948}
+              height={244}
               priority
-              className="h-auto w-full max-w-[240px] sm:max-w-[340px]"
+              className="h-auto w-full max-w-[260px] sm:max-w-[360px]"
             />
             <p className="mt-2 max-w-2xl text-slate-600">Complete AdGem offers to earn rewards in EasyEarn.</p>
           </div>
@@ -39,10 +39,10 @@ export default async function AdGemPage() {
           <Image
             src="/adgem-logo.png"
             alt="AdGem"
-            width={340}
-            height={96}
+            width={948}
+            height={244}
             priority
-            className="h-auto w-full max-w-[240px] sm:max-w-[340px]"
+            className="h-auto w-full max-w-[260px] sm:max-w-[360px]"
           />
         </div>
 
