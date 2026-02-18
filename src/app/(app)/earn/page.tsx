@@ -45,7 +45,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]",
       available: Boolean(cpxSurveyUrl),
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-      copy: "Integrated surveys with secure postback tracking into your EasyEarn wallet.",
+      copy: "Survey-focused wall with frequent studies and quick completions.",
       missingEnvCopy: "Missing env vars: CPX_APP_ID and CPX_APP_SECRET.",
       hideTitleText: false,
       ctaLabel: "Open CPX Research",
@@ -62,7 +62,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]",
       available: Boolean(bitlabsUrl),
       gradient: "from-indigo-600 via-blue-600 to-cyan-500",
-      copy: "Integrated offerwall and surveys with automated postback credit handling.",
+      copy: "Mix of surveys and app offers, with varied payout sizes.",
       missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
       hideTitleText: false,
       ctaLabel: "Open BitLabs",
@@ -79,10 +79,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[240px] opacity-70 sm:max-w-[320px]",
       available: Boolean(adgemUrl),
       gradient: "from-violet-600 via-purple-600 to-fuchsia-500",
-      copy: "Integrated offerwall with direct player ID tracking into your EasyEarn wallet.",
+      copy: "Game and app offerwall with install, reach, and milestone tasks.",
       missingEnvCopy: "Missing env var: ADGEM_APP_ID.",
-      hideTitleText: true,
-      ctaLabel: "Open Offerwall",
+      hideTitleText: false,
+      ctaLabel: "Open AdGem",
     },
     {
       key: "theoremreach",
@@ -96,7 +96,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[300px]",
       available: Boolean(theoremreachUrl),
       gradient: "from-indigo-600 via-violet-600 to-purple-500",
-      copy: "Integrated survey offerwall with secure callback crediting and anti-fraud pending flow.",
+      copy: "Premium survey provider with strong geo targeting and higher-value studies.",
       missingEnvCopy: "Missing env var: THEOREMREACH_APP_TOKEN (or THEOREMREACH_APP_ID).",
       hideTitleText: false,
       ctaLabel: "Open TheoremReach",
@@ -108,7 +108,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Earn Money</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
-          Open integrated offerwalls and complete offers to grow your USD wallet.
+          Pick an offerwall, complete tasks, and grow your USD wallet.
         </p>
       </section>
 
@@ -122,7 +122,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-lg font-semibold text-slate-900">Offerwalls</h2>
-          <p className="text-xs text-slate-500">Click a logo card to open the integrated wall.</p>
+          <p className="text-xs text-slate-500">Click a logo card to open each wall.</p>
         </div>
         <div className="mt-4 grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
           {offerwalls.map((offerwall) => (
