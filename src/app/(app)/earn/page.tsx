@@ -51,8 +51,8 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open CPX Research",
       showAccentOrb: true,
       logoPanelClass:
-        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
-      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
     {
       key: "bitlabs",
@@ -72,8 +72,8 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open BitLabs",
       showAccentOrb: true,
       logoPanelClass:
-        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
-      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
     {
       key: "adgem",
@@ -93,9 +93,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open AdGem",
       showAccentOrb: false,
       logoPanelClass:
-        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass:
-        "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
+        "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
     {
       key: "theoremreach",
@@ -115,8 +115,8 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open TheoremReach",
       showAccentOrb: true,
       logoPanelClass:
-        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
-      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
   ] as const;
 

@@ -320,6 +320,40 @@ h6 {
   filter: drop-shadow(0 28px 30px rgba(30, 41, 59, 0.22));
 }
 
+.offerwall-logo-panel {
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 10px 22px -18px rgba(15, 23, 42, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.offerwall-logo-panel:hover {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.offerwall-logo-panel-disabled {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+:root[data-theme="dark"] .offerwall-logo-panel {
+  border-color: rgba(148, 163, 184, 0.48) !important;
+  background: linear-gradient(135deg, rgba(229, 236, 250, 0.94), rgba(208, 223, 248, 0.9)) !important;
+  box-shadow:
+    0 14px 24px -20px rgba(2, 6, 23, 0.88),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+:root[data-theme="dark"] .offerwall-logo-panel:hover {
+  background: linear-gradient(135deg, rgba(241, 246, 255, 0.96), rgba(219, 231, 253, 0.93)) !important;
+}
+
+:root[data-theme="dark"] .offerwall-logo-panel-disabled {
+  border-color: rgba(148, 163, 184, 0.44) !important;
+  background: linear-gradient(135deg, rgba(224, 232, 247, 0.82), rgba(204, 218, 244, 0.78)) !important;
+}
+
 main section[class*="rounded-3xl"][class*="border"],
 main article[class*="rounded-3xl"][class*="border"] {
   border-color: var(--border-soft);
