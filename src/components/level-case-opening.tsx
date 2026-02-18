@@ -167,7 +167,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-sky-100 bg-gradient-to-br from-white via-sky-50 to-rose-50 p-5 shadow-[0_16px_38px_rgba(14,165,233,0.13)]">
+    <section className="case-panel relative overflow-hidden rounded-[28px] border border-sky-100 bg-gradient-to-br from-white via-sky-50 to-rose-50 p-5 shadow-[0_16px_38px_rgba(14,165,233,0.13)]">
       <div className="pointer-events-none absolute -top-20 -right-16 h-52 w-52 rounded-full bg-sky-200/35 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-rose-200/35 blur-3xl" />
 
@@ -183,7 +183,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
             type="button"
             onClick={claimLevels}
             disabled={!canClaim}
-            className="rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-700 transition hover:border-sky-300 disabled:cursor-not-allowed disabled:opacity-45"
+            className="ui-btn ui-btn-soft rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-700 transition hover:border-sky-300 disabled:cursor-not-allowed disabled:opacity-45"
           >
             {claiming ? "Claiming..." : "Claim Levels"}
           </button>
@@ -199,16 +199,16 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       </div>
 
       <div className="relative mb-3 grid gap-2 text-xs text-slate-600 sm:grid-cols-2">
-        <div className="rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
+        <div className="case-meta rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
           Current level: <span className="font-semibold">{currentLevelState}</span>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
+        <div className="case-meta rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
           Claimed up to: <span className="font-semibold">{claimedLevelState}</span>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
+        <div className="case-meta rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
           Unclaimed levels: <span className="font-semibold">{claimableLevels}</span>
         </div>
-        <div className="rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
+        <div className="case-meta rounded-lg border border-slate-200 bg-white/75 px-3 py-2">
           Keys available: <span className="font-semibold">{availableKeysState}</span>
         </div>
       </div>
@@ -218,10 +218,10 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       ) : null}
       {error ? <p className="mb-3 text-xs font-medium text-rose-700">{error}</p> : null}
 
-      <div className="relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-pink-50 px-3 py-5">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-pink-50 via-pink-50/85 to-transparent" />
-        <div className="pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
+      <div className="case-reel-surface relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-pink-50 px-3 py-5">
+        <div className="case-reel-fade-left pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
+        <div className="case-reel-fade-right pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-pink-50 via-pink-50/85 to-transparent" />
+        <div className="case-reel-center pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
 
         <div ref={viewportRef} className="overflow-hidden">
           <div
@@ -246,7 +246,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       </div>
 
       {winReward ? (
-        <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+        <div className="case-win mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
           You won <span className="font-semibold">{winReward.label}</span>.
         </div>
       ) : null}

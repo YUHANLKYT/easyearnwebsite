@@ -25,10 +25,10 @@ const themeInitScript = `(() => {
   try {
     const key = "easyearn-theme";
     const stored = localStorage.getItem(key);
-    const theme = stored === "light" || stored === "dark" ? stored : "dark";
+    const theme = stored === "light" || stored === "dark" ? stored : "light";
     document.documentElement.setAttribute("data-theme", theme);
   } catch {
-    document.documentElement.setAttribute("data-theme", "dark");
+    document.documentElement.setAttribute("data-theme", "light");
   }
 })();`;
 

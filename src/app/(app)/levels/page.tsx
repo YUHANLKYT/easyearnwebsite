@@ -184,32 +184,18 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
             const unlocked = level >= stage;
             const vipStage = stage === VIP_UNLOCK_LEVEL;
             const vipPlusStage = stage === VIP_PLUS_UNLOCK_LEVEL;
+            const stageTone = vipPlusStage
+              ? "level-stage-vipplus"
+              : vipStage
+                ? "level-stage-vip"
+                : unlocked
+                  ? "level-stage-unlocked"
+                  : "level-stage-locked";
             return (
-              <article
-                key={stage}
-                className={`rounded-2xl border p-4 ${
-                  vipPlusStage
-                    ? "border-fuchsia-300 bg-fuchsia-50"
-                    : vipStage
-                    ? "border-amber-300 bg-amber-50"
-                    : unlocked
-                      ? "border-sky-200 bg-sky-50/55"
-                      : "border-slate-100 bg-white"
-                }`}
-              >
+              <article key={stage} className={`level-stage-card ${stageTone} rounded-2xl border p-4`}>
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-900">Level {stage}</p>
-                  <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                      vipPlusStage
-                        ? "bg-fuchsia-200 text-fuchsia-800"
-                        : vipStage
-                        ? "bg-amber-200 text-amber-800"
-                        : unlocked
-                          ? "bg-sky-100 text-sky-700"
-                          : "bg-slate-100 text-slate-500"
-                    }`}
-                  >
+                  <span className={`level-stage-badge ${stageTone} rounded-full px-2 py-0.5 text-[10px] font-semibold`}>
                     {vipPlusStage ? "VIP+ Stage" : vipStage ? "VIP Stage" : unlocked ? "Unlocked" : "Locked"}
                   </span>
                 </div>

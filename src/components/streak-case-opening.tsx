@@ -204,7 +204,7 @@ export function StreakCaseOpening({
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-fuchsia-100 bg-gradient-to-br from-white via-fuchsia-50/45 to-sky-50 p-5 shadow-[0_16px_38px_rgba(124,58,237,0.10)]">
+    <section className="case-panel relative overflow-hidden rounded-[28px] border border-fuchsia-100 bg-gradient-to-br from-white via-fuchsia-50/45 to-sky-50 p-5 shadow-[0_16px_38px_rgba(124,58,237,0.10)]">
       <div className="pointer-events-none absolute -top-20 -right-16 h-52 w-52 rounded-full bg-fuchsia-200/30 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-sky-200/30 blur-3xl" />
 
@@ -218,22 +218,22 @@ export function StreakCaseOpening({
       </div>
 
       <div className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
+        <div className="case-meta rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
           Streak days: <span className="font-semibold text-slate-900">{state.streakDays}</span>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
+        <div className="case-meta rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
           Today: <span className="font-semibold text-slate-900">{formatUSD(state.todayEarnedCents)}</span> /{" "}
           {formatUSD(STREAK_DAILY_TARGET_CENTS)}
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
+        <div className="case-meta rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
           Remaining today: <span className="font-semibold text-slate-900">{formatUSD(state.remainingTodayCents)}</span>
         </div>
-        <div className="rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
+        <div className="case-meta rounded-xl border border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600">
           Next milestone: <span className="font-semibold text-slate-900">{nextMilestoneText}</span>
         </div>
       </div>
 
-      <div className="mb-4 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+      <div className="case-meta mb-4 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-amber-800">
         {state.todayQualified
           ? "Today's streak target is completed."
           : state.canKeepToday
@@ -290,10 +290,10 @@ export function StreakCaseOpening({
         </article>
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-fuchsia-50 px-3 py-5">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-fuchsia-50 via-fuchsia-50/85 to-transparent" />
-        <div className="pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
+      <div className="case-reel-surface relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-fuchsia-50 px-3 py-5">
+        <div className="case-reel-fade-left pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
+        <div className="case-reel-fade-right pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-fuchsia-50 via-fuchsia-50/85 to-transparent" />
+        <div className="case-reel-center pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
 
         <div ref={viewportRef} className="overflow-hidden">
           <div
@@ -318,7 +318,7 @@ export function StreakCaseOpening({
       </div>
 
       {winReward ? (
-        <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+        <div className="case-win mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
           You won <span className="font-semibold">{winReward.label}</span> from the {activeTier}-day streak case.
         </div>
       ) : null}

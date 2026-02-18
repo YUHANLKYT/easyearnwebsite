@@ -123,7 +123,7 @@ export function NotificationsPopover() {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className="relative rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+        className="ui-btn ui-btn-soft relative rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
       >
         <span className="inline-flex items-center gap-2">
           <FiBell className="h-4 w-4" />
@@ -137,8 +137,8 @@ export function NotificationsPopover() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 z-40 mt-2 w-[380px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
-          <div className="border-b border-slate-100 bg-slate-50 px-4 py-3">
+        <div className="ui-popover absolute right-0 z-40 mt-2 w-[380px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
+          <div className="ui-popover-head border-b border-slate-100 bg-slate-50 px-4 py-3">
             <p className="text-sm font-semibold text-slate-900">Notifications</p>
             <p className="text-xs text-slate-600">
               Pending: <span className="font-semibold text-amber-700">{formatUSD(payload?.pendingTotalCents ?? 0)}</span>
