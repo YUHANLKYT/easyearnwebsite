@@ -1,6 +1,6 @@
 import { FlashMessage } from "@/components/flash-message";
 import { SignupBonusModal } from "@/components/signup-bonus-modal";
-import { STREAK_DAILY_TARGET_CENTS, SUPPORT_EMAIL } from "@/lib/constants";
+import { DISCORD_SERVER_URL, STREAK_DAILY_TARGET_CENTS, SUPPORT_EMAIL } from "@/lib/constants";
 import {
   getActiveReferralWindowStart,
   getLevelFromLifetimeEarnings,
@@ -298,6 +298,18 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
           <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">Submit a Complaint</h2>
             <p className="mt-1 text-sm text-slate-600">Need help with an offer or payout? Send a message to admin.</p>
+            <p className="mt-1 text-xs text-slate-500">
+              Need a problem solved fast? Join{" "}
+              <a
+                href={DISCORD_SERVER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-sky-700 hover:text-sky-800"
+              >
+                Discord
+              </a>
+              .
+            </p>
             {SUPPORT_EMAIL ? (
               <p className="mt-1 text-xs text-slate-500">
                 Support email:{" "}

@@ -15,6 +15,7 @@ export const CHAT_MESSAGE_COOLDOWN_SECONDS = 5;
 export const SIGNUP_BONUS_CENTS = 100;
 const configuredSupportEmail = process.env.SUPPORT_EMAIL?.trim();
 export const SUPPORT_EMAIL = configuredSupportEmail ? configuredSupportEmail : null;
+export const DISCORD_SERVER_URL = "https://discord.gg/9rfdMgtGbG";
 export const STREAK_DAILY_TARGET_CENTS = 200;
 
 export type EarnTask = {

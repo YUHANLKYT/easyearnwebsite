@@ -1,3 +1,5 @@
+import { DISCORD_SERVER_URL } from "@/lib/constants";
+
 export default function TermsOfServicePage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 md:px-8">
@@ -153,8 +155,16 @@ export default function TermsOfServicePage() {
         <section className="space-y-3">
           <h2 className="text-xl font-semibold text-slate-900">13. Contact Us</h2>
           <p className="text-sm leading-7 text-slate-700">
-            For questions or concerns regarding these Terms, contact us through Discord support by joining the server and
-            opening a support ticket.
+            For questions or concerns regarding these Terms, contact us through Discord support by{" "}
+            <a
+              href={DISCORD_SERVER_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-sky-700 hover:text-sky-800"
+            >
+              joining the server
+            </a>{" "}
+            and opening a support ticket.
           </p>
         </section>
       </article>

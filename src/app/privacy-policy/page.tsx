@@ -1,3 +1,5 @@
+import { DISCORD_SERVER_URL } from "@/lib/constants";
+
 export default function PrivacyPolicyPage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 md:px-8">
@@ -193,7 +195,18 @@ export default function PrivacyPolicyPage() {
             support channel:
           </p>
           <ul className="list-disc space-y-1 pl-5 text-sm text-slate-700">
-            <li>Discord Support: Join our Discord server and open a support ticket</li>
+            <li>
+              Discord Support:{" "}
+              <a
+                href={DISCORD_SERVER_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-sky-700 hover:text-sky-800"
+              >
+                Join our Discord server
+              </a>{" "}
+              and open a support ticket
+            </li>
           </ul>
         </section>
       </article>
