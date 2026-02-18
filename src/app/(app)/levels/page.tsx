@@ -30,11 +30,11 @@ function getLevelPerks(level: number) {
   const perks = [level === VIP_PLUS_UNLOCK_LEVEL ? "3 Level-Up Case keys" : "1 Level-Up Case key"];
 
   if (level === 1) {
-    perks.unshift("Chat unlocked");
+    perks.push("Chat unlocked");
   }
 
   if (level === PROMO_REDEEM_UNLOCK_LEVEL) {
-    perks.push("Promo code redeem unlocked");
+    perks.push("Promo code redeem unlock");
   }
 
   if (level === VIP_UNLOCK_LEVEL) {
@@ -45,7 +45,7 @@ function getLevelPerks(level: number) {
     perks.push("VIP+ role", "Withdrawal priority queue");
   }
 
-  return perks.join(" | ");
+  return perks;
 }
 
 export default async function LevelsPage({ searchParams }: { searchParams: SearchParams }) {
@@ -62,6 +62,16 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
   const vipPlusUnlocked = hasUnlockedVipPlus(level);
   const availableCaseKeys = user.levelCaseKeys;
   const claimedLevel = user.levelRewardsClaimed;
+  const nextLevelRemainingCents = Math.max(0, nextTargetCents - user.lifetimeEarnedCents);
+  const streakDailyProgressPercent = Math.min(
+    100,
+    Math.round((streak.todayEarnedCents / STREAK_DAILY_TARGET_CENTS) * 100),
+  );
+  const streakTargetDays = streak.nextMilestone ?? 14;
+  const streakMilestoneProgressPercent = streak.nextMilestone
+    ? Math.min(100, Math.round((streak.streakDays / streak.nextMilestone) * 100))
+    : 100;
+  const highlightedStages = new Set([1, PROMO_REDEEM_UNLOCK_LEVEL, VIP_UNLOCK_LEVEL, VIP_PLUS_UNLOCK_LEVEL]);
 
   const milestones = Array.from({ length: 50 }, (_, index) => index + 1);
 
@@ -70,48 +80,36 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
       <section className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <div className="pointer-events-none absolute -top-20 right-0 h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.28),_transparent_70%)]" />
         <div className="pointer-events-none absolute -bottom-20 left-16 h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,146,60,0.25),_transparent_70%)]" />
-        <div className="relative">
-          <p className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
-            Level Progression
-          </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">Level up every $5 earned</h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">
-            Each level grants a Level-Up Case key. Level 1 unlocks chat. Level 3 unlocks promo code redemption in the
-            Referrals tab. Level 10 unlocks VIP, 3 bonus keys, and promo code creation.
-          </p>
+        <div className="relative grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+          <div>
+            <p className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
+              Levels and Streaks
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">
+              Progress, streak rules, and case rewards
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-slate-600">
+              Everything is organized here: level growth, daily streak target, milestone unlocks, and both case systems.
+            </p>
+          </div>
+          <div className="grid gap-2 rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Core Rules</p>
+            <p className="text-sm font-medium text-slate-700">
+              Level: every {formatUSD(LEVEL_UP_EVERY_CENTS)} lifetime earnings.
+            </p>
+            <p className="text-sm font-medium text-slate-700">
+              Streak: earn {formatUSD(STREAK_DAILY_TARGET_CENTS)} each day.
+            </p>
+            <p className="text-sm font-medium text-slate-700">
+              Milestones: 7-day and 14-day streak bonus cases.
+            </p>
+          </div>
         </div>
       </section>
 
       <FlashMessage notice={params.notice} error={params.error} />
 
-      <section className="rounded-2xl border border-sky-100 bg-sky-50/55 px-4 py-3 text-sm text-slate-700">
-        {level >= PROMO_REDEEM_UNLOCK_LEVEL ? (
-          <p>
-            Promo code redemption is unlocked. Go to{" "}
-            <Link href="/referrals" className="font-semibold text-sky-700 hover:text-sky-800">
-              Referrals
-            </Link>{" "}
-            to redeem codes.
-          </p>
-        ) : (
-          <p>
-            Promo code redemption unlocks at Level {PROMO_REDEEM_UNLOCK_LEVEL}. Keep leveling up, then redeem from{" "}
-            <Link href="/referrals" className="font-semibold text-sky-700 hover:text-sky-800">
-              Referrals
-            </Link>
-            .
-          </p>
-        )}
-      </section>
-
-      <section className="rounded-2xl border border-fuchsia-100 bg-fuchsia-50/45 px-4 py-3 text-sm text-slate-700">
-        <p>
-          Streak rule: complete at least {formatUSD(STREAK_DAILY_TARGET_CENTS)} in offers each day to keep streak progress.
-          7-day and 14-day streaks unlock bonus cases.
-        </p>
-      </section>
-
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
           <p className="text-sm text-slate-500">Current Level</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">Lv {level}</p>
@@ -132,75 +130,205 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
           <p className="text-xs text-slate-500">Total earned so far: {keysEarned}</p>
         </article>
         <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+          <p className="text-sm text-slate-500">Current Streak</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-900">{streak.streakDays} days</p>
+          <p className="text-xs text-slate-500">{streak.daysToNextMilestone ?? 0} days to next case</p>
+        </article>
+        <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
           <p className="text-sm text-slate-500">Next Milestone</p>
           <p className="mt-2 text-2xl font-semibold text-slate-900">{formatUSD(nextTargetCents)}</p>
           <p className="text-xs text-slate-500">
-            {formatUSD(Math.max(0, nextTargetCents - user.lifetimeEarnedCents))} remaining
+            {formatUSD(nextLevelRemainingCents)} remaining
           </p>
         </article>
       </section>
 
-      <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-slate-900">Current Level Track</h2>
-          <p className="text-xs text-slate-500">
-            Level span: {formatUSD(previousTargetCents)} - {formatUSD(nextTargetCents)}
+      <section className="grid gap-4 xl:grid-cols-2">
+        <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-slate-900">Level Track</h2>
+            <p className="text-xs text-slate-500">
+              Level span: {formatUSD(previousTargetCents)} - {formatUSD(nextTargetCents)}
+            </p>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-orange-400 via-rose-400 to-sky-500 transition-[width]"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="mt-2 text-xs text-slate-600">
+            {formatUSD(nextLevelRemainingCents)} left until Level {level + 1}.
           </p>
-        </div>
-        <div className="h-3 overflow-hidden rounded-full bg-slate-100">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-orange-400 via-rose-400 to-sky-500 transition-[width]"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+        </article>
+
+        <article className="rounded-3xl border border-fuchsia-100 bg-gradient-to-br from-white via-fuchsia-50/45 to-sky-50 p-5 shadow-sm">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-slate-900">Streak Status</h2>
+            <p className="text-xs font-semibold text-fuchsia-700">
+              {streak.todayQualified ? "Target met today" : "In progress"}
+            </p>
+          </div>
+          <p className="text-sm text-slate-700">
+            Earn {formatUSD(STREAK_DAILY_TARGET_CENTS)} per day. Missing a day resets streak progress.
+          </p>
+          <div className="mt-3 space-y-3">
+            <div>
+              <div className="flex items-center justify-between text-xs text-slate-600">
+                <span>Today</span>
+                <span>
+                  {formatUSD(streak.todayEarnedCents)} / {formatUSD(STREAK_DAILY_TARGET_CENTS)}
+                </span>
+              </div>
+              <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-fuchsia-400 to-sky-500"
+                  style={{ width: `${streakDailyProgressPercent}%` }}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between text-xs text-slate-600">
+                <span>{streakTargetDays}-day case milestone</span>
+                <span>{streak.streakDays} streak days</span>
+              </div>
+              <div className="mt-1 h-2 overflow-hidden rounded-full bg-slate-100">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-fuchsia-500"
+                  style={{ width: `${streakMilestoneProgressPercent}%` }}
+                />
+              </div>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-slate-600">
+            {streak.nextMilestone
+              ? `${streak.daysToNextMilestone} day${streak.daysToNextMilestone === 1 ? "" : "s"} until ${streak.nextMilestone}-day case.`
+              : "All streak milestones are unlocked for this cycle."}
+          </p>
+        </article>
       </section>
 
-      <LevelCaseOpening
-        currentLevel={level}
-        claimedLevel={claimedLevel}
-        availableKeys={availableCaseKeys}
-        canUseCase={user.status === "ACTIVE"}
-      />
+      <section className="grid gap-4 xl:grid-cols-3">
+        <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Level Rules</h3>
+          <p className="mt-2 text-sm text-slate-700">
+            Every {formatUSD(LEVEL_UP_EVERY_CENTS)} lifetime earned = +1 level and at least 1 level-case key.
+          </p>
+        </article>
+        <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Streak Rules</h3>
+          <p className="mt-2 text-sm text-slate-700">
+            Complete {formatUSD(STREAK_DAILY_TARGET_CENTS)} in offers daily to maintain streak and unlock 7/14-day cases.
+          </p>
+        </article>
+        <article className="rounded-3xl border border-sky-100 bg-sky-50/60 p-5 shadow-sm">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-sky-700">Promo Unlock</h3>
+          {level >= PROMO_REDEEM_UNLOCK_LEVEL ? (
+            <p className="mt-2 text-sm text-slate-700">
+              Promo code redemption is unlocked in{" "}
+              <Link href="/referrals" className="font-semibold text-sky-700 hover:text-sky-800">
+                Referrals
+              </Link>
+              .
+            </p>
+          ) : (
+            <p className="mt-2 text-sm text-slate-700">
+              Promo code redemption unlocks at Level {PROMO_REDEEM_UNLOCK_LEVEL}. Keep leveling and redeem from{" "}
+              <Link href="/referrals" className="font-semibold text-sky-700 hover:text-sky-800">
+                Referrals
+              </Link>
+              .
+            </p>
+          )}
+        </article>
+      </section>
 
-      <StreakCaseOpening
-        streakDays={streak.streakDays}
-        todayEarnedCents={streak.todayEarnedCents}
-        remainingTodayCents={streak.remainingTodayCents}
-        todayQualified={streak.todayQualified}
-        canKeepToday={streak.canKeepToday}
-        availableCase7={streak.availableCase7}
-        availableCase14={streak.availableCase14}
-        claimedCase7={streak.claimedCase7}
-        claimedCase14={streak.claimedCase14}
-        nextMilestone={streak.nextMilestone}
-        daysToNextMilestone={streak.daysToNextMilestone}
-        canUseCase={user.status === "ACTIVE"}
-      />
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-slate-900">Level-Up Case</h2>
+          <p className="text-xs text-slate-500">Claim unlocked levels first, then open your keys.</p>
+        </div>
+        <LevelCaseOpening
+          currentLevel={level}
+          claimedLevel={claimedLevel}
+          availableKeys={availableCaseKeys}
+          canUseCase={user.status === "ACTIVE"}
+        />
+      </section>
+
+      <section className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-slate-900">Streak Bonus Cases</h2>
+          <p className="text-xs text-slate-500">Open 7-day and 14-day cases as soon as they are unlocked.</p>
+        </div>
+        <StreakCaseOpening
+          streakDays={streak.streakDays}
+          todayEarnedCents={streak.todayEarnedCents}
+          remainingTodayCents={streak.remainingTodayCents}
+          todayQualified={streak.todayQualified}
+          canKeepToday={streak.canKeepToday}
+          availableCase7={streak.availableCase7}
+          availableCase14={streak.availableCase14}
+          claimedCase7={streak.claimedCase7}
+          claimedCase14={streak.claimedCase14}
+          nextMilestone={streak.nextMilestone}
+          daysToNextMilestone={streak.daysToNextMilestone}
+          canUseCase={user.status === "ACTIVE"}
+        />
+      </section>
 
       <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">Level Stages</h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-lg font-semibold text-slate-900">Level Roadmap</h2>
+          <p className="text-xs text-slate-500">
+            Highlighted: Level 1, Level {PROMO_REDEEM_UNLOCK_LEVEL}, Level {VIP_UNLOCK_LEVEL}, Level {VIP_PLUS_UNLOCK_LEVEL}
+          </p>
+        </div>
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {milestones.map((stage) => {
             const unlocked = level >= stage;
             const vipStage = stage === VIP_UNLOCK_LEVEL;
             const vipPlusStage = stage === VIP_PLUS_UNLOCK_LEVEL;
-            const stageTone = vipPlusStage
-              ? "level-stage-vipplus"
+            const stageHighlighted = highlightedStages.has(stage);
+            const perks = getLevelPerks(stage);
+            const cardTone = vipPlusStage
+              ? "border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50"
               : vipStage
-                ? "level-stage-vip"
+                ? "border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50"
                 : unlocked
-                  ? "level-stage-unlocked"
-                  : "level-stage-locked";
+                  ? "border-emerald-200 bg-emerald-50/60"
+                  : "border-slate-200 bg-white/80";
+            const badgeTone = vipPlusStage
+              ? "border-violet-300 bg-violet-100 text-violet-800"
+              : vipStage
+                ? "border-amber-300 bg-amber-100 text-amber-800"
+                : unlocked
+                  ? "border-emerald-200 bg-emerald-100 text-emerald-700"
+                  : "border-slate-200 bg-slate-100 text-slate-600";
             return (
-              <article key={stage} className={`level-stage-card ${stageTone} rounded-2xl border p-4`}>
+              <article
+                key={stage}
+                className={`rounded-2xl border p-4 shadow-sm transition-colors ${cardTone} ${
+                  stageHighlighted ? "ring-2 ring-sky-200/80" : ""
+                }`}
+              >
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-900">Level {stage}</p>
-                  <span className={`level-stage-badge ${stageTone} rounded-full px-2 py-0.5 text-[10px] font-semibold`}>
+                  <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold ${badgeTone}`}>
                     {vipPlusStage ? "VIP+ Stage" : vipStage ? "VIP Stage" : unlocked ? "Unlocked" : "Locked"}
                   </span>
                 </div>
-                <p className="mt-2 text-xs text-slate-600">{getLevelPerks(stage)}</p>
-                <p className="mt-2 text-[11px] text-slate-500">
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {perks.map((perk) => (
+                    <span
+                      key={`${stage}-${perk}`}
+                      className="rounded-full border border-slate-200 bg-white/80 px-2 py-0.5 text-[10px] font-medium text-slate-700"
+                    >
+                      {perk}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-3 text-[11px] text-slate-500">
                   Reached at {formatUSD(stage * LEVEL_UP_EVERY_CENTS)} lifetime earned
                 </p>
               </article>
