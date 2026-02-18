@@ -192,6 +192,134 @@ h6 {
   animation: gift-float-c 7.1s ease-in-out infinite;
 }
 
+@keyframes hero-spotlight-drift {
+  0% {
+    background-position: 0% 45%;
+  }
+  50% {
+    background-position: 100% 55%;
+  }
+  100% {
+    background-position: 0% 45%;
+  }
+}
+
+@keyframes hero-lines-shift {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  50% {
+    background-position: 26px 12px, -18px 24px, 42px -16px;
+  }
+  100% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+}
+
+@keyframes hero-orb-sway-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-16px, 12px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-orb-sway-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12px, -14px, 0) scale(1.06);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hero-mascot-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.home-hero-shell {
+  isolation: isolate;
+}
+
+.hero-spotlight-bg {
+  background-size: 180% 180%;
+  animation: hero-spotlight-drift 14s ease-in-out infinite;
+}
+
+.hero-spotlight-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+  animation: hero-lines-shift 12s linear infinite;
+}
+
+.hero-spotlight-lines-soft {
+  background-image:
+    radial-gradient(circle at 22% 20%, rgba(255, 255, 255, 0.35) 0 3px, transparent 4px),
+    radial-gradient(circle at 77% 72%, rgba(255, 255, 255, 0.26) 0 4px, transparent 5px),
+    repeating-linear-gradient(
+      140deg,
+      transparent 0 30px,
+      rgba(255, 255, 255, 0.18) 31px 32px,
+      transparent 33px 76px
+    );
+}
+
+.hero-spotlight-lines-nitro {
+  background-image:
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.45) 0 4px, transparent 5px),
+    radial-gradient(circle at 74% 70%, rgba(255, 255, 255, 0.34) 0 5px, transparent 6px),
+    repeating-radial-gradient(
+      ellipse at 25% 18%,
+      transparent 0 38px,
+      rgba(255, 255, 255, 0.22) 39px 41px,
+      transparent 42px 86px
+    );
+}
+
+.hero-spotlight-orb {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(26px);
+}
+
+.hero-spotlight-orb-a {
+  top: -28px;
+  right: -16px;
+  height: 230px;
+  width: 230px;
+  animation: hero-orb-sway-a 8.8s ease-in-out infinite;
+}
+
+.hero-spotlight-orb-b {
+  bottom: -68px;
+  left: -28px;
+  height: 210px;
+  width: 210px;
+  animation: hero-orb-sway-b 10.4s ease-in-out infinite;
+}
+
+.hero-spotlight-mascot {
+  animation: hero-mascot-float 5.8s ease-in-out infinite;
+  filter: drop-shadow(0 28px 30px rgba(30, 41, 59, 0.22));
+}
+
 main section[class*="rounded-3xl"][class*="border"],
 main article[class*="rounded-3xl"][class*="border"] {
   border-color: var(--border-soft);
