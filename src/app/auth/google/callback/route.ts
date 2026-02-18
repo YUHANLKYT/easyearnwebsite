@@ -70,6 +70,16 @@ function buildAuthRedirect(
   return query ? `${pathname}?${query}` : pathname;
 }
 
+function withInternalSearch(path: string, params: Record<string, string | undefined>) {
+  const url = new URL(path, "http://localhost");
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) {
+      url.searchParams.set(key, value);
+    }
+  });
+  return `${url.pathname}${url.search}`;
+}
+
 function getGoogleConfig(request: Request) {
   const clientId = process.env.GOOGLE_CLIENT_ID?.trim() ?? "";
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim() ?? "";
@@ -221,6 +231,7 @@ export async function GET(request: Request) {
       role: true,
       status: true,
       emailVerifiedAt: true,
+      referredById: true,
     },
   });
 
@@ -241,7 +252,19 @@ export async function GET(request: Request) {
     }
 
     await createUserSession(existingUser.id);
-    const response = NextResponse.redirect(new URL(existingUser.role === "ADMIN" ? "/admin" : nextPath, request.url));
+    const redirectTarget = existingUser.role === "ADMIN" ? "/admin" : nextPath;
+    const shouldPromptReferral = redirectTarget.startsWith("/dashboard") && !existingUser.referredById;
+    const response = NextResponse.redirect(
+      new URL(
+        shouldPromptReferral
+          ? withInternalSearch(redirectTarget, {
+              googleReferralPrompt: "1",
+              ref: referralCode || "EASY",
+            })
+          : redirectTarget,
+        request.url,
+      ),
+    );
     clearGoogleStateCookie(response);
     return response;
   }
@@ -302,7 +325,19 @@ export async function GET(request: Request) {
 
   await createUserSession(createdUser.id);
 
-  const response = NextResponse.redirect(new URL(signupBonusCents > 0 ? "/dashboard?signupBonus=1" : nextPath, request.url));
+  const postSignupTarget = signupBonusCents > 0 ? "/dashboard?signupBonus=1" : nextPath;
+  const shouldPromptReferral = signupBonusCents < 1 && postSignupTarget.startsWith("/dashboard");
+  const response = NextResponse.redirect(
+    new URL(
+      shouldPromptReferral
+        ? withInternalSearch(postSignupTarget, {
+            googleReferralPrompt: "1",
+            ref: referralCode || "EASY",
+          })
+        : postSignupTarget,
+      request.url,
+    ),
+  );
   clearGoogleStateCookie(response);
   return response;
 }

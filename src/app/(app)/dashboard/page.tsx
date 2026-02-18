@@ -1,4 +1,5 @@
 import { FlashMessage } from "@/components/flash-message";
+import { GoogleReferralModal } from "@/components/google-referral-modal";
 import { SignupBonusModal } from "@/components/signup-bonus-modal";
 import { DISCORD_SERVER_URL, STREAK_DAILY_TARGET_CENTS, SUPPORT_EMAIL } from "@/lib/constants";
 import {
@@ -18,6 +19,9 @@ type SearchParams = Promise<{
   notice?: string;
   error?: string;
   signupBonus?: string;
+  googleReferralPrompt?: string;
+  ref?: string;
+  referral?: string;
 }>;
 
 export default async function DashboardPage({ searchParams }: { searchParams: SearchParams }) {
@@ -75,6 +79,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
     getUserStreakSnapshot(user.id, now),
   ]);
   const pendingBalanceCents = pendingClaims.reduce((sum, claim) => sum + claim.payoutCents, 0);
+  const referralPromptCode = (params.ref || params.referral || "EASY").trim().toUpperCase();
+  const showGoogleReferralPrompt =
+    params.googleReferralPrompt === "1" && params.signupBonus !== "1" && !user.referredById && user.status === "ACTIVE";
 
   const level = getLevelFromLifetimeEarnings(user.lifetimeEarnedCents);
   const progressToNextLevel = getProgressToNextLevel(user.lifetimeEarnedCents);
@@ -84,6 +91,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
 
   return (
     <div className="space-y-6">
+      {showGoogleReferralPrompt ? <GoogleReferralModal initialReferralCode={referralPromptCode} /> : null}
       {params.signupBonus === "1" ? <SignupBonusModal /> : null}
 
       <section className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
