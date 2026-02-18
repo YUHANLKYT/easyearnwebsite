@@ -16,7 +16,7 @@ export default async function AdGemPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <Image
-              src="/adgem-logo.webp"
+              src="/adgem-logo.png"
               alt="AdGem"
               width={340}
               height={96}
@@ -37,7 +37,7 @@ export default async function AdGemPage() {
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <div className="rounded-2xl border border-violet-200/70 bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50 px-4 py-4 sm:px-6">
           <Image
-            src="/adgem-logo.webp"
+            src="/adgem-logo.png"
             alt="AdGem"
             width={340}
             height={96}

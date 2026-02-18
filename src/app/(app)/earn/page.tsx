@@ -71,7 +71,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       key: "adgem",
       name: "AdGem",
       href: "/adgem",
-      logoSrc: "/adgem-logo.webp",
+      logoSrc: "/adgem-logo.png",
       logoAlt: "AdGem",
       logoWidth: 320,
       logoHeight: 96,
