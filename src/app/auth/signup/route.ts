@@ -26,6 +26,7 @@ export async function POST(request: Request) {
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
     referralCode: formData.get("referralCode"),
     acceptLegal: formData.get("acceptLegal"),
     next: formData.get("next"),

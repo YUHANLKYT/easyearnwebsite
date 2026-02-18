@@ -88,6 +88,16 @@ export default async function SignUpPage({ searchParams }: { searchParams: Searc
               />
             </label>
             <label className="block">
+              <span className="mb-1 block text-xs font-medium text-slate-600">Confirm Password</span>
+              <input
+                type="password"
+                name="confirmPassword"
+                required
+                minLength={6}
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+              />
+            </label>
+            <label className="block">
               <span className="mb-1 block text-xs font-medium text-slate-600">Referral Code</span>
               <input
                 type="text"
