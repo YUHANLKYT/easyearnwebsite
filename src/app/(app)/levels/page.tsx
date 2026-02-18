@@ -291,30 +291,23 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
             const vipPlusStage = stage === VIP_PLUS_UNLOCK_LEVEL;
             const stageHighlighted = highlightedStages.has(stage);
             const perks = getLevelPerks(stage);
-            const cardTone = vipPlusStage
-              ? "border-violet-300 bg-gradient-to-br from-violet-50 to-fuchsia-50"
+            const stageTone = vipPlusStage
+              ? "level-stage-vipplus"
               : vipStage
-                ? "border-amber-300 bg-gradient-to-br from-amber-50 to-orange-50"
+                ? "level-stage-vip"
                 : unlocked
-                  ? "border-emerald-200 bg-emerald-50/60"
-                  : "border-slate-200 bg-white/80";
-            const badgeTone = vipPlusStage
-              ? "border-violet-300 bg-violet-100 text-violet-800"
-              : vipStage
-                ? "border-amber-300 bg-amber-100 text-amber-800"
-                : unlocked
-                  ? "border-emerald-200 bg-emerald-100 text-emerald-700"
-                  : "border-slate-200 bg-slate-100 text-slate-600";
+                  ? "level-stage-unlocked"
+                  : "level-stage-locked";
             return (
               <article
                 key={stage}
-                className={`rounded-2xl border p-4 shadow-sm transition-colors ${cardTone} ${
+                className={`level-stage-card ${stageTone} rounded-2xl border p-4 ${
                   stageHighlighted ? "ring-2 ring-sky-200/80" : ""
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold text-slate-900">Level {stage}</p>
-                  <span className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold ${badgeTone}`}>
+                  <span className={`level-stage-badge ${stageTone} rounded-full px-2 py-0.5 text-[10px] font-semibold`}>
                     {vipPlusStage ? "VIP+ Stage" : vipStage ? "VIP Stage" : unlocked ? "Unlocked" : "Locked"}
                   </span>
                 </div>
