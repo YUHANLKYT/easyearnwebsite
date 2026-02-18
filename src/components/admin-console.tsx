@@ -38,6 +38,8 @@ type WithdrawalItem = {
   payoutEmail: string | null;
   discordUsername: string | null;
   deliveryCode: string | null;
+  cancelReason: string | null;
+  history: boolean;
   createdAt: string;
   processedAt: string | null;
 };
@@ -143,6 +145,7 @@ type OverviewResponse = {
   };
   offers: OfferItem[];
   withdrawals: WithdrawalItem[];
+  withdrawalHistory: WithdrawalItem[];
   customWithdrawals: CustomWithdrawalItem[];
   complaints: ComplaintItem[];
   users: UserItem[];
@@ -196,6 +199,7 @@ export function AdminConsole() {
   const [loading, setLoading] = useState(true);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [codeByRedemptionId, setCodeByRedemptionId] = useState<Record<string, string>>({});
+  const [cancelReasonById, setCancelReasonById] = useState<Record<string, string>>({});
   const [customReasonById, setCustomReasonById] = useState<Record<string, string>>({});
   const [customFulfillmentById, setCustomFulfillmentById] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
@@ -735,6 +739,72 @@ export function AdminConsole() {
         </div>
       </section>
 
+      <section className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-900">Withdrawal History</h2>
+        <div className="mt-4 space-y-3">
+          {data.withdrawalHistory.length === 0 ? (
+            <p className="text-sm text-slate-500">No processed withdrawals yet.</p>
+          ) : (
+            data.withdrawalHistory.map((item) => {
+              const payoutDestination =
+                item.method === "PAYPAL"
+                  ? item.payoutEmail
+                  : item.method === "DISCORD_NITRO"
+                    ? item.discordUsername
+                    : null;
+              const payoutDestinationLabel =
+                item.method === "PAYPAL"
+                  ? "PayPal email"
+                  : item.method === "DISCORD_NITRO"
+                    ? "Discord username"
+                    : null;
+              return (
+                <div key={item.id} className="rounded-xl border border-slate-100 bg-slate-50/60 px-3 py-3">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="text-sm font-medium text-slate-800">
+                      {item.userName} ({item.userEmail})
+                    </p>
+                    <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-bold text-sky-700">
+                      Lv {item.userLevel}
+                    </span>
+                    {item.priorityQueue ? (
+                      <span className="rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-[10px] font-bold text-violet-700">
+                        VIP+ PRIORITY
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="text-xs text-slate-600">
+                    {item.methodLabel} - {item.faceValueLabel ? `${item.faceValueLabel} ${item.payoutCurrency}` : item.amountLabel} (
+                    {item.amountLabel} charged)
+                  </p>
+                  {payoutDestinationLabel ? (
+                    <p className="text-xs text-slate-700">
+                      {payoutDestinationLabel}: <span className="font-semibold">{payoutDestination ?? "Not provided"}</span>
+                    </p>
+                  ) : null}
+                  <p className="text-xs font-semibold text-slate-600">Status: {item.status}</p>
+                  {item.status === "SENT" ? (
+                    <p className="mt-1 text-xs font-semibold text-emerald-700">
+                      {item.deliveryCode ? `CODE: ${item.deliveryCode}` : "Code not required (PayPal or wallet transfer)."}
+                    </p>
+                  ) : null}
+                  {item.status === "CANCELED" ? (
+                    <p className="mt-1 text-xs font-semibold text-rose-700">
+                      Cancel reason: {item.cancelReason ?? "No reason provided."}
+                    </p>
+                  ) : null}
+                  <p className="text-xs text-slate-500">
+                    {item.processedAt
+                      ? `Processed ${timeAgo(item.processedAt, nowTimestamp)}`
+                      : `Requested ${timeAgo(item.createdAt, nowTimestamp)}`}
+                  </p>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </section>
+
       <section className="grid gap-6 xl:grid-cols-2">
         <article className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900">Offers Completed (Live)</h2>
@@ -773,7 +843,7 @@ export function AdminConsole() {
           <h2 className="text-lg font-semibold text-slate-900">Withdrawal Queue (Live)</h2>
           <div className="mt-4 space-y-3">
             {data.withdrawals.length === 0 ? (
-              <p className="text-sm text-slate-500">No withdrawal requests yet.</p>
+              <p className="text-sm text-slate-500">No active withdrawal requests.</p>
             ) : (
               data.withdrawals.map((item) => {
                 const payoutDestination =
@@ -816,11 +886,22 @@ export function AdminConsole() {
                   ) : null}
                   <p className="text-xs font-semibold text-slate-600">Status: {item.status}</p>
                   <p className="text-xs text-slate-500">{timeAgo(item.createdAt, nowTimestamp)}</p>
-                  {item.status === "SENT" ? (
-                    <p className="mt-1 text-xs font-semibold text-emerald-700">
-                      {item.deliveryCode ? `CODE: ${item.deliveryCode}` : "Code not required (PayPal or wallet transfer)."}
-                    </p>
-                  ) : null}
+
+                  <label className="mt-2 flex w-full flex-col gap-1 text-xs text-slate-600">
+                    <span className="font-semibold text-slate-700">Cancel reason</span>
+                    <input
+                      type="text"
+                      value={cancelReasonById[item.id] ?? ""}
+                      onChange={(event) =>
+                        setCancelReasonById((current) => ({
+                          ...current,
+                          [item.id]: event.target.value,
+                        }))
+                      }
+                      placeholder="Reason for canceling and refunding this withdrawal"
+                      className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                    />
+                  </label>
 
                   <div className="mt-2 flex flex-wrap gap-2">
                     {item.status === "PENDING" ? (
@@ -839,10 +920,14 @@ export function AdminConsole() {
                         </button>
                         <button
                           type="button"
-                          disabled={busyKey === `cancel-${item.id}`}
+                          disabled={busyKey === `cancel-${item.id}` || !(cancelReasonById[item.id] ?? "").trim()}
                           onClick={() =>
                             runAction(`cancel-${item.id}`, () =>
-                              postJson("/api/admin/withdrawals", { action: "cancel", redemptionId: item.id }),
+                              postJson("/api/admin/withdrawals", {
+                                action: "cancel",
+                                redemptionId: item.id,
+                                reason: (cancelReasonById[item.id] ?? "").trim(),
+                              }),
                             )
                           }
                           className="rounded-lg bg-rose-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
@@ -893,10 +978,14 @@ export function AdminConsole() {
                         </button>
                         <button
                           type="button"
-                          disabled={busyKey === `cancel-${item.id}`}
+                          disabled={busyKey === `cancel-${item.id}` || !(cancelReasonById[item.id] ?? "").trim()}
                           onClick={() =>
                             runAction(`cancel-${item.id}`, () =>
-                              postJson("/api/admin/withdrawals", { action: "cancel", redemptionId: item.id }),
+                              postJson("/api/admin/withdrawals", {
+                                action: "cancel",
+                                redemptionId: item.id,
+                                reason: (cancelReasonById[item.id] ?? "").trim(),
+                              }),
                             )
                           }
                           className="rounded-lg bg-rose-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"

@@ -147,6 +147,16 @@ export async function GET() {
     }
     return right.createdAt.getTime() - left.createdAt.getTime();
   });
+  const activeWithdrawals = prioritizedWithdrawals.filter(
+    (withdrawal) => withdrawal.status === "PENDING" || withdrawal.status === "APPROVED",
+  );
+  const withdrawalHistory = prioritizedWithdrawals
+    .filter((withdrawal) => withdrawal.status === "SENT" || withdrawal.status === "CANCELED")
+    .sort((left, right) => {
+      const leftTime = left.processedAt?.getTime() ?? left.createdAt.getTime();
+      const rightTime = right.processedAt?.getTime() ?? right.createdAt.getTime();
+      return rightTime - leftTime;
+    });
 
   function formatPayoutCurrency(cents: number | null, currency: PayoutCurrency): string | null {
     if (cents === null) {
@@ -183,7 +193,7 @@ export async function GET() {
       creditedAt: offer.creditedAt ? offer.creditedAt.toISOString() : null,
       claimedAt: offer.claimedAt.toISOString(),
     })),
-    withdrawals: prioritizedWithdrawals.map((withdrawal) => ({
+    withdrawals: activeWithdrawals.map((withdrawal) => ({
       id: withdrawal.id,
       userName: withdrawal.user.name,
       userEmail: withdrawal.user.email,
@@ -201,6 +211,31 @@ export async function GET() {
       payoutEmail: withdrawal.payoutEmail,
       discordUsername: withdrawal.discordUsername,
       deliveryCode: withdrawal.note,
+      cancelReason: withdrawal.customDeclineReason,
+      history: false,
+      createdAt: withdrawal.createdAt.toISOString(),
+      processedAt: withdrawal.processedAt ? withdrawal.processedAt.toISOString() : null,
+    })),
+    withdrawalHistory: withdrawalHistory.map((withdrawal) => ({
+      id: withdrawal.id,
+      userName: withdrawal.user.name,
+      userEmail: withdrawal.user.email,
+      userLevel: getLevelFromLifetimeEarnings(withdrawal.user.lifetimeEarnedCents),
+      priorityQueue: getLevelFromLifetimeEarnings(withdrawal.user.lifetimeEarnedCents) >= VIP_PLUS_UNLOCK_LEVEL,
+      method: withdrawal.method,
+      methodLabel: getRedemptionLabel(withdrawal.method),
+      amountCents: withdrawal.amountCents,
+      amountLabel: formatUSD(withdrawal.amountCents),
+      payoutRegion: withdrawal.payoutRegion,
+      payoutCurrency: withdrawal.payoutCurrency,
+      faceValueCents: withdrawal.faceValueCents,
+      faceValueLabel: formatPayoutCurrency(withdrawal.faceValueCents, withdrawal.payoutCurrency),
+      status: withdrawal.status,
+      payoutEmail: withdrawal.payoutEmail,
+      discordUsername: withdrawal.discordUsername,
+      deliveryCode: withdrawal.note,
+      cancelReason: withdrawal.customDeclineReason,
+      history: true,
       createdAt: withdrawal.createdAt.toISOString(),
       processedAt: withdrawal.processedAt ? withdrawal.processedAt.toISOString() : null,
     })),

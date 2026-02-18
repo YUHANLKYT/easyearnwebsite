@@ -24,6 +24,7 @@ export async function POST(request: Request) {
         action?: string;
         redemptionId?: string;
         code?: string;
+        reason?: string;
       }
     | null;
 
@@ -92,12 +93,21 @@ export async function POST(request: Request) {
           throw new Error("INVALID_STATUS_TRANSITION");
         }
 
+        const reason = payload.reason?.trim() ?? "";
+        if (reason.length < 3) {
+          throw new Error("CANCEL_REASON_REQUIRED");
+        }
+        if (reason.length > 200) {
+          throw new Error("CANCEL_REASON_TOO_LONG");
+        }
+
         await tx.redemption.update({
           where: { id: redemption.id },
           data: {
             status: "CANCELED",
             processedById: admin.id,
             processedAt: new Date(),
+            customDeclineReason: reason,
           },
         });
 
@@ -117,7 +127,7 @@ export async function POST(request: Request) {
             userId: redemption.userId,
             type: "WITHDRAWAL_REFUND",
             amountCents: redemption.amountCents,
-            description: `Withdrawal canceled and refunded`,
+            description: `Withdrawal canceled and refunded: ${reason}`,
           },
         });
         return;
@@ -234,6 +244,14 @@ export async function POST(request: Request) {
 
     if (error instanceof Error && error.message === "CODE_TOO_LONG") {
       return NextResponse.json({ error: "CODE is too long." }, { status: 400 });
+    }
+
+    if (error instanceof Error && error.message === "CANCEL_REASON_REQUIRED") {
+      return NextResponse.json({ error: "Enter a cancel reason (minimum 3 characters)." }, { status: 400 });
+    }
+
+    if (error instanceof Error && error.message === "CANCEL_REASON_TOO_LONG") {
+      return NextResponse.json({ error: "Cancel reason is too long." }, { status: 400 });
     }
 
     if (error instanceof Error && error.message === "CUSTOM_WITHDRAWAL_ROUTE") {
