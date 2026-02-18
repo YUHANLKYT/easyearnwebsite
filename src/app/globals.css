@@ -1,12 +1,45 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: dark;
+  --background: #060d1b;
+  --foreground: #e6edf9;
+  --surface-card: rgba(12, 20, 36, 0.78);
+  --surface-card-strong: rgba(19, 31, 53, 0.9);
+  --surface-subtle: rgba(13, 23, 40, 0.74);
+  --border-soft: rgba(148, 163, 184, 0.26);
+  --shadow-soft: 0 20px 44px -28px rgba(2, 6, 23, 0.88), 0 10px 24px -20px rgba(2, 132, 199, 0.42);
+  --bg-accent-warm: rgba(249, 115, 22, 0.2);
+  --bg-accent-cool: rgba(56, 189, 248, 0.22);
+  --bg-accent-base: rgba(15, 23, 42, 0.62);
+  --bg-top: #0b1226;
+  --bg-mid: #090f20;
+  --bg-bottom: #070d1b;
+  --overlay-top: rgba(255, 255, 255, 0.12);
+  --overlay-bottom: rgba(2, 6, 23, 0.42);
+  --grid-line: rgba(148, 163, 184, 0.12);
+  --grid-mask: rgba(0, 0, 0, 0.62);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
   --background: #edf2ff;
   --foreground: #0f172a;
   --surface-card: rgba(255, 255, 255, 0.84);
   --surface-card-strong: rgba(255, 255, 255, 0.92);
+  --surface-subtle: rgba(255, 255, 255, 0.8);
   --border-soft: rgba(15, 23, 42, 0.1);
   --shadow-soft: 0 18px 40px -26px rgba(15, 23, 42, 0.55), 0 8px 24px -18px rgba(37, 99, 235, 0.32);
+  --bg-accent-warm: rgba(249, 115, 22, 0.22);
+  --bg-accent-cool: rgba(59, 130, 246, 0.23);
+  --bg-accent-base: rgba(15, 23, 42, 0.12);
+  --bg-top: #eef3ff;
+  --bg-mid: #e8eefc;
+  --bg-bottom: #edf2ff;
+  --overlay-top: rgba(255, 255, 255, 0.75);
+  --overlay-bottom: rgba(2, 6, 23, 0.2);
+  --grid-line: rgba(148, 163, 184, 0.08);
+  --grid-mask: rgba(0, 0, 0, 0.28);
 }
 
 @theme inline {
@@ -28,12 +61,13 @@ body {
 body {
   position: relative;
   background:
-    radial-gradient(circle at 8% -4%, rgba(249, 115, 22, 0.22), transparent 36%),
-    radial-gradient(circle at 92% 4%, rgba(59, 130, 246, 0.23), transparent 38%),
-    radial-gradient(circle at 48% 120%, rgba(15, 23, 42, 0.12), transparent 55%),
-    linear-gradient(180deg, #eef3ff 0%, #e8eefc 50%, #edf2ff 100%);
+    radial-gradient(circle at 8% -4%, var(--bg-accent-warm), transparent 36%),
+    radial-gradient(circle at 92% 4%, var(--bg-accent-cool), transparent 38%),
+    radial-gradient(circle at 48% 120%, var(--bg-accent-base), transparent 55%),
+    linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bottom) 100%);
   color: var(--foreground);
   font-family: var(--font-body), sans-serif;
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 body::before {
@@ -42,8 +76,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(100% 60% at 50% -18%, rgba(255, 255, 255, 0.75), transparent 55%),
-    radial-gradient(110% 65% at 50% 122%, rgba(2, 6, 23, 0.2), transparent 58%);
+    radial-gradient(100% 60% at 50% -18%, var(--overlay-top), transparent 55%),
+    radial-gradient(110% 65% at 50% 122%, var(--overlay-bottom), transparent 58%);
   opacity: 0.45;
 }
 
@@ -53,10 +87,10 @@ body::after {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 36px 36px;
-  mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.28), transparent 78%);
+  mask-image: radial-gradient(circle at 50% 50%, var(--grid-mask), transparent 78%);
   opacity: 0.24;
 }
 
@@ -127,7 +161,66 @@ main article[class*="rounded-3xl"][class*="border"] {
 
 main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   border-color: var(--border-soft);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--surface-subtle);
+}
+
+:root[data-theme="dark"] [class*="text-slate-900"],
+:root[data-theme="dark"] [class*="text-slate-800"] {
+  color: #f8fafc;
+}
+
+:root[data-theme="dark"] [class*="text-slate-700"],
+:root[data-theme="dark"] [class*="text-slate-600"] {
+  color: #cbd5e1;
+}
+
+:root[data-theme="dark"] [class*="text-slate-500"] {
+  color: #94a3b8;
+}
+
+:root[data-theme="dark"] [class*="bg-white"],
+:root[data-theme="dark"] [class*="bg-slate-50"],
+:root[data-theme="dark"] [class*="bg-slate-100"] {
+  background-color: rgba(13, 23, 40, 0.78);
+}
+
+:root[data-theme="dark"] [class*="border-slate-"],
+:root[data-theme="dark"] [class*="border-white/"] {
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+:root[data-theme="dark"] header[class*="bg-white"] {
+  background-color: rgba(8, 14, 26, 0.82);
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+:root[data-theme="dark"] footer[class*="bg-white"] {
+  background-color: rgba(8, 14, 26, 0.82);
+  border-color: rgba(148, 163, 184, 0.24);
+}
+
+:root[data-theme="dark"] input[class*="bg-white"],
+:root[data-theme="dark"] textarea[class*="bg-white"],
+:root[data-theme="dark"] select[class*="bg-white"] {
+  background-color: rgba(7, 13, 26, 0.82);
+  border-color: rgba(148, 163, 184, 0.28);
+  color: #e2e8f0;
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  background-color: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #f8fafc;
+}
+
+:root[data-theme="light"] .theme-toggle {
+  background-color: rgba(255, 255, 255, 0.92);
+  border-color: rgba(148, 163, 184, 0.5);
+  color: #0f172a;
+}
+
+:root[data-theme="light"] .theme-toggle:hover {
+  background-color: rgba(248, 250, 252, 1);
 }
 
 @supports (backdrop-filter: blur(2px)) {

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
+import Script from "next/script";
 
 import { SiteFooter } from "@/components/site-footer";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getAppUrl } from "@/lib/app-url";
 import { APP_NAME } from "@/lib/constants";
 
@@ -19,6 +21,16 @@ const bodyFont = Manrope({
 
 const appUrl = getAppUrl();
 const socialDescription = "Trusted rewards platform with real offerwall payouts.";
+const themeInitScript = `(() => {
+  try {
+    const key = "easyearn-theme";
+    const stored = localStorage.getItem(key);
+    const theme = stored === "light" || stored === "dark" ? stored : "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+  } catch {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
@@ -63,12 +75,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${headingFont.variable} ${bodyFont.variable} antialiased`}>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {themeInitScript}
+        </Script>
         <div className="flex min-h-screen flex-col">
           <div className="flex-1">{children}</div>
           <SiteFooter />
         </div>
+        <ThemeToggle />
       </body>
     </html>
   );
