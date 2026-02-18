@@ -35,7 +35,7 @@ export default async function AdGemPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <div className="rounded-2xl border border-violet-200/70 bg-gradient-to-r from-violet-50 via-purple-50 to-fuchsia-50 px-4 py-4 sm:px-6">
+        <div className="rounded-2xl border border-violet-300/45 bg-[linear-gradient(135deg,rgba(59,20,120,0.92),rgba(46,16,101,0.95))] px-4 py-4 sm:px-6">
           <Image
             src="/adgem-logo.png"
             alt="AdGem"

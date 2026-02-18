@@ -49,6 +49,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       missingEnvCopy: "Missing env vars: CPX_APP_ID and CPX_APP_SECRET.",
       hideTitleText: false,
       ctaLabel: "Open CPX Research",
+      showAccentOrb: true,
+      logoPanelClass:
+        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
+      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
     },
     {
       key: "bitlabs",
@@ -66,6 +70,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
       hideTitleText: false,
       ctaLabel: "Open BitLabs",
+      showAccentOrb: true,
+      logoPanelClass:
+        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
+      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
     },
     {
       key: "adgem",
@@ -83,6 +91,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       missingEnvCopy: "Missing env var: ADGEM_APP_ID.",
       hideTitleText: false,
       ctaLabel: "Open AdGem",
+      showAccentOrb: false,
+      logoPanelClass:
+        "relative block rounded-2xl border border-violet-300/45 bg-[linear-gradient(135deg,rgba(59,20,120,0.92),rgba(46,16,101,0.95))] px-4 py-4 transition hover:border-violet-200/60",
+      logoPanelDisabledClass:
+        "relative rounded-2xl border border-violet-300/35 bg-[linear-gradient(135deg,rgba(59,20,120,0.85),rgba(46,16,101,0.88))] px-4 py-4",
     },
     {
       key: "theoremreach",
@@ -100,6 +113,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       missingEnvCopy: "Missing env var: THEOREMREACH_APP_TOKEN (or THEOREMREACH_APP_ID).",
       hideTitleText: false,
       ctaLabel: "Open TheoremReach",
+      showAccentOrb: true,
+      logoPanelClass:
+        "relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white",
+      logoPanelDisabledClass: "relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4",
     },
   ] as const;
 
@@ -128,11 +145,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
           {offerwalls.map((offerwall) => (
             <article key={offerwall.key} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
               <div className={`relative bg-gradient-to-r ${offerwall.gradient} px-4 py-4`}>
-                <div className="absolute -top-8 -right-8 h-24 w-24 rounded-full bg-white/20" />
+                {offerwall.showAccentOrb ? <div className="absolute -top-8 -right-8 h-24 w-24 rounded-full bg-white/20" /> : null}
                 {offerwall.available ? (
                   <Link
                     href={offerwall.href}
-                    className="relative block rounded-2xl border border-white/50 bg-white/90 px-4 py-4 transition hover:bg-white"
+                    className={offerwall.logoPanelClass}
                   >
                     <Image
                       src={offerwall.logoSrc}
@@ -144,7 +161,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                     />
                   </Link>
                 ) : (
-                  <div className="relative rounded-2xl border border-white/50 bg-white/80 px-4 py-4">
+                  <div className={offerwall.logoPanelDisabledClass}>
                     <Image
                       src={offerwall.logoSrc}
                       alt={offerwall.logoAlt}
