@@ -42,6 +42,23 @@ type WithdrawalItem = {
   processedAt: string | null;
 };
 
+type CustomWithdrawalItem = {
+  id: string;
+  userName: string;
+  userEmail: string;
+  userLevel: number;
+  priorityQueue: boolean;
+  amountCents: number;
+  amountLabel: string;
+  status: "PENDING" | "APPROVED" | "SENT" | "CANCELED";
+  customName: string | null;
+  customDestination: string | null;
+  customDeclineReason: string | null;
+  customFulfillment: string | null;
+  createdAt: string;
+  processedAt: string | null;
+};
+
 type ComplaintItem = {
   id: string;
   userName: string;
@@ -119,12 +136,14 @@ type UserLookupPayload = {
 type OverviewResponse = {
   metrics: {
     pendingWithdrawals: number;
+    pendingCustomWithdrawals: number;
     openComplaints: number;
     mutedUsers: number;
     terminatedUsers: number;
   };
   offers: OfferItem[];
   withdrawals: WithdrawalItem[];
+  customWithdrawals: CustomWithdrawalItem[];
   complaints: ComplaintItem[];
   users: UserItem[];
 };
@@ -177,6 +196,8 @@ export function AdminConsole() {
   const [loading, setLoading] = useState(true);
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const [codeByRedemptionId, setCodeByRedemptionId] = useState<Record<string, string>>({});
+  const [customReasonById, setCustomReasonById] = useState<Record<string, string>>({});
+  const [customFulfillmentById, setCustomFulfillmentById] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const [nowTimestamp, setNowTimestamp] = useState(() => Date.now());
   const [lookupQuery, setLookupQuery] = useState("");
@@ -323,10 +344,14 @@ export function AdminConsole() {
         <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div>
       ) : null}
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         <article className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
           <p className="text-xs text-slate-500">Pending withdrawals</p>
           <p className="text-2xl font-semibold text-slate-900">{data.metrics.pendingWithdrawals}</p>
+        </article>
+        <article className="rounded-2xl border border-indigo-100 bg-indigo-50/55 p-4 shadow-sm">
+          <p className="text-xs text-indigo-700">Pending custom requests</p>
+          <p className="text-2xl font-semibold text-indigo-900">{data.metrics.pendingCustomWithdrawals}</p>
         </article>
         <article className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
           <p className="text-xs text-slate-500">Open complaints</p>
@@ -591,6 +616,123 @@ export function AdminConsole() {
         ) : lookupQuery.trim() ? (
           <p className="mt-4 text-sm text-slate-500">No matching user details loaded yet.</p>
         ) : null}
+      </section>
+
+      <section className="rounded-3xl border border-indigo-100 bg-indigo-50/40 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-slate-900">Custom Withdrawal Requests</h2>
+        <p className="mt-1 text-xs text-slate-600">
+          Custom requests are reviewed separately. Approve with fulfillment details or decline with a reason.
+        </p>
+        <div className="mt-4 space-y-3">
+          {data.customWithdrawals.length === 0 ? (
+            <p className="text-sm text-slate-500">No custom withdrawal requests yet.</p>
+          ) : (
+            data.customWithdrawals.map((item) => (
+              <div key={item.id} className="rounded-xl border border-indigo-100 bg-white/90 px-3 py-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-sm font-medium text-slate-800">
+                    {item.userName} ({item.userEmail})
+                  </p>
+                  <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-bold text-sky-700">
+                    Lv {item.userLevel}
+                  </span>
+                  {item.priorityQueue ? (
+                    <span className="rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-[10px] font-bold text-violet-700">
+                      VIP+ PRIORITY
+                    </span>
+                  ) : null}
+                </div>
+                <p className="text-xs font-semibold text-slate-800">
+                  Request: {item.customName ?? "Custom withdrawal"} ({item.amountLabel})
+                </p>
+                {item.customDestination ? (
+                  <p className="text-xs text-slate-600">Wallet/Email: {item.customDestination}</p>
+                ) : null}
+                <p className="text-xs font-semibold text-slate-600">Status: {item.status}</p>
+                <p className="text-xs text-slate-500">{timeAgo(item.createdAt, nowTimestamp)}</p>
+                {item.status === "SENT" ? (
+                  <p className="mt-1 text-xs font-semibold text-emerald-700">
+                    Fulfillment: {item.customFulfillment ?? "Approved by admin"}
+                  </p>
+                ) : null}
+                {item.status === "CANCELED" ? (
+                  <p className="mt-1 text-xs font-semibold text-rose-700">
+                    Decline reason: {item.customDeclineReason ?? "No reason provided."}
+                  </p>
+                ) : null}
+
+                {item.status === "PENDING" ? (
+                  <div className="mt-2 grid gap-2 md:grid-cols-2">
+                    <label className="flex flex-col gap-1 text-xs text-slate-600">
+                      <span className="font-semibold text-slate-700">Fulfillment details (for approve)</span>
+                      <input
+                        type="text"
+                        value={customFulfillmentById[item.id] ?? ""}
+                        onChange={(event) =>
+                          setCustomFulfillmentById((current) => ({
+                            ...current,
+                            [item.id]: event.target.value,
+                          }))
+                        }
+                        placeholder="What you provided to user"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                      />
+                    </label>
+                    <label className="flex flex-col gap-1 text-xs text-slate-600">
+                      <span className="font-semibold text-slate-700">Decline reason</span>
+                      <input
+                        type="text"
+                        value={customReasonById[item.id] ?? ""}
+                        onChange={(event) =>
+                          setCustomReasonById((current) => ({
+                            ...current,
+                            [item.id]: event.target.value,
+                          }))
+                        }
+                        placeholder="Reason for declining request"
+                        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                      />
+                    </label>
+                    <div className="flex flex-wrap gap-2 md:col-span-2">
+                      <button
+                        type="button"
+                        disabled={busyKey === `custom-approve-${item.id}` || !(customFulfillmentById[item.id] ?? "").trim()}
+                        onClick={() =>
+                          runAction(`custom-approve-${item.id}`, () =>
+                            postJson("/api/admin/withdrawals/custom", {
+                              action: "approve",
+                              redemptionId: item.id,
+                              fulfillment: (customFulfillmentById[item.id] ?? "").trim(),
+                            }),
+                          )
+                        }
+                        className="rounded-lg bg-emerald-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                      >
+                        Accept + Provide
+                      </button>
+                      <button
+                        type="button"
+                        disabled={busyKey === `custom-decline-${item.id}` || !(customReasonById[item.id] ?? "").trim()}
+                        onClick={() =>
+                          runAction(`custom-decline-${item.id}`, () =>
+                            postJson("/api/admin/withdrawals/custom", {
+                              action: "decline",
+                              redemptionId: item.id,
+                              reason: (customReasonById[item.id] ?? "").trim(),
+                            }),
+                          )
+                        }
+                        className="rounded-lg bg-rose-600 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                      >
+                        Decline + Reason
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ))
+          )}
+        </div>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-2">

@@ -5,6 +5,7 @@ import type { IconType } from "react-icons";
 import {
   FaAmazon,
   FaApple,
+  FaGift,
   FaGooglePlay,
   FaPaypal,
   FaPlaystation,
@@ -15,6 +16,7 @@ import {
 import {
   SiDiscord,
   SiDoordash,
+  SiEpicgames,
   SiLeagueoflegends,
   SiNetflix,
   SiNintendo,
@@ -96,6 +98,8 @@ const visualByMethod: Record<
   },
   DISCORD_NITRO: { icon: SiDiscord, gradient: "from-indigo-500 to-blue-600", orb: "bg-indigo-300/55" },
   ROBLOX_GIFT_CARD: { icon: SiRoblox, gradient: "from-slate-600 to-slate-800", orb: "bg-slate-300/45" },
+  FORTNITE_GIFT_CARD: { icon: SiEpicgames, gradient: "from-violet-600 to-fuchsia-600", orb: "bg-fuchsia-300/50" },
+  CUSTOM_WITHDRAWAL: { icon: FaGift, gradient: "from-indigo-600 to-violet-700", orb: "bg-violet-300/45" },
   VISA_GIFT_CARD: { icon: FaPaypal, gradient: "from-blue-600 to-sky-500", orb: "bg-sky-300/50" },
 };
 
@@ -209,6 +213,75 @@ export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridP
         {options.map((option) => {
           const visual = visualByMethod[option.method];
           const Icon = visual.icon;
+
+          if (option.method === "CUSTOM_WITHDRAWAL") {
+            return (
+              <article key={option.method} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
+                <div className={`relative bg-gradient-to-r ${visual.gradient} px-4 py-4 text-white`}>
+                  <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${visual.orb}`} />
+                  <div className="relative flex items-center gap-3">
+                    <span className="rounded-xl bg-white/15 p-2">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <h2 className="text-lg font-semibold">{option.label}</h2>
+                      <p className="text-xs text-white/85">{option.description}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 p-4">
+                  <p className="text-xs text-slate-500">USD only. Enter the exact item and price you want.</p>
+                  <form action="/api/redeem/custom" method="post" className="space-y-2">
+                    <input type="hidden" name="redirectTo" value="/store" />
+                    <label className="block text-xs text-slate-600">
+                      <span className="mb-1 block font-semibold text-slate-700">Name</span>
+                      <input
+                        name="name"
+                        type="text"
+                        required
+                        minLength={2}
+                        maxLength={120}
+                        placeholder="Example: PSN 1 Month or specific payout item"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                      />
+                    </label>
+                    <label className="block text-xs text-slate-600">
+                      <span className="mb-1 block font-semibold text-slate-700">Price in USD</span>
+                      <input
+                        name="amount"
+                        type="number"
+                        required
+                        min="1"
+                        max="1000"
+                        step="0.01"
+                        placeholder="15.00"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                      />
+                    </label>
+                    <label className="block text-xs text-slate-600">
+                      <span className="mb-1 block font-semibold text-slate-700">Wallet / Email (optional)</span>
+                      <input
+                        name="destination"
+                        type="text"
+                        maxLength={160}
+                        placeholder="Optional payout wallet or email"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      disabled={!canRedeem}
+                      className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {canRedeem ? "Submit Custom Withdrawal" : "Unavailable"}
+                    </button>
+                  </form>
+                </div>
+              </article>
+            );
+          }
+
           const supportedRegions = option.supportedRegions ?? REGIONS.map((region) => region.code);
           const optionRegion =
             supportedRegions.includes(selectedRegion.code)

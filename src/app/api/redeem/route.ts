@@ -78,6 +78,14 @@ export async function POST(request: Request) {
     );
   }
 
+  if (option.method === "CUSTOM_WITHDRAWAL") {
+    redirect(
+      buildRedirect(redirectTo, {
+        error: "Use the Custom Withdrawal form for this payout type.",
+      }),
+    );
+  }
+
   const payoutEmail = parsed.data.payoutEmail?.trim().toLowerCase() ?? "";
   const discordUsername = parsed.data.discordUsername?.trim() ?? "";
   if (option.method === "PAYPAL") {

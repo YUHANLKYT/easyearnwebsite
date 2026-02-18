@@ -102,6 +102,10 @@ model Redemption {
   faceValueCents      Int?
   payoutEmail         String?
   discordUsername     String?
+  customName          String?
+  customDestination   String?
+  customDeclineReason String?
+  customFulfillment   String?
   amountCents         Int
   status              RedemptionStatus @default(PENDING)
   note                String?
@@ -255,6 +259,8 @@ enum RedemptionMethod {
   DISCORD_NITRO
   ROBLOX_GIFT_CARD
   VISA_GIFT_CARD
+  FORTNITE_GIFT_CARD
+  CUSTOM_WITHDRAWAL
 }
 
 enum PayoutRegion {

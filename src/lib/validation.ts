@@ -39,11 +39,19 @@ export const redeemSchema = z.object({
     "DISCORD_NITRO",
     "ROBLOX_GIFT_CARD",
     "VISA_GIFT_CARD",
+    "FORTNITE_GIFT_CARD",
   ]),
   region: z.enum(["US", "AUS", "UK"]),
   amount: z.string().trim(),
   payoutEmail: z.string().trim().toLowerCase().max(160).optional(),
   discordUsername: z.string().trim().max(64).optional(),
+  redirectTo: z.string().trim().optional(),
+});
+
+export const customRedeemSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  amount: z.string().trim(),
+  destination: z.string().trim().max(160).optional(),
   redirectTo: z.string().trim().optional(),
 });
 

@@ -1,7 +1,7 @@
 import { FlashMessage } from "@/components/flash-message";
 import { StoreRedemptionGrid } from "@/components/store-redemption-grid";
 import { requireUser } from "@/lib/auth";
-import { REDEMPTION_OPTIONS, SUPPORT_EMAIL, type PayoutCurrency, getRedemptionLabel } from "@/lib/constants";
+import { REDEMPTION_OPTIONS, type PayoutCurrency, getRedemptionLabel } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
 
@@ -83,18 +83,9 @@ export default async function StorePage({ searchParams }: { searchParams: Search
 
       <StoreRedemptionGrid options={storeOptions} canRedeem={user.status === "ACTIVE"} />
 
-      <section className="rounded-2xl border border-orange-100 bg-orange-50/70 px-4 py-3 text-sm text-slate-700">
-        {SUPPORT_EMAIL ? (
-          <>
-            Want a custom withdrawal request? Contact support at{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-sky-700 hover:text-sky-800">
-              {SUPPORT_EMAIL}
-            </a>
-            .
-          </>
-        ) : (
-          <>Want a custom withdrawal request? Send a complaint from your dashboard and admin will review it.</>
-        )}
+      <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 px-4 py-3 text-sm text-slate-700">
+        Custom Withdrawal is now built into the store grid. Add the item name, USD price, and optional wallet/email,
+        then admin can approve with fulfillment details or decline with a reason.
       </section>
 
       <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
@@ -137,7 +128,29 @@ export default async function StorePage({ searchParams }: { searchParams: Search
                   </div>
                 </summary>
                 <div className="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-700">
-                  {redemption.status !== "SENT" ? (
+                  {redemption.method === "CUSTOM_WITHDRAWAL" ? (
+                    <>
+                      <p className="font-semibold text-slate-800">
+                        Request: {redemption.customName ?? "Custom item"} ({formatUSD(redemption.amountCents)})
+                      </p>
+                      {redemption.customDestination ? (
+                        <p className="mt-1 text-slate-600">Wallet/Email: {redemption.customDestination}</p>
+                      ) : null}
+                      {redemption.status === "PENDING" ? (
+                        <p className="mt-1 text-slate-600">Waiting for admin review.</p>
+                      ) : null}
+                      {redemption.status === "SENT" ? (
+                        <p className="mt-1 font-semibold text-emerald-700">
+                          Fulfillment: {redemption.customFulfillment ?? "Approved by admin"}
+                        </p>
+                      ) : null}
+                      {redemption.status === "CANCELED" ? (
+                        <p className="mt-1 font-semibold text-rose-700">
+                          Declined: {redemption.customDeclineReason ?? "No reason provided."}
+                        </p>
+                      ) : null}
+                    </>
+                  ) : redemption.status !== "SENT" ? (
                     <p>
                       This withdrawal is currently <span className="font-semibold">{redemption.status}</span>. CODE will
                       appear here after admin marks it as sent.

@@ -67,6 +67,10 @@ export async function POST(request: Request) {
         throw new Error("REDEMPTION_NOT_FOUND");
       }
 
+      if (redemption.method === "CUSTOM_WITHDRAWAL") {
+        throw new Error("CUSTOM_WITHDRAWAL_ROUTE");
+      }
+
       if (payload.action === "approve") {
         if (redemption.status !== "PENDING") {
           throw new Error("INVALID_STATUS_TRANSITION");
@@ -230,6 +234,13 @@ export async function POST(request: Request) {
 
     if (error instanceof Error && error.message === "CODE_TOO_LONG") {
       return NextResponse.json({ error: "CODE is too long." }, { status: 400 });
+    }
+
+    if (error instanceof Error && error.message === "CUSTOM_WITHDRAWAL_ROUTE") {
+      return NextResponse.json(
+        { error: "Use the custom withdrawal admin action route for this request." },
+        { status: 400 },
+      );
     }
 
     return NextResponse.json({ error: "Could not process withdrawal action." }, { status: 500 });

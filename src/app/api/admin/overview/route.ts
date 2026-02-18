@@ -14,7 +14,18 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [offers, withdrawals, complaints, users, pendingWithdrawals, openComplaints, mutedUsers, terminatedUsers] =
+  const [
+    offers,
+    withdrawals,
+    customWithdrawals,
+    complaints,
+    users,
+    pendingWithdrawals,
+    pendingCustomWithdrawals,
+    openComplaints,
+    mutedUsers,
+    terminatedUsers,
+  ] =
     await Promise.all([
       prisma.taskClaim.findMany({
         orderBy: {
@@ -31,6 +42,29 @@ export async function GET() {
         take: 30,
       }),
       prisma.redemption.findMany({
+        where: {
+          method: {
+            not: "CUSTOM_WITHDRAWAL",
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: {
+          user: {
+            select: {
+              name: true,
+              email: true,
+              lifetimeEarnedCents: true,
+            },
+          },
+        },
+        take: 40,
+      }),
+      prisma.redemption.findMany({
+        where: {
+          method: "CUSTOM_WITHDRAWAL",
+        },
         orderBy: {
           createdAt: "desc",
         },
@@ -77,6 +111,15 @@ export async function GET() {
       prisma.redemption.count({
         where: {
           status: "PENDING",
+          method: {
+            not: "CUSTOM_WITHDRAWAL",
+          },
+        },
+      }),
+      prisma.redemption.count({
+        where: {
+          status: "PENDING",
+          method: "CUSTOM_WITHDRAWAL",
         },
       }),
       prisma.complaint.count({
@@ -121,6 +164,7 @@ export async function GET() {
   return NextResponse.json({
     metrics: {
       pendingWithdrawals,
+      pendingCustomWithdrawals,
       openComplaints,
       mutedUsers,
       terminatedUsers,
@@ -157,6 +201,22 @@ export async function GET() {
       payoutEmail: withdrawal.payoutEmail,
       discordUsername: withdrawal.discordUsername,
       deliveryCode: withdrawal.note,
+      createdAt: withdrawal.createdAt.toISOString(),
+      processedAt: withdrawal.processedAt ? withdrawal.processedAt.toISOString() : null,
+    })),
+    customWithdrawals: customWithdrawals.map((withdrawal) => ({
+      id: withdrawal.id,
+      userName: withdrawal.user.name,
+      userEmail: withdrawal.user.email,
+      userLevel: getLevelFromLifetimeEarnings(withdrawal.user.lifetimeEarnedCents),
+      priorityQueue: getLevelFromLifetimeEarnings(withdrawal.user.lifetimeEarnedCents) >= VIP_PLUS_UNLOCK_LEVEL,
+      amountCents: withdrawal.amountCents,
+      amountLabel: formatUSD(withdrawal.amountCents),
+      status: withdrawal.status,
+      customName: withdrawal.customName,
+      customDestination: withdrawal.customDestination,
+      customDeclineReason: withdrawal.customDeclineReason,
+      customFulfillment: withdrawal.customFulfillment,
       createdAt: withdrawal.createdAt.toISOString(),
       processedAt: withdrawal.processedAt ? withdrawal.processedAt.toISOString() : null,
     })),

@@ -62,7 +62,9 @@ export type RedemptionMethod =
   | "LEAGUE_OF_LEGENDS_GIFT_CARD"
   | "DISCORD_NITRO"
   | "ROBLOX_GIFT_CARD"
-  | "VISA_GIFT_CARD";
+  | "VISA_GIFT_CARD"
+  | "FORTNITE_GIFT_CARD"
+  | "CUSTOM_WITHDRAWAL";
 
 export type RedemptionOption = {
   method: RedemptionMethod;
@@ -216,6 +218,22 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
     description: "Redeem for Roblox credits.",
     amountChoicesCents: [1000, 2500, 5000, 10000],
   },
+  {
+    method: "FORTNITE_GIFT_CARD",
+    label: "Fortnite Gift Card",
+    minAmountCents: 1500,
+    description: "Redeem for Fortnite V-Bucks gift cards (USD only).",
+    amountChoicesCents: [1500, 3000, 5000, 10000],
+    supportedRegions: ["US"],
+  },
+  {
+    method: "CUSTOM_WITHDRAWAL",
+    label: "Custom Withdrawal",
+    minAmountCents: 100,
+    description: "Request a custom payout item with manual admin review.",
+    amountChoicesCents: [100],
+    supportedRegions: ["US"],
+  },
   // Legacy option kept for compatibility with older redemptions.
   {
     method: "VISA_GIFT_CARD",
@@ -226,9 +244,9 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   },
 ];
 
-export const GIFT_CARD_METHODS: RedemptionMethod[] = REDEMPTION_OPTIONS.filter((option) => option.method !== "PAYPAL").map(
-  (option) => option.method,
-);
+export const GIFT_CARD_METHODS: RedemptionMethod[] = REDEMPTION_OPTIONS.filter(
+  (option) => option.method !== "PAYPAL" && option.method !== "CUSTOM_WITHDRAWAL",
+).map((option) => option.method);
 
 export const PAYOUT_REGION_TO_CURRENCY: Record<PayoutRegion, PayoutCurrency> = {
   US: "USD",
