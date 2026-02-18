@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { IconType } from "react-icons";
 import { FaAmazon, FaApple, FaCcVisa, FaGooglePlay, FaPaypal, FaPlaystation, FaSteam, FaXbox } from "react-icons/fa";
-import { SiDiscord, SiEpicgames } from "react-icons/si";
+import { SiDiscord, SiRoblox } from "react-icons/si";
 
 type HomeHeroRotatorProps = {
   isSignedIn: boolean;
@@ -139,16 +139,16 @@ const heroSpotlights: HeroSpotlight[] = [
     lineTone: "soft",
   },
   {
-    id: "fortnite",
-    kicker: "Fortnite Gift Cards",
-    title: "Fortnite cards ready at $15, $30, $50, and $100.",
-    subtitle: "Play-focused redemptions directly from your USD balance.",
-    body: "Grind offers, level up, and redeem Fortnite gift cards with fixed USD amounts in the Store.",
+    id: "roblox",
+    kicker: "Roblox Gift Cards",
+    title: "Cash out Roblox gift cards directly from your USD balance.",
+    subtitle: "Fast path from offer rewards to Robux-ready credit.",
+    body: "Complete offers, stack your wallet, then redeem Roblox gift cards straight from the Store tab.",
     backgroundImage:
       "linear-gradient(126deg, rgba(217,70,239,0.28) 0%, rgba(139,92,246,0.3) 45%, rgba(59,130,246,0.22) 100%)",
     cardTone: "border-fuchsia-200 bg-fuchsia-50/70 text-fuchsia-800",
     accentOrb: "bg-fuchsia-300/45",
-    mascot: SiEpicgames,
+    mascot: SiRoblox,
     mascotTone: "text-fuchsia-500/30",
     lineTone: "soft",
   },
