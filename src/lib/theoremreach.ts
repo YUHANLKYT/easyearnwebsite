@@ -17,7 +17,7 @@ export function buildTheoremReachOfferwallUrl(input: BuildTheoremReachOfferwallU
     return null;
   }
 
-  const tx = input.transactionId?.trim() || `${userId}-${randomUUID()}`;
+  const tx = input.transactionId?.trim() || `${userId}::${randomUUID()}`;
 
   const url = new URL("https://theoremreach.com/respondent_entry/direct");
   url.searchParams.set("api_key", apiKey);

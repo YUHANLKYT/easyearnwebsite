@@ -21,6 +21,8 @@ type ParsedPostback = {
   apiKey: string | null;
 };
 
+const DEFAULT_THEOREMREACH_SUCCESS_FALLBACK_CENTS = 10;
+
 function getParam(searchParams: URLSearchParams, keys: string[]): string | null {
   const entries = Array.from(searchParams.entries());
 
@@ -36,6 +38,34 @@ function getParam(searchParams: URLSearchParams, keys: string[]): string | null 
       return matched.trim();
     }
   }
+  return null;
+}
+
+function inferUserIdFromTransactionId(transactionId: string | null): string | null {
+  if (!transactionId) {
+    return null;
+  }
+
+  const compact = transactionId.trim();
+  if (compact.length < 8) {
+    return null;
+  }
+
+  if (compact.includes("::")) {
+    const [candidate] = compact.split("::");
+    if (/^c[a-z0-9]{8,}$/i.test(candidate)) {
+      return candidate;
+    }
+  }
+
+  const dashIndex = compact.indexOf("-");
+  if (dashIndex > 0) {
+    const candidate = compact.slice(0, dashIndex);
+    if (/^c[a-z0-9]{8,}$/i.test(candidate)) {
+      return candidate;
+    }
+  }
+
   return null;
 }
 
@@ -154,14 +184,19 @@ function getHashCandidates(rawUrl: string): string[] {
   );
 }
 
-function verifyApiKey(payload: ParsedPostback): boolean {
+function verifyApiKey(payload: ParsedPostback, headerApiKey?: string | null): boolean {
   const configuredToken = process.env.THEOREMREACH_APP_TOKEN?.trim();
   const configuredAppId = process.env.THEOREMREACH_APP_ID?.trim();
   if (!configuredToken && !configuredAppId) {
     return true;
   }
 
-  if (!payload.apiKey) {
+  const providedValues = [payload.apiKey, headerApiKey]
+    .filter((value): value is string => Boolean(value))
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0);
+
+  if (providedValues.length < 1) {
     return true;
   }
 
@@ -169,10 +204,34 @@ function verifyApiKey(payload: ParsedPostback): boolean {
     .filter((value): value is string => Boolean(value))
     .flatMap((value) => [value, Buffer.from(value).toString("base64")]);
 
-  return candidates.some((candidate) => safeEquals(payload.apiKey as string, candidate));
+  for (const provided of providedValues) {
+    if (candidates.some((candidate) => safeEquals(provided, candidate))) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
-function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
+function getBodyCandidates(rawBody: string): string[] {
+  if (!rawBody) {
+    return [""];
+  }
+
+  const trimmed = rawBody.trim();
+  const candidates = [rawBody, trimmed];
+
+  try {
+    const parsed = JSON.parse(rawBody);
+    candidates.push(JSON.stringify(parsed));
+  } catch {
+    // ignore non-JSON body
+  }
+
+  return Array.from(new Set(candidates.filter((candidate) => candidate.length > 0)));
+}
+
+function verifySignature(payload: ParsedPostback, rawUrl: string, rawBody: string): boolean {
   const secrets = [
     process.env.THEOREMREACH_POSTBACK_SECRET?.trim(),
     process.env.THEOREMREACH_APP_SECRET?.trim(),
@@ -184,7 +243,19 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
     return true;
   }
 
-  const candidates = getHashCandidates(rawUrl);
+  const urlCandidates = getHashCandidates(rawUrl);
+  const bodyCandidates = getBodyCandidates(rawBody);
+  const signatureInputs = Array.from(
+    new Set(
+      urlCandidates.flatMap((candidate) => {
+        const composed = [candidate];
+        for (const bodyCandidate of bodyCandidates) {
+          composed.push(`${candidate}${bodyCandidate}`);
+        }
+        return composed;
+      }),
+    ),
+  );
 
   function shaAlgorithmsFor(value: string, secret: string) {
     return [
@@ -211,8 +282,8 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
   const incomingEnc = payload.enc ? normalizeHash(payload.enc) : null;
   if (incomingEnc) {
     for (const secret of secrets) {
-      for (const candidate of candidates) {
-        const hashCandidates = [...shaAlgorithmsFor(candidate, secret), ...hmacAlgorithmsFor(candidate, secret)];
+      for (const signatureInput of signatureInputs) {
+        const hashCandidates = [...shaAlgorithmsFor(signatureInput, secret), ...hmacAlgorithmsFor(signatureInput, secret)];
         if (hashCandidates.some((hashValue) => safeEquals(hashValue, incomingEnc))) {
           return true;
         }
@@ -223,8 +294,8 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
   const incomingHash = payload.hash ? normalizeHash(payload.hash) : null;
   if (incomingHash) {
     for (const secret of secrets) {
-      for (const candidate of candidates) {
-        const hashCandidates = [...shaAlgorithmsFor(candidate, secret), ...hmacAlgorithmsFor(candidate, secret)];
+      for (const signatureInput of signatureInputs) {
+        const hashCandidates = [...shaAlgorithmsFor(signatureInput, secret), ...hmacAlgorithmsFor(signatureInput, secret)];
         if (hashCandidates.some((hashValue) => safeEquals(hashValue, incomingHash))) {
           return true;
         }
@@ -257,8 +328,7 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
     "val",
   ]);
 
-  return {
-    tx: getParam(searchParams, [
+  const tx = getParam(searchParams, [
       "transaction_id",
       "trans_id",
       "tx",
@@ -267,8 +337,8 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "event_id",
       "reward_id",
       "id",
-    ]),
-    userId: getParam(searchParams, [
+    ]);
+  const explicitUserId = getParam(searchParams, [
       "user_id",
       "userid",
       "userId",
@@ -281,13 +351,17 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "user",
       "playerid",
       "player_id",
-    ]),
+    ]);
+
+  return {
+    tx,
+    userId: explicitUserId ?? inferUserIdFromTransactionId(tx),
     amountUsdCents: parseCents(amountUsdRaw, true),
     amountCurrencyCents: parseCents(amountCurrencyRaw, true),
     offerId: getParam(searchParams, ["survey_id", "offer_id", "campaign_id", "task_id"]),
     offerTitle: getParam(searchParams, ["survey_name", "offer_name", "offer_title", "task_name"]),
-    type: getParam(searchParams, ["type", "status", "event", "event_type"]),
-    result: getParam(searchParams, ["result", "status_code", "event_status"]),
+    type: getParam(searchParams, ["type", "status", "event", "event_type", "eventStatus"]),
+    result: getParam(searchParams, ["result", "status_code", "event_status", "statusCode"]),
     hash: getParam(searchParams, ["hash"]),
     enc: getParam(searchParams, ["enc", "signature"]),
     apiKey: getParam(searchParams, ["api_key", "apikey", "app_token", "app_id"]),
@@ -537,11 +611,19 @@ async function handleReversal(payload: ParsedPostback) {
   return NextResponse.json({ ok: true, reversed: true });
 }
 
-function buildRawUrlFromParams(request: Request, params: URLSearchParams): string {
-  const baseUrl = new URL(request.url);
-  const root = `${baseUrl.origin}${baseUrl.pathname}`;
-  const query = params.toString();
-  return query.length > 0 ? `${root}?${query}` : root;
+function getTheoremReachFallbackSuccessCents(): number {
+  const raw = process.env.THEOREMREACH_SUCCESS_FALLBACK_CENTS?.trim();
+  if (!raw) {
+    return DEFAULT_THEOREMREACH_SUCCESS_FALLBACK_CENTS;
+  }
+
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed)) {
+    return DEFAULT_THEOREMREACH_SUCCESS_FALLBACK_CENTS;
+  }
+
+  const cents = Math.round(parsed);
+  return cents > 0 ? cents : DEFAULT_THEOREMREACH_SUCCESS_FALLBACK_CENTS;
 }
 
 function shouldTreatAsReversal(payload: ParsedPostback, payoutCents: number | null): boolean {
@@ -563,12 +645,12 @@ function shouldTreatAsReversal(payload: ParsedPostback, payoutCents: number | nu
   return normalizedResult === "3" || normalizedResult === "4" || normalizedResult === "5";
 }
 
-async function handleRequest(params: URLSearchParams, rawUrl: string) {
+async function handleRequest(params: URLSearchParams, rawUrl: string, rawBody: string, headerApiKey?: string | null) {
   const payload = parsePostback(params);
   const isDebugCallback = params.get("debug")?.trim().toLowerCase() === "true";
 
   if (isDebugCallback) {
-    const hashValid = verifySignature(payload, rawUrl);
+    const hashValid = verifySignature(payload, rawUrl, rawBody);
     return NextResponse.json({
       ok: true,
       debug: true,
@@ -581,15 +663,18 @@ async function handleRequest(params: URLSearchParams, rawUrl: string) {
     return NextResponse.json({ ok: false, error: "Missing required parameters." }, { status: 400 });
   }
 
-  if (!verifyApiKey(payload)) {
+  if (!verifyApiKey(payload, headerApiKey)) {
     return NextResponse.json({ ok: false, error: "Invalid API key." }, { status: 401 });
   }
 
-  if (!verifySignature(payload, rawUrl)) {
+  if (!verifySignature(payload, rawUrl, rawBody)) {
     return NextResponse.json({ ok: false, error: "Invalid hash." }, { status: 401 });
   }
 
-  const payoutCents = payload.amountUsdCents ?? payload.amountCurrencyCents;
+  let payoutCents = payload.amountUsdCents ?? payload.amountCurrencyCents;
+  if (payoutCents === null && payload.result?.trim() === "10") {
+    payoutCents = getTheoremReachFallbackSuccessCents();
+  }
   if (shouldTreatAsReversal(payload, payoutCents)) {
     return handleReversal(payload);
   }
@@ -607,10 +692,11 @@ async function handleRequest(params: URLSearchParams, rawUrl: string) {
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  return handleRequest(url.searchParams, request.url);
+  return handleRequest(url.searchParams, request.url, "", request.headers.get("x-api-key"));
 }
 
 export async function POST(request: Request) {
+  const rawBody = await request.clone().text().catch(() => "");
   const url = new URL(request.url);
   const params = new URLSearchParams(url.searchParams);
 
@@ -624,7 +710,6 @@ export async function POST(request: Request) {
   }
 
   if (!formData) {
-    const rawBody = await request.text().catch(() => "");
     if (rawBody.trim().length > 0) {
       const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
       if (contentType.includes("application/json")) {
@@ -652,5 +737,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return handleRequest(params, buildRawUrlFromParams(request, params));
+  return handleRequest(params, request.url, rawBody, request.headers.get("x-api-key"));
 }
