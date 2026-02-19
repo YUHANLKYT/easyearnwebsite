@@ -158,56 +158,56 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
       {showGoogleReferralPrompt ? <GoogleReferralModal initialReferralCode={referralPromptCode} /> : null}
       {params.signupBonus === "1" ? <SignupBonusModal /> : null}
 
-      <section className="relative overflow-hidden rounded-3xl border border-slate-200/75 bg-gradient-to-br from-slate-950 via-indigo-950 to-sky-950 p-6 text-white shadow-[0_30px_80px_-42px_rgba(2,6,23,0.9)]">
-        <div className="pointer-events-none absolute -top-24 right-[-4rem] h-72 w-72 rounded-full bg-sky-400/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 left-[-5rem] h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)] bg-[size:32px_32px]" />
+      <section className="dashboard-hero relative overflow-hidden rounded-3xl border p-6 shadow-[0_30px_80px_-42px_rgba(2,6,23,0.9)]">
+        <div className="dashboard-hero-orb dashboard-hero-orb-cool pointer-events-none absolute -top-24 right-[-4rem] h-72 w-72 rounded-full blur-3xl" />
+        <div className="dashboard-hero-orb dashboard-hero-orb-warm pointer-events-none absolute -bottom-24 left-[-5rem] h-72 w-72 rounded-full blur-3xl" />
+        <div className="dashboard-hero-grid pointer-events-none absolute inset-0 bg-[size:32px_32px]" />
         <div className="relative">
-          <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-sky-100">
+          <p className="dashboard-hero-kicker inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]">
             Dashboard
           </p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+          <h1 className="dashboard-hero-title mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
             Welcome back, {user.name}
           </h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-200 md:text-base">
+          <p className="dashboard-hero-copy mt-2 max-w-2xl text-sm md:text-base">
             Complete offers, build your streak, level up, and cash out quickly. Everything in your account updates in real time.
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Link
               href="/earn"
-              className="inline-flex rounded-xl border border-white/20 bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+              className="dashboard-hero-btn-primary inline-flex rounded-xl border px-4 py-2 text-sm font-semibold transition"
             >
               Start Earning
             </Link>
             <Link
               href="/store"
-              className="inline-flex rounded-xl border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/15"
+              className="dashboard-hero-btn-secondary inline-flex rounded-xl border px-4 py-2 text-sm font-semibold transition"
             >
               Withdraw
             </Link>
             <Link
               href="/referrals"
-              className="inline-flex rounded-xl border border-white/25 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/15"
+              className="dashboard-hero-btn-secondary inline-flex rounded-xl border px-4 py-2 text-sm font-semibold transition"
             >
               Invite Friends
             </Link>
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-xs">
-              <p className="text-slate-300">Account Status</p>
-              <p className="mt-1 font-semibold text-white">{user.status}</p>
+            <div className="dashboard-hero-stat rounded-xl border px-3 py-2 text-xs">
+              <p className="dashboard-hero-stat-label">Account Status</p>
+              <p className="dashboard-hero-stat-value mt-1 font-semibold">{user.status}</p>
             </div>
-            <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-xs">
-              <p className="text-slate-300">Current Level</p>
-              <p className="mt-1 font-semibold text-white">Level {level}</p>
+            <div className="dashboard-hero-stat rounded-xl border px-3 py-2 text-xs">
+              <p className="dashboard-hero-stat-label">Current Level</p>
+              <p className="dashboard-hero-stat-value mt-1 font-semibold">Level {level}</p>
             </div>
-            <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-xs">
-              <p className="text-slate-300">Chat Access</p>
-              <p className="mt-1 font-semibold text-white">{chatUnlocked ? "Unlocked" : "Locked"}</p>
+            <div className="dashboard-hero-stat rounded-xl border px-3 py-2 text-xs">
+              <p className="dashboard-hero-stat-label">Chat Access</p>
+              <p className="dashboard-hero-stat-value mt-1 font-semibold">{chatUnlocked ? "Unlocked" : "Locked"}</p>
             </div>
-            <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2 text-xs">
-              <p className="text-slate-300">Next Level At</p>
-              <p className="mt-1 font-semibold text-white">{formatUSD(nextLevelTargetCents)}</p>
+            <div className="dashboard-hero-stat rounded-xl border px-3 py-2 text-xs">
+              <p className="dashboard-hero-stat-label">Next Level At</p>
+              <p className="dashboard-hero-stat-value mt-1 font-semibold">{formatUSD(nextLevelTargetCents)}</p>
             </div>
           </div>
         </div>

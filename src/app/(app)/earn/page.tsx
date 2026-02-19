@@ -50,6 +50,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open CPX Research",
       showAccentOrb: true,
       locked: !OFFERWALL_AVAILABILITY.cpx,
+      popular: false,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -72,6 +73,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open BitLabs",
       showAccentOrb: true,
       locked: !OFFERWALL_AVAILABILITY.bitlabs,
+      popular: false,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -94,6 +96,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open TheoremReach",
       showAccentOrb: true,
       locked: false,
+      popular: true,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -127,8 +130,13 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
               <div className={`relative bg-gradient-to-r ${offerwall.gradient} px-4 py-4`}>
                 {offerwall.showAccentOrb ? <div className="absolute -top-8 -right-8 h-24 w-24 rounded-full bg-white/20" /> : null}
                 {offerwall.locked ? (
-                  <span className="absolute right-4 top-3 rounded-full border border-white/30 bg-slate-900/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-white/30 bg-slate-900/75 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                     Locked
+                  </span>
+                ) : null}
+                {offerwall.popular ? (
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-orange-200/85 bg-orange-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-orange-700">
+                    Popular 🔥
                   </span>
                 ) : null}
                 {offerwall.available ? (
