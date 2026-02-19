@@ -64,7 +64,7 @@ export default async function ReferralsPage({ searchParams }: { searchParams: Se
 
   return (
     <div className="space-y-6">
-      <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Referral Program</h1>
         <p className="mt-2 max-w-3xl text-slate-600">
           Share your referral link to grow your team. You earn a 5% bonus every time a referral withdraws, and unlock the
