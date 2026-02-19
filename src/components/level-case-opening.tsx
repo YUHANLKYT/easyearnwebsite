@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { type CSSProperties, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { LEVEL_CASE_SEGMENTS } from "@/lib/constants";
@@ -57,6 +57,7 @@ function buildReel(winningId?: string): ReelEntry[] {
 export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, canUseCase }: LevelCaseOpeningProps) {
   const router = useRouter();
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const chestButtonRef = useRef<HTMLButtonElement | null>(null);
 
   const [currentLevelState, setCurrentLevelState] = useState(currentLevel);
   const [claimedLevelState, setClaimedLevelState] = useState(claimedLevel);
@@ -70,6 +71,8 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
   const [winReward, setWinReward] = useState<RewardPayload | null>(null);
   const [showSpinPanel, setShowSpinPanel] = useState(false);
   const [chestBurst, setChestBurst] = useState(false);
+  const [spinPanelState, setSpinPanelState] = useState<"from-chest" | "open">("from-chest");
+  const [spinOrigin, setSpinOrigin] = useState({ x: 0, y: 0 });
 
   const claimableLevels = useMemo(
     () => Math.max(0, currentLevelState - claimedLevelState),
@@ -77,6 +80,27 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
   );
   const canOpen = !spinning && !claiming && canUseCase && availableKeysState > 0;
   const canClaim = !spinning && !claiming && canUseCase && claimableLevels > 0;
+  const spinPanelStyle = {
+    "--case-origin-x": `${spinOrigin.x}px`,
+    "--case-origin-y": `${spinOrigin.y}px`,
+  } as CSSProperties;
+
+  function openSpinPanelFromChest() {
+    const rect = chestButtonRef.current?.getBoundingClientRect();
+    if (rect) {
+      setSpinOrigin({
+        x: rect.left + rect.width / 2 - window.innerWidth / 2,
+        y: rect.top + rect.height / 2 - window.innerHeight / 2,
+      });
+    } else {
+      setSpinOrigin({ x: 0, y: 0 });
+    }
+    setSpinPanelState("from-chest");
+    setShowSpinPanel(true);
+    requestAnimationFrame(() => {
+      setSpinPanelState("open");
+    });
+  }
 
   async function claimLevels() {
     if (!canClaim) {
@@ -123,7 +147,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
     setError(null);
     setWinReward(null);
     setSpinning(true);
-    setShowSpinPanel(true);
+    openSpinPanelFromChest();
     setChestBurst(true);
     window.setTimeout(() => setChestBurst(false), 680);
 
@@ -176,6 +200,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
     if (spinning) {
       return;
     }
+    setSpinPanelState("from-chest");
     setShowSpinPanel(false);
   }
 
@@ -225,6 +250,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
 
       <div className="case-launcher relative mb-2 flex flex-col items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/70 p-4">
         <button
+          ref={chestButtonRef}
           type="button"
           onClick={openCase}
           disabled={!canOpen}
@@ -233,7 +259,8 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
           <span className="case-chest-glow" />
           <span className="case-chest-lid" />
           <span className="case-chest-base" />
-          <span className="case-chest-lock">{availableKeysState}</span>
+          <span className={`case-chest-loader ${spinning ? "case-chest-loader-on" : ""}`} />
+          <span className={`case-chest-lock ${spinning ? "case-chest-lock-loading" : ""}`}>{availableKeysState}</span>
         </button>
         <div className="text-center">
           <p className="text-sm font-semibold text-slate-900">{spinning ? "Opening Level Chest..." : "Tap chest to open"}</p>
@@ -242,7 +269,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       </div>
 
       {showSpinPanel ? (
-        <div className="case-spinner-pop">
+        <div className="case-spinner-pop" data-state={spinPanelState} style={spinPanelStyle}>
           <div className="case-spinner-shell">
             <div className="mb-3 flex items-center justify-between gap-2">
               <p className="text-sm font-semibold text-slate-900">Level Chest Spin</p>

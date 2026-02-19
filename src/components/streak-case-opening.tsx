@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { type CSSProperties, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -110,6 +110,8 @@ export function StreakCaseOpening({
 }: StreakCaseOpeningProps) {
   const router = useRouter();
   const viewportRef = useRef<HTMLDivElement | null>(null);
+  const chest7Ref = useRef<HTMLButtonElement | null>(null);
+  const chest14Ref = useRef<HTMLButtonElement | null>(null);
 
   const [state, setState] = useState<StreakStatePayload>({
     streakDays,
@@ -133,9 +135,15 @@ export function StreakCaseOpening({
   const [winReward, setWinReward] = useState<RewardPayload | null>(null);
   const [showSpinPanel, setShowSpinPanel] = useState(false);
   const [chestBurstTier, setChestBurstTier] = useState<StreakCaseTier | null>(null);
+  const [spinPanelState, setSpinPanelState] = useState<"from-chest" | "open">("from-chest");
+  const [spinOrigin, setSpinOrigin] = useState({ x: 0, y: 0 });
 
   const canOpen7 = canUseCase && state.availableCase7 && !spinning;
   const canOpen14 = canUseCase && state.availableCase14 && !spinning;
+  const spinPanelStyle = {
+    "--case-origin-x": `${spinOrigin.x}px`,
+    "--case-origin-y": `${spinOrigin.y}px`,
+  } as CSSProperties;
   const nextMilestoneText = useMemo(() => {
     if (!state.nextMilestone || state.daysToNextMilestone === null) {
       return "All streak case milestones unlocked.";
@@ -145,6 +153,24 @@ export function StreakCaseOpening({
     }
     return `${state.daysToNextMilestone} day${state.daysToNextMilestone === 1 ? "" : "s"} to the next streak case.`;
   }, [state.daysToNextMilestone, state.nextMilestone]);
+
+  function openSpinPanelFromChest(tier: StreakCaseTier) {
+    const source = tier === 7 ? chest7Ref.current : chest14Ref.current;
+    const rect = source?.getBoundingClientRect();
+    if (rect) {
+      setSpinOrigin({
+        x: rect.left + rect.width / 2 - window.innerWidth / 2,
+        y: rect.top + rect.height / 2 - window.innerHeight / 2,
+      });
+    } else {
+      setSpinOrigin({ x: 0, y: 0 });
+    }
+    setSpinPanelState("from-chest");
+    setShowSpinPanel(true);
+    requestAnimationFrame(() => {
+      setSpinPanelState("open");
+    });
+  }
 
   async function openTierCase(tier: StreakCaseTier) {
     if (spinning) {
@@ -158,7 +184,7 @@ export function StreakCaseOpening({
     setError(null);
     setWinReward(null);
     setSpinning(true);
-    setShowSpinPanel(true);
+    openSpinPanelFromChest(tier);
     setChestBurstTier(tier);
     window.setTimeout(() => setChestBurstTier(null), 700);
 
@@ -213,6 +239,7 @@ export function StreakCaseOpening({
     if (spinning) {
       return;
     }
+    setSpinPanelState("from-chest");
     setShowSpinPanel(false);
   }
 
@@ -272,6 +299,7 @@ export function StreakCaseOpening({
                 : "Unlocks at 7 streak days"}
           </p>
           <button
+            ref={chest7Ref}
             type="button"
             onClick={() => openTierCase(7)}
             disabled={!canOpen7}
@@ -280,7 +308,8 @@ export function StreakCaseOpening({
             <span className="case-chest-glow" />
             <span className="case-chest-lid" />
             <span className="case-chest-base" />
-            <span className="case-chest-lock">7D</span>
+            <span className={`case-chest-loader ${spinning && activeTier === 7 ? "case-chest-loader-on" : ""}`} />
+            <span className={`case-chest-lock ${spinning && activeTier === 7 ? "case-chest-lock-loading" : ""}`}>7D</span>
           </button>
           <p className="mt-2 text-[11px] font-semibold text-slate-700">
             {spinning && activeTier === 7 ? "Opening 7-day chest..." : "Tap chest to open"}
@@ -299,6 +328,7 @@ export function StreakCaseOpening({
                 : "Unlocks at 14 streak days"}
           </p>
           <button
+            ref={chest14Ref}
             type="button"
             onClick={() => openTierCase(14)}
             disabled={!canOpen14}
@@ -307,7 +337,8 @@ export function StreakCaseOpening({
             <span className="case-chest-glow" />
             <span className="case-chest-lid" />
             <span className="case-chest-base" />
-            <span className="case-chest-lock">14D</span>
+            <span className={`case-chest-loader ${spinning && activeTier === 14 ? "case-chest-loader-on" : ""}`} />
+            <span className={`case-chest-lock ${spinning && activeTier === 14 ? "case-chest-lock-loading" : ""}`}>14D</span>
           </button>
           <p className="mt-2 text-[11px] font-semibold text-slate-700">
             {spinning && activeTier === 14 ? "Opening 14-day chest..." : "Tap chest to open"}
@@ -316,7 +347,7 @@ export function StreakCaseOpening({
       </div>
 
       {showSpinPanel ? (
-        <div className="case-spinner-pop">
+        <div className="case-spinner-pop" data-state={spinPanelState} style={spinPanelStyle}>
           <div className="case-spinner-shell">
             <div className="mb-3 flex items-center justify-between gap-2">
               <p className="text-sm font-semibold text-slate-900">{activeTier}-Day Streak Chest Spin</p>
