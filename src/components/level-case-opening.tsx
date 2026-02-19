@@ -68,6 +68,8 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
   const [claiming, setClaiming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [winReward, setWinReward] = useState<RewardPayload | null>(null);
+  const [showSpinPanel, setShowSpinPanel] = useState(false);
+  const [chestBurst, setChestBurst] = useState(false);
 
   const claimableLevels = useMemo(
     () => Math.max(0, currentLevelState - claimedLevelState),
@@ -121,6 +123,9 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
     setError(null);
     setWinReward(null);
     setSpinning(true);
+    setShowSpinPanel(true);
+    setChestBurst(true);
+    window.setTimeout(() => setChestBurst(false), 680);
 
     try {
       const response = await fetch("/api/levels/case/open", {
@@ -162,8 +167,16 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       }, 5400);
     } catch (openError) {
       setSpinning(false);
+      setShowSpinPanel(false);
       setError(openError instanceof Error ? openError.message : "Could not open level case.");
     }
+  }
+
+  function closeSpinPanel() {
+    if (spinning) {
+      return;
+    }
+    setShowSpinPanel(false);
   }
 
   return (
@@ -186,14 +199,6 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
             className="ui-btn ui-btn-soft rounded-xl border border-sky-200 bg-white px-4 py-2 text-sm font-semibold text-sky-700 transition hover:border-sky-300 disabled:cursor-not-allowed disabled:opacity-45"
           >
             {claiming ? "Claiming..." : "Claim Levels"}
-          </button>
-          <button
-            type="button"
-            onClick={openCase}
-            disabled={!canOpen}
-            className="rounded-xl bg-gradient-to-r from-orange-400 via-rose-400 to-sky-400 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-sky-200/60 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45"
-          >
-            {spinning ? "Opening..." : "Open Case"}
           </button>
         </div>
       </div>
@@ -218,36 +223,71 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
       ) : null}
       {error ? <p className="mb-3 text-xs font-medium text-rose-700">{error}</p> : null}
 
-      <div className="case-reel-surface relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-pink-50 px-3 py-5">
-        <div className="case-reel-fade-left pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
-        <div className="case-reel-fade-right pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-pink-50 via-pink-50/85 to-transparent" />
-        <div className="case-reel-center pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
-
-        <div ref={viewportRef} className="overflow-hidden">
-          <div
-            className="flex"
-            style={{
-              gap: `${CARD_GAP}px`,
-              transform: `translateX(${trackX}px)`,
-              transition: trackTransition,
-              willChange: "transform",
-            }}
-          >
-            {trackItems.map((item, index) => (
-              <div
-                key={`${item.id}-${index}`}
-                className={`flex h-[74px] w-[126px] shrink-0 items-center justify-center rounded-xl border border-white/90 px-3 text-sm font-bold tracking-wide shadow-md ${item.colorClass}`}
-              >
-                {item.label}
-              </div>
-            ))}
-          </div>
+      <div className="case-launcher relative mb-2 flex flex-col items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/70 p-4">
+        <button
+          type="button"
+          onClick={openCase}
+          disabled={!canOpen}
+          className={`case-chest-btn ${chestBurst || spinning ? "case-chest-live" : ""} ${!canOpen ? "case-chest-disabled" : ""}`}
+        >
+          <span className="case-chest-glow" />
+          <span className="case-chest-lid" />
+          <span className="case-chest-base" />
+          <span className="case-chest-lock">{availableKeysState}</span>
+        </button>
+        <div className="text-center">
+          <p className="text-sm font-semibold text-slate-900">{spinning ? "Opening Level Chest..." : "Tap chest to open"}</p>
+          <p className="text-xs text-slate-600">Spinner pops out after opening, then reward reveals.</p>
         </div>
       </div>
 
-      {winReward ? (
-        <div className="case-win mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
-          You won <span className="font-semibold">{winReward.label}</span>.
+      {showSpinPanel ? (
+        <div className="case-spinner-pop">
+          <div className="case-spinner-shell">
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <p className="text-sm font-semibold text-slate-900">Level Chest Spin</p>
+              <button
+                type="button"
+                onClick={closeSpinPanel}
+                disabled={spinning}
+                className="rounded-lg border border-slate-200 bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-slate-700 disabled:opacity-50"
+              >
+                Close
+              </button>
+            </div>
+            <div className="case-reel-surface relative overflow-hidden rounded-2xl border border-sky-100 bg-gradient-to-r from-cyan-50 via-white to-pink-50 px-3 py-5">
+              <div className="case-reel-fade-left pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cyan-50 via-cyan-50/85 to-transparent" />
+              <div className="case-reel-fade-right pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-pink-50 via-pink-50/85 to-transparent" />
+              <div className="case-reel-center pointer-events-none absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2 bg-yellow-300 shadow-[0_0_20px_rgba(250,204,21,0.8)]" />
+
+              <div ref={viewportRef} className="overflow-hidden">
+                <div
+                  className="flex"
+                  style={{
+                    gap: `${CARD_GAP}px`,
+                    transform: `translateX(${trackX}px)`,
+                    transition: trackTransition,
+                    willChange: "transform",
+                  }}
+                >
+                  {trackItems.map((item, index) => (
+                    <div
+                      key={`${item.id}-${index}`}
+                      className={`flex h-[74px] w-[126px] shrink-0 items-center justify-center rounded-xl border border-white/90 px-3 text-sm font-bold tracking-wide shadow-md ${item.colorClass}`}
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {winReward ? (
+              <div className="case-win mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+                You won <span className="font-semibold">{winReward.label}</span>.
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : null}
     </section>
