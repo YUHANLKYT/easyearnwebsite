@@ -5,6 +5,7 @@ import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
+import { OFFERWALL_AVAILABILITY } from "@/lib/offerwall-flags";
 import { buildTheoremReachOfferwallUrl } from "@/lib/theoremreach";
 
 type SearchParams = Promise<{
@@ -39,13 +40,16 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoHeight: 48,
       logoClass: "h-auto w-full max-w-[260px] sm:max-w-[340px]",
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]",
-      available: Boolean(cpxSurveyUrl),
+      available: OFFERWALL_AVAILABILITY.cpx && Boolean(cpxSurveyUrl),
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
       copy: "Survey-focused wall with frequent studies and quick completions.",
-      missingEnvCopy: "Missing env vars: CPX_APP_ID and CPX_APP_SECRET.",
+      missingEnvCopy: OFFERWALL_AVAILABILITY.cpx
+        ? "Missing env vars: CPX_APP_ID and CPX_APP_SECRET."
+        : "Coming Soon",
       hideTitleText: false,
       ctaLabel: "Open CPX Research",
       showAccentOrb: true,
+      locked: !OFFERWALL_AVAILABILITY.cpx,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -60,13 +64,14 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoHeight: 72,
       logoClass: "h-auto w-full max-w-[260px] sm:max-w-[340px]",
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[340px]",
-      available: Boolean(bitlabsUrl),
+      available: OFFERWALL_AVAILABILITY.bitlabs && Boolean(bitlabsUrl),
       gradient: "from-indigo-600 via-blue-600 to-cyan-500",
       copy: "Mix of surveys and app offers, with varied payout sizes.",
-      missingEnvCopy: "Missing env var: BITLABS_APP_TOKEN.",
+      missingEnvCopy: OFFERWALL_AVAILABILITY.bitlabs ? "Missing env var: BITLABS_APP_TOKEN." : "Coming Soon",
       hideTitleText: false,
       ctaLabel: "Open BitLabs",
       showAccentOrb: true,
+      locked: !OFFERWALL_AVAILABILITY.bitlabs,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -88,6 +93,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       hideTitleText: false,
       ctaLabel: "Open TheoremReach",
       showAccentOrb: true,
+      locked: false,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
@@ -120,6 +126,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
             <article key={offerwall.key} className="overflow-hidden rounded-3xl border border-slate-100 bg-white/90 shadow-sm">
               <div className={`relative bg-gradient-to-r ${offerwall.gradient} px-4 py-4`}>
                 {offerwall.showAccentOrb ? <div className="absolute -top-8 -right-8 h-24 w-24 rounded-full bg-white/20" /> : null}
+                {offerwall.locked ? (
+                  <span className="absolute right-4 top-3 rounded-full border border-white/30 bg-slate-900/70 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                    Locked
+                  </span>
+                ) : null}
                 {offerwall.available ? (
                   <Link
                     href={offerwall.href}
@@ -156,6 +167,10 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                   >
                     {offerwall.ctaLabel}
                   </Link>
+                ) : offerwall.locked ? (
+                  <span className="inline-flex rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                    Coming Soon
+                  </span>
                 ) : (
                   <p className="text-xs font-semibold text-amber-700">{offerwall.missingEnvCopy}</p>
                 )}

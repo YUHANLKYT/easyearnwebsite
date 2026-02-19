@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import { GIFT_CARD_METHODS } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
@@ -224,9 +224,15 @@ export function AdminConsole() {
     return giftCardMethods.has(method as (typeof GIFT_CARD_METHODS)[number]);
   }
 
-  async function load() {
+  const load = useCallback(async () => {
     try {
-      const response = await fetch("/api/admin/overview", { cache: "no-store" });
+      const response = await fetch(`/api/admin/overview?ts=${Date.now()}`, {
+        cache: "no-store",
+        headers: {
+          "cache-control": "no-cache",
+          pragma: "no-cache",
+        },
+      });
       if (!response.ok) {
         throw new Error("Unable to load admin data.");
       }
@@ -239,7 +245,7 @@ export function AdminConsole() {
     } finally {
       setLoading(false);
     }
-  }
+  }, []);
 
   async function searchUsers(query: string, userId?: string) {
     const trimmed = query.trim();
@@ -313,10 +319,27 @@ export function AdminConsole() {
   }
 
   useEffect(() => {
-    load();
-    const interval = setInterval(load, 5000);
-    return () => clearInterval(interval);
-  }, []);
+    void load();
+    const refreshInterval = setInterval(() => {
+      void load();
+    }, 3000);
+    const clockInterval = setInterval(() => {
+      setNowTimestamp(Date.now());
+    }, 1000);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void load();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      clearInterval(refreshInterval);
+      clearInterval(clockInterval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [load]);
 
   async function runAction(key: string, callback: () => Promise<void>, afterSuccess?: () => Promise<void> | void) {
     setBusyKey(key);

@@ -7,6 +7,7 @@ import { formatUSD } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -171,7 +172,7 @@ export async function GET() {
     }).format(cents / 100);
   }
 
-  return NextResponse.json({
+  const payload = {
     metrics: {
       pendingWithdrawals,
       pendingCustomWithdrawals,
@@ -268,5 +269,13 @@ export async function GET() {
       ...listedUser,
       createdAt: listedUser.createdAt.toISOString(),
     })),
+  };
+
+  return NextResponse.json(payload, {
+    headers: {
+      "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      pragma: "no-cache",
+      expires: "0",
+    },
   });
 }

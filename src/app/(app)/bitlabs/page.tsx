@@ -3,9 +3,27 @@ import Link from "next/link";
 
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
+import { OFFERWALL_AVAILABILITY } from "@/lib/offerwall-flags";
 
 export default async function BitLabsPage() {
   const user = await requireUser("/bitlabs");
+  if (!OFFERWALL_AVAILABILITY.bitlabs) {
+    return (
+      <div className="space-y-6">
+        <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900">BitLabs</h1>
+          <p className="mt-2 max-w-2xl text-slate-600">BitLabs is temporarily disabled and marked as Coming Soon.</p>
+          <Link
+            href="/earn"
+            className="mt-4 inline-flex rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+          >
+            Back to Earn
+          </Link>
+        </section>
+      </div>
+    );
+  }
+
   const bitlabsUrl = buildBitLabsOfferwallUrl({
     userId: user.id,
   });
