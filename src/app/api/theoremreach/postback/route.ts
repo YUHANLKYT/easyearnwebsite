@@ -22,10 +22,18 @@ type ParsedPostback = {
 };
 
 function getParam(searchParams: URLSearchParams, keys: string[]): string | null {
+  const entries = Array.from(searchParams.entries());
+
   for (const key of keys) {
     const value = searchParams.get(key);
     if (typeof value === "string" && value.trim().length > 0) {
       return value.trim();
+    }
+
+    const normalizedKey = key.trim().toLowerCase();
+    const matched = entries.find(([entryKey]) => entryKey.trim().toLowerCase() === normalizedKey)?.[1];
+    if (typeof matched === "string" && matched.trim().length > 0) {
+      return matched.trim();
     }
   }
   return null;
@@ -106,6 +114,17 @@ function getHashCandidates(rawUrl: string): string[] {
   const canonicalQuery = new URLSearchParams(queryRaw).toString();
   const originPath = `${parsed.origin}${parsed.pathname}`;
   const hostPath = `${parsed.host}${parsed.pathname}`;
+  const hostVariants = new Set<string>([parsed.host]);
+  if (parsed.host.startsWith("www.")) {
+    hostVariants.add(parsed.host.slice(4));
+  } else {
+    hostVariants.add(`www.${parsed.host}`);
+  }
+  const protocolVariants = new Set<string>([parsed.protocol, "https:"]);
+
+  const variantOrigins = Array.from(hostVariants).flatMap((host) =>
+    Array.from(protocolVariants).map((protocol) => `${protocol}//${host}${parsed.pathname}`),
+  );
 
   const baseCandidates = [
     stripped,
@@ -120,6 +139,9 @@ function getHashCandidates(rawUrl: string): string[] {
     canonicalQuery ? `${hostPath}?${canonicalQuery}` : hostPath,
     queryRaw ? `${parsed.pathname}?${queryRaw}` : parsed.pathname,
     canonicalQuery ? `${parsed.pathname}?${canonicalQuery}` : parsed.pathname,
+    ...variantOrigins,
+    ...variantOrigins.map((origin) => (queryRaw ? `${origin}?${queryRaw}` : origin)),
+    ...variantOrigins.map((origin) => (canonicalQuery ? `${origin}?${canonicalQuery}` : origin)),
   ];
 
   return Array.from(
@@ -134,7 +156,8 @@ function getHashCandidates(rawUrl: string): string[] {
 
 function verifyApiKey(payload: ParsedPostback): boolean {
   const configuredToken = process.env.THEOREMREACH_APP_TOKEN?.trim();
-  if (!configuredToken) {
+  const configuredAppId = process.env.THEOREMREACH_APP_ID?.trim();
+  if (!configuredToken && !configuredAppId) {
     return true;
   }
 
@@ -142,8 +165,11 @@ function verifyApiKey(payload: ParsedPostback): boolean {
     return true;
   }
 
-  const encodedToken = Buffer.from(configuredToken).toString("base64");
-  return safeEquals(payload.apiKey, configuredToken) || safeEquals(payload.apiKey, encodedToken);
+  const candidates = [configuredToken, configuredAppId]
+    .filter((value): value is string => Boolean(value))
+    .flatMap((value) => [value, Buffer.from(value).toString("base64")]);
+
+  return candidates.some((candidate) => safeEquals(payload.apiKey as string, candidate));
 }
 
 function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
@@ -160,12 +186,34 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
 
   const candidates = getHashCandidates(rawUrl);
 
+  function shaAlgorithmsFor(value: string, secret: string) {
+    return [
+      normalizeHash(createHash("sha1").update(`${value}${secret}`).digest("hex")),
+      normalizeHash(createHash("sha256").update(`${value}${secret}`).digest("hex")),
+      normalizeHash(createHash("sha512").update(`${value}${secret}`).digest("hex")),
+      normalizeHash(createHash("sha3-256").update(`${value}${secret}`).digest("hex")),
+      normalizeHash(createHash("sha1").update(`${secret}${value}`).digest("hex")),
+      normalizeHash(createHash("sha256").update(`${secret}${value}`).digest("hex")),
+      normalizeHash(createHash("sha512").update(`${secret}${value}`).digest("hex")),
+      normalizeHash(createHash("sha3-256").update(`${secret}${value}`).digest("hex")),
+    ];
+  }
+
+  function hmacAlgorithmsFor(value: string, secret: string) {
+    return [
+      normalizeHash(createHmac("sha1", secret).update(value).digest("hex")),
+      normalizeHash(createHmac("sha256", secret).update(value).digest("hex")),
+      normalizeHash(createHmac("sha512", secret).update(value).digest("hex")),
+      normalizeHash(createHmac("sha3-256", secret).update(value).digest("hex")),
+    ];
+  }
+
   const incomingEnc = payload.enc ? normalizeHash(payload.enc) : null;
   if (incomingEnc) {
     for (const secret of secrets) {
       for (const candidate of candidates) {
-        const sha3 = normalizeHash(createHash("sha3-256").update(`${candidate}${secret}`).digest("hex"));
-        if (safeEquals(sha3, incomingEnc)) {
+        const hashCandidates = [...shaAlgorithmsFor(candidate, secret), ...hmacAlgorithmsFor(candidate, secret)];
+        if (hashCandidates.some((hashValue) => safeEquals(hashValue, incomingEnc))) {
           return true;
         }
       }
@@ -176,8 +224,8 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
   if (incomingHash) {
     for (const secret of secrets) {
       for (const candidate of candidates) {
-        const hmac = normalizeHash(createHmac("sha1", secret).update(candidate).digest("hex"));
-        if (safeEquals(hmac, incomingHash)) {
+        const hashCandidates = [...shaAlgorithmsFor(candidate, secret), ...hmacAlgorithmsFor(candidate, secret)];
+        if (hashCandidates.some((hashValue) => safeEquals(hashValue, incomingHash))) {
           return true;
         }
       }
@@ -210,17 +258,39 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
   ]);
 
   return {
-    tx: getParam(searchParams, ["transaction_id", "trans_id", "tx", "transactionId"]),
-    userId: getParam(searchParams, ["user_id", "uid", "ext_user_id", "sub_id", "subid"]),
+    tx: getParam(searchParams, [
+      "transaction_id",
+      "trans_id",
+      "tx",
+      "tx_id",
+      "transactionId",
+      "event_id",
+      "reward_id",
+      "id",
+    ]),
+    userId: getParam(searchParams, [
+      "user_id",
+      "userid",
+      "userId",
+      "uid",
+      "ext_user_id",
+      "external_user_id",
+      "external_id",
+      "sub_id",
+      "subid",
+      "user",
+      "playerid",
+      "player_id",
+    ]),
     amountUsdCents: parseCents(amountUsdRaw, true),
     amountCurrencyCents: parseCents(amountCurrencyRaw, true),
     offerId: getParam(searchParams, ["survey_id", "offer_id", "campaign_id", "task_id"]),
     offerTitle: getParam(searchParams, ["survey_name", "offer_name", "offer_title", "task_name"]),
-    type: getParam(searchParams, ["type", "status", "event"]),
-    result: getParam(searchParams, ["result"]),
+    type: getParam(searchParams, ["type", "status", "event", "event_type"]),
+    result: getParam(searchParams, ["result", "status_code", "event_status"]),
     hash: getParam(searchParams, ["hash"]),
     enc: getParam(searchParams, ["enc", "signature"]),
-    apiKey: getParam(searchParams, ["api_key", "apikey"]),
+    apiKey: getParam(searchParams, ["api_key", "apikey", "app_token", "app_id"]),
   };
 }
 
@@ -549,6 +619,35 @@ export async function POST(request: Request) {
     for (const [key, value] of formData.entries()) {
       if (typeof value === "string" && value.length > 0) {
         params.set(key, value);
+      }
+    }
+  }
+
+  if (!formData) {
+    const rawBody = await request.text().catch(() => "");
+    if (rawBody.trim().length > 0) {
+      const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
+      if (contentType.includes("application/json")) {
+        try {
+          const payload = JSON.parse(rawBody) as Record<string, unknown>;
+          Object.entries(payload).forEach(([key, value]) => {
+            if (typeof value === "string" && value.length > 0) {
+              params.set(key, value);
+            }
+            if (typeof value === "number" && Number.isFinite(value)) {
+              params.set(key, String(value));
+            }
+          });
+        } catch {
+          // ignore invalid JSON body and continue with query/form params
+        }
+      } else if (contentType.includes("application/x-www-form-urlencoded")) {
+        const bodyParams = new URLSearchParams(rawBody);
+        for (const [key, value] of bodyParams.entries()) {
+          if (value.length > 0) {
+            params.set(key, value);
+          }
+        }
       }
     }
   }
