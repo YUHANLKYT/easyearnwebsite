@@ -67,7 +67,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Store & Withdrawals</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
           Redeem your USD balance for PayPal and gift cards. Every withdrawal made by your referrals pays you a 5% bonus.

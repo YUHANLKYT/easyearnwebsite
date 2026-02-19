@@ -28,7 +28,11 @@ export function AppNav({ name, balanceCents, pendingBalanceCents, role }: AppNav
   const pathname = usePathname();
 
   return (
-    <header className="app-nav-shell sticky top-0 z-30 border-b border-slate-200/70 bg-white/75 shadow-[0_14px_38px_-28px_rgba(15,23,42,0.62)] backdrop-blur-xl">
+    <header className="app-nav-shell relative sticky top-0 z-30 border-b border-slate-200/70 bg-white/75 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.62)] backdrop-blur-xl">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400/70 to-transparent"
+      />
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-3 px-4 py-4 md:px-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
         <Link href="/dashboard" className="app-brand inline-flex w-max items-center gap-3 text-lg font-semibold tracking-tight text-slate-900">
           <span className="app-brand-badge inline-flex items-center justify-center rounded-xl border border-slate-200/70 bg-white/90 p-1 shadow-sm">

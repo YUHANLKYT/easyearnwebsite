@@ -10,7 +10,7 @@ export default async function CpxResearchPage() {
   if (!OFFERWALL_AVAILABILITY.cpx) {
     return (
       <div className="space-y-6">
-        <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+        <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
           <h1 className="text-3xl font-semibold tracking-tight text-slate-900">CPX Research</h1>
           <p className="mt-2 max-w-2xl text-slate-600">CPX Research is temporarily disabled and marked as Coming Soon.</p>
           <Link
@@ -34,7 +34,7 @@ export default async function CpxResearchPage() {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight text-slate-900">CPX Research</h1>

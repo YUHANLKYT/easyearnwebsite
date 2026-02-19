@@ -77,7 +77,7 @@ export default async function LevelsPage({ searchParams }: { searchParams: Searc
 
   return (
     <div className="space-y-6">
-      <section className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="page-hero relative overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <div className="pointer-events-none absolute -top-20 right-0 h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,_rgba(56,189,248,0.28),_transparent_70%)]" />
         <div className="pointer-events-none absolute -bottom-20 left-16 h-56 w-56 rounded-full bg-[radial-gradient(circle_at_center,_rgba(251,146,60,0.25),_transparent_70%)]" />
         <div className="relative grid gap-6 xl:grid-cols-[1.4fr_1fr]">

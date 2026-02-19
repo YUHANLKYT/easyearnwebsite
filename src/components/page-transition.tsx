@@ -7,21 +7,24 @@ export function PageTransition({ children }: Readonly<{ children: React.ReactNod
   const pathname = usePathname();
   const prefersReducedMotion = useReducedMotion();
 
-  const distance = prefersReducedMotion ? 0 : 28;
-  const blurStart = prefersReducedMotion ? "blur(0px)" : "blur(5px)";
+  const distanceX = prefersReducedMotion ? 0 : 18;
+  const distanceY = prefersReducedMotion ? 0 : 10;
+  const blurStart = prefersReducedMotion ? "blur(0px)" : "blur(4px)";
 
-  const initial = { opacity: 0, x: distance, filter: blurStart };
+  const initial = { opacity: 0, x: distanceX, y: distanceY, filter: blurStart };
   const animate = {
     opacity: 1,
     x: 0,
+    y: 0,
     filter: "blur(0px)",
-    transition: { duration: prefersReducedMotion ? 0.16 : 0.34 },
+    transition: { duration: prefersReducedMotion ? 0.16 : 0.3 },
   };
   const exit = {
     opacity: 0,
-    x: -distance,
+    x: -distanceX,
+    y: distanceY * -0.4,
     filter: blurStart,
-    transition: { duration: prefersReducedMotion ? 0.1 : 0.22 },
+    transition: { duration: prefersReducedMotion ? 0.1 : 0.18 },
   };
 
   return (

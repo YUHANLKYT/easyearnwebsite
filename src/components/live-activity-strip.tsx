@@ -103,7 +103,7 @@ export function LiveActivityStrip() {
                   exit={{ opacity: 0, x: 34, scaleX: 0.45 }}
                   transition={{ duration: 0.28 }}
                   style={{ transformOrigin: "left center" }}
-                  className="rounded-xl border border-slate-100 bg-white/95 px-3 py-2 shadow-sm"
+                  className="live-strip-item rounded-xl border border-slate-100 bg-white/95 px-3 py-2 shadow-sm"
                 >
                   <p className="text-xs font-medium text-slate-700">
                     {item.userName} - {item.description}
@@ -123,7 +123,7 @@ export function LiveActivityStrip() {
   }, [items, loading]);
 
   return (
-    <section className="rounded-2xl border border-white/70 bg-white/80 p-3 shadow-sm backdrop-blur">
+    <section className="live-strip-shell rounded-2xl border border-white/70 bg-white/80 p-3 shadow-sm backdrop-blur">
       <div className="mb-2 flex items-center justify-between">
         <h2 className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-700">Live Activity</h2>
         <span className="rounded-full border border-sky-200/80 bg-sky-100/90 px-2.5 py-1 text-[10px] font-semibold text-sky-700">

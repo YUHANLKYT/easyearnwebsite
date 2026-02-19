@@ -73,7 +73,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Sea
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <p className="inline-flex rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-sky-700">
           Account Settings
         </p>

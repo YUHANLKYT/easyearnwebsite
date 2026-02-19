@@ -105,7 +105,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
+      <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Earn Money</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
           Pick an offerwall, complete tasks, and grow your USD wallet.
