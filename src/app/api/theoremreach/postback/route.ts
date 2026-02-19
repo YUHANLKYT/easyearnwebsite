@@ -188,23 +188,32 @@ function verifySignature(payload: ParsedPostback, rawUrl: string): boolean {
 }
 
 function parsePostback(searchParams: URLSearchParams): ParsedPostback {
+  // Prefer explicit USD fields before generic amount fields.
+  // Some providers include both `amount` and `amount_usd`; using USD first avoids mis-credit values.
+  const amountUsdRaw = getParam(searchParams, [
+    "amount_usd",
+    "value_usd",
+    "reward_usd",
+    "reward_amount_usd",
+    "sub_id2",
+    "subid_2",
+    "amount",
+    "reward",
+    "reward_amount",
+    "raw",
+  ]);
+  const amountCurrencyRaw = getParam(searchParams, [
+    "amount_local",
+    "value_currency",
+    "value",
+    "val",
+  ]);
+
   return {
     tx: getParam(searchParams, ["transaction_id", "trans_id", "tx", "transactionId"]),
     userId: getParam(searchParams, ["user_id", "uid", "ext_user_id", "sub_id", "subid"]),
-    amountUsdCents: parseCents(
-      getParam(searchParams, [
-        "amount",
-        "amount_usd",
-        "reward",
-        "reward_amount",
-        "value_usd",
-        "raw",
-        "sub_id2",
-        "subid_2",
-      ]),
-      true,
-    ),
-    amountCurrencyCents: parseCents(getParam(searchParams, ["amount_local", "value", "val", "value_currency"]), true),
+    amountUsdCents: parseCents(amountUsdRaw, true),
+    amountCurrencyCents: parseCents(amountCurrencyRaw, true),
     offerId: getParam(searchParams, ["survey_id", "offer_id", "campaign_id", "task_id"]),
     offerTitle: getParam(searchParams, ["survey_name", "offer_name", "offer_title", "task_name"]),
     type: getParam(searchParams, ["type", "status", "event"]),

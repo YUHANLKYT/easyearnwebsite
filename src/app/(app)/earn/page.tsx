@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
-import { buildAdGemOfferwallUrl } from "@/lib/adgem";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
@@ -24,9 +23,6 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     subId2: "easyearn",
   });
   const bitlabsUrl = buildBitLabsOfferwallUrl({
-    userId: user.id,
-  });
-  const adgemUrl = buildAdGemOfferwallUrl({
     userId: user.id,
   });
   const theoremreachUrl = buildTheoremReachOfferwallUrl({
@@ -74,28 +70,6 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
-    },
-    {
-      key: "adgem",
-      name: "AdGem",
-      href: "/adgem",
-      logoSrc: "/adgem-logo.png",
-      logoAlt: "AdGem",
-      logoWidth: 948,
-      logoHeight: 244,
-      logoClass: "h-auto w-full max-w-[260px] sm:max-w-[360px]",
-      logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[360px]",
-      available: Boolean(adgemUrl),
-      gradient: "from-violet-600 via-purple-600 to-fuchsia-500",
-      copy: "Game and app offerwall with install, reach, and milestone tasks.",
-      missingEnvCopy: "Missing env var: ADGEM_APP_ID.",
-      hideTitleText: false,
-      ctaLabel: "Open AdGem",
-      showAccentOrb: false,
-      logoPanelClass:
-        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
-      logoPanelDisabledClass:
-        "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
     {
       key: "theoremreach",
