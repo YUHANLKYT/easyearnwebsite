@@ -306,6 +306,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
           <article className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-900">Submit a Complaint</h2>
             <p className="mt-1 text-sm text-slate-600">Need help with an offer or payout? Send a message to admin.</p>
+            <p className="mt-1 text-xs text-slate-500">You can submit one complaint every 3 hours.</p>
             <p className="mt-1 text-xs text-slate-500">
               Need a problem solved fast? Join{" "}
               <a
