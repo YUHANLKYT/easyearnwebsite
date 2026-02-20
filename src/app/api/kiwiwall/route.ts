@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { buildPendingEarnNotice, getOfferPendingDays, getPendingUntil } from "@/lib/pending-offers";
 import { prisma } from "@/lib/prisma";
 
-const OFFERWALL_NAME = "KIWI WALL";
+const OFFERWALL_NAME = "KIWIWALL";
 const PROVIDER_RESPONSE_HEADERS = {
   "cache-control": "no-store",
   "content-type": "text/plain; charset=utf-8",
@@ -379,7 +379,7 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
   const pendingDays = getOfferPendingDays(payoutCents);
   const pendingUntil = getPendingUntil(payoutCents, now);
   const normalizedOfferId = payload.offerId ?? payload.tx;
-  const offerTitle = payload.offerTitle ?? "KIWI WALL Offer";
+  const offerTitle = payload.offerTitle ?? "KIWIWALL Offer";
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -434,7 +434,7 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
             userId: user.id,
             type: "EARN_PENDING",
             amountCents: payoutCents,
-            description: `${buildPendingEarnNotice(payoutCents, pendingDays)} (KIWI WALL tx: ${payload.tx})`,
+            description: `${buildPendingEarnNotice(payoutCents, pendingDays)} (KIWIWALL tx: ${payload.tx})`,
           },
         });
         return;
@@ -459,7 +459,7 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
           userId: user.id,
           type: "EARN",
           amountCents: payoutCents,
-          description: `KIWI WALL reward credited (tx: ${payload.tx})`,
+          description: `KIWIWALL reward credited (tx: ${payload.tx})`,
         },
       });
     });
@@ -488,7 +488,7 @@ async function handleReversal(payload: ParsedPostback) {
   }
 
   const taskKey = `kiwiwall:${payload.tx}`;
-  const reversalDescription = `KIWI WALL reward reversed (tx: ${payload.tx})`;
+  const reversalDescription = `KIWIWALL reward reversed (tx: ${payload.tx})`;
   const now = new Date();
 
   try {
@@ -540,7 +540,7 @@ async function handleReversal(payload: ParsedPostback) {
             userId: claim.userId,
             type: "EARN_PENDING",
             amountCents: 0,
-            description: `KIWI WALL pending reward canceled (tx: ${payload.tx})`,
+            description: `KIWIWALL pending reward canceled (tx: ${payload.tx})`,
           },
         });
         return;

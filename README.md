@@ -177,9 +177,9 @@ For auth/verification, configure these env vars in Vercel:
 - `REVTOO_SECRET_KEY`
 - `REVTOO_APP_TOKEN` and/or `REVTOO_APP_ID` (optional API token/app-id validation)
 
-## KIWI WALL Postback
+## KIWIWALL Postback
 
-Use this callback endpoint for KIWI WALL:
+Use this callback endpoint for KIWIWALL:
 
 `https://ezearn.org/api/kiwiwall`
 
