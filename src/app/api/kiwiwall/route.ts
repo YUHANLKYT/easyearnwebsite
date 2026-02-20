@@ -21,6 +21,9 @@ function providerAck(value: "1" | "0", status = 200) {
 type ParsedPostback = {
   tx: string | null;
   userId: string | null;
+  subIdRaw: string | null;
+  amountRaw: string | null;
+  grossRaw: string | null;
   amountUsdCents: number | null;
   amountCurrencyCents: number | null;
   offerId: string | null;
@@ -233,6 +236,27 @@ function verifyHash(payload: ParsedPostback, rawUrl: string, rawBody: string): b
     return false;
   }
 
+  // KiwiWall documented signature: md5(sub_id:amount:secret_key)
+  // We support both `amount` and `gross` as value candidates to avoid formatting drift across integrations.
+  const kiwiSubId = payload.subIdRaw?.trim();
+  const kiwiAmount = payload.amountRaw?.trim();
+  const kiwiGross = payload.grossRaw?.trim();
+  if (kiwiSubId && (kiwiAmount || kiwiGross)) {
+    for (const secret of secrets) {
+      const formulaCandidates = [kiwiAmount, kiwiGross]
+        .filter((value): value is string => Boolean(value))
+        .flatMap((value) => [
+          createHash("md5").update(`${kiwiSubId}:${value}:${secret}`).digest("hex"),
+          createHash("md5").update(`${decodeIfPossible(kiwiSubId)}:${value}:${secret}`).digest("hex"),
+        ])
+        .map(normalizeHash);
+
+      if (formulaCandidates.some((candidate) => safeEquals(candidate, incomingHash))) {
+        return true;
+      }
+    }
+  }
+
   const urlCandidates = getHashCandidates(rawUrl);
   const bodyCandidates = getBodyCandidates(rawBody);
   const signatureInputs = Array.from(
@@ -318,6 +342,18 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "sub_id",
       "subid",
     ]),
+    subIdRaw: getParam(searchParams, ["sub_id", "subid", "user_id", "uid", "userid", "userId"]),
+    amountRaw: getParam(searchParams, [
+      "amount",
+      "amount_usd",
+      "payout",
+      "reward",
+      "value",
+      "value_usd",
+      "sub_id2",
+      "subid_2",
+    ]),
+    grossRaw: getParam(searchParams, ["gross", "amount_local"]),
     amountUsdCents: parseCents(
       getParam(searchParams, [
         "amount_usd",
@@ -660,10 +696,6 @@ async function handleRequest(
   }
 
   if (!payload.tx || !payload.userId) {
-    return providerAck("0");
-  }
-
-  if (!verifyApiToken(payload, headerApiToken)) {
     return providerAck("0");
   }
 
