@@ -32,10 +32,10 @@ export default async function KiwiWallPage() {
           <Image
             src="/kiwiwall-logo.svg"
             alt="KIWIWALL"
-            width={300}
-            height={68}
+            width={480}
+            height={96}
             priority
-            className="h-auto w-full max-w-[220px] sm:max-w-[300px]"
+            className="h-auto w-full max-w-[260px] sm:max-w-[360px]"
           />
         </div>
 

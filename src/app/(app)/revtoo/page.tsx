@@ -28,7 +28,7 @@ export default async function RevtooPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <div className="rounded-2xl border border-orange-200/70 bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 px-4 py-4 sm:px-6">
+        <div className="rounded-2xl border border-sky-200/70 bg-gradient-to-r from-cyan-50 via-sky-50 to-indigo-50 px-4 py-4 sm:px-6">
           <Image
             src="/revtoo-logo.png"
             alt="Revtoo"
