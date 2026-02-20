@@ -1,0 +1,24 @@
+<svg width="420" height="96" viewBox="0 0 420 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rv-card" x1="0" y1="0" x2="420" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff7ed" />
+      <stop offset="1" stop-color="#ffe4e6" />
+    </linearGradient>
+    <linearGradient id="rv-icon" x1="24" y1="22" x2="88" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fb923c" />
+      <stop offset="1" stop-color="#f43f5e" />
+    </linearGradient>
+    <linearGradient id="rv-text" x1="110" y1="30" x2="350" y2="74" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ea580c" />
+      <stop offset="1" stop-color="#e11d48" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="416" height="92" rx="20" fill="url(#rv-card)" />
+  <rect x="2" y="2" width="416" height="92" rx="20" stroke="#fdba74" stroke-width="4" />
+  <circle cx="56" cy="48" r="28" fill="url(#rv-icon)" />
+  <path d="M44 38h20a6 6 0 0 1 0 12H54v10h-10V38zm10 12h8a2 2 0 0 0 0-4h-8v4z" fill="#fff7ed" />
+  <circle cx="75" cy="58" r="7" fill="#fff7ed" />
+  <text x="108" y="64" fill="url(#rv-text)" font-family="Inter, Arial, sans-serif" font-size="46" font-weight="800">
+    REVTOO
+  </text>
+</svg>

@@ -7,6 +7,7 @@ import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
 import { buildKiwiWallOfferwallUrl } from "@/lib/kiwiwall";
 import { OFFERWALL_AVAILABILITY } from "@/lib/offerwall-flags";
+import { buildRevtooOfferwallUrl } from "@/lib/revtoo";
 import { buildTheoremReachOfferwallUrl } from "@/lib/theoremreach";
 
 type SearchParams = Promise<{
@@ -31,6 +32,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     userId: user.id,
   });
   const kiwiwallUrl = buildKiwiWallOfferwallUrl({
+    userId: user.id,
+  });
+  const revtooUrl = buildRevtooOfferwallUrl({
     userId: user.id,
   });
   const offerwalls = [
@@ -123,6 +127,29 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       ctaLabel: "Open KIWIWALL",
       showAccentOrb: true,
       locked: !OFFERWALL_AVAILABILITY.kiwiwall,
+      popular: false,
+      logoPanelClass:
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
+    },
+    {
+      key: "revtoo",
+      name: "Revtoo",
+      href: "/revtoo",
+      logoSrc: "/revtoo-logo.svg",
+      logoAlt: "Revtoo",
+      logoWidth: 300,
+      logoHeight: 72,
+      logoClass: "h-auto w-full max-w-[220px] sm:max-w-[300px]",
+      logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[300px]",
+      available: OFFERWALL_AVAILABILITY.revtoo && Boolean(revtooUrl),
+      gradient: "from-orange-500 via-amber-500 to-rose-500",
+      copy: "Offerwall with mixed mobile and web tasks and varied payouts.",
+      missingEnvCopy: OFFERWALL_AVAILABILITY.revtoo ? "Missing env var: REVTOO_WALL_API_KEY." : "Coming Soon",
+      hideTitleText: false,
+      ctaLabel: "Open Revtoo",
+      showAccentOrb: true,
+      locked: !OFFERWALL_AVAILABILITY.revtoo,
       popular: false,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",

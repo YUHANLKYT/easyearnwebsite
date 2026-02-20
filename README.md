@@ -177,6 +177,10 @@ For auth/verification, configure these env vars in Vercel:
 - `REVTOO_SECRET_KEY`
 - `REVTOO_APP_TOKEN` and/or `REVTOO_APP_ID` (optional API token/app-id validation)
 
+For iframe wall rendering, you can also set:
+
+- `REVTOO_WALL_API_KEY` (falls back to `REVTOO_APP_TOKEN`)
+
 ## KIWIWALL Postback
 
 Use this callback endpoint for KIWIWALL:
