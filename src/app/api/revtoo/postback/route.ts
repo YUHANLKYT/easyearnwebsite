@@ -6,10 +6,31 @@ import { buildPendingEarnNotice, getOfferPendingDays, getPendingUntil } from "@/
 import { prisma } from "@/lib/prisma";
 
 const OFFERWALL_NAME = "Revtoo";
+const PROVIDER_RESPONSE_HEADERS = {
+  "cache-control": "no-store",
+  "content-type": "text/plain; charset=utf-8",
+};
+
+function providerOk() {
+  return new NextResponse("ok", {
+    status: 200,
+    headers: PROVIDER_RESPONSE_HEADERS,
+  });
+}
+
+function providerError(message: string, status = 400) {
+  return new NextResponse(`ERROR: ${message}`, {
+    status,
+    headers: PROVIDER_RESPONSE_HEADERS,
+  });
+}
 
 type ParsedPostback = {
   tx: string | null;
   userId: string | null;
+  subIdRaw: string | null;
+  rewardRaw: string | null;
+  payoutRaw: string | null;
   amountUsdCents: number | null;
   amountCurrencyCents: number | null;
   offerId: string | null;
@@ -184,7 +205,8 @@ function verifyApiToken(payload: ParsedPostback, headerApiToken?: string | null)
     .filter((value) => value.length > 0);
 
   if (providedValues.length < 1) {
-    return false;
+    // Revtoo does not always send app/api key in callbacks.
+    return true;
   }
 
   const candidates = [configuredToken, configuredAppId]
@@ -220,6 +242,31 @@ function verifyHash(payload: ParsedPostback, rawUrl: string, rawBody: string): b
   const incomingHash = normalizeHash(payload.hash);
   if (!incomingHash || incomingHash === "secure_hash" || incomingHash === "generated_hash") {
     return false;
+  }
+
+  // Revtoo documented signature:
+  // md5(subId + transId + reward + secret)
+  // We support reward and payout as value candidates for compatibility.
+  const subId = payload.subIdRaw?.trim();
+  const transId = payload.tx?.trim();
+  const rewardCandidates = [payload.rewardRaw, payload.payoutRaw]
+    .filter((value): value is string => Boolean(value))
+    .map((value) => value.trim())
+    .filter((value) => value.length > 0);
+  if (subId && transId && rewardCandidates.length > 0) {
+    for (const secret of secrets) {
+      const formulaCandidates = rewardCandidates
+        .flatMap((reward) => [
+          createHash("md5").update(`${subId}${transId}${reward}${secret}`).digest("hex"),
+          createHash("md5").update(`${decodeIfPossible(subId)}${transId}${reward}${secret}`).digest("hex"),
+          createHash("md5").update(`${subId}:${transId}:${reward}:${secret}`).digest("hex"),
+        ])
+        .map(normalizeHash);
+
+      if (formulaCandidates.some((candidate) => safeEquals(candidate, incomingHash))) {
+        return true;
+      }
+    }
   }
 
   const urlCandidates = getHashCandidates(rawUrl);
@@ -288,6 +335,8 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
   return {
     tx: getParam(searchParams, [
       "tx",
+      "transId",
+      "transid",
       "transaction_id",
       "trans_id",
       "transactionId",
@@ -297,6 +346,7 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
     ]),
     userId: getParam(searchParams, [
       "user_id",
+      "subId",
       "uid",
       "userid",
       "userId",
@@ -307,6 +357,25 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "sub_id",
       "subid",
     ]),
+    subIdRaw: getParam(searchParams, [
+      "subId",
+      "sub_id",
+      "subid",
+      "user_id",
+      "uid",
+      "userid",
+      "userId",
+    ]),
+    rewardRaw: getParam(searchParams, [
+      "reward",
+      "amount",
+      "value",
+      "reward_usd",
+      "amount_usd",
+      "sub_id2",
+      "subid_2",
+    ]),
+    payoutRaw: getParam(searchParams, ["payout", "payout_usd", "usd", "amount_local"]),
     amountUsdCents: parseCents(
       getParam(searchParams, [
         "amount_usd",
@@ -356,11 +425,11 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
 
 async function handleCredit(payload: ParsedPostback, payoutCents: number) {
   if (!payload.tx || !payload.userId) {
-    return NextResponse.json({ ok: false, error: "Missing transaction_id or user_id." }, { status: 400 });
+    return providerError("Missing transaction_id or user_id.");
   }
 
   if (payoutCents < 1) {
-    return NextResponse.json({ ok: true, ignored: "Non-positive amount." });
+    return providerOk();
   }
 
   const now = new Date();
@@ -455,25 +524,25 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "DUPLICATE") {
-        return NextResponse.json({ ok: true, duplicate: true });
+        return providerOk();
       }
       if (error.message === "USER_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "Unknown user." });
+        return providerOk();
       }
       if (error.message === "USER_NOT_ACTIVE") {
-        return NextResponse.json({ ok: true, ignored: "User is not active." });
+        return providerOk();
       }
     }
 
-    return NextResponse.json({ ok: false, error: "Could not process Revtoo reward." }, { status: 500 });
+    return providerError("Could not process Revtoo reward.", 500);
   }
 
-  return NextResponse.json({ ok: true, credited: true });
+  return providerOk();
 }
 
 async function handleReversal(payload: ParsedPostback) {
   if (!payload.tx) {
-    return NextResponse.json({ ok: false, error: "Missing transaction_id." }, { status: 400 });
+    return providerError("Missing transaction_id.");
   }
 
   const taskKey = `revtoo:${payload.tx}`;
@@ -581,20 +650,20 @@ async function handleReversal(payload: ParsedPostback) {
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "CLAIM_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "No claim found for reversal." });
+        return providerOk();
       }
       if (error.message === "ALREADY_REVERSED") {
-        return NextResponse.json({ ok: true, duplicate: true });
+        return providerOk();
       }
       if (error.message === "USER_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "User not found for reversal." });
+        return providerOk();
       }
     }
 
-    return NextResponse.json({ ok: false, error: "Could not process Revtoo reversal." }, { status: 500 });
+    return providerError("Could not process Revtoo reversal.", 500);
   }
 
-  return NextResponse.json({ ok: true, reversed: true });
+  return providerOk();
 }
 
 function shouldTreatAsReversal(payload: ParsedPostback, payoutCents: number | null): boolean {
@@ -649,15 +718,15 @@ async function handleRequest(
   }
 
   if (!payload.tx || !payload.userId) {
-    return NextResponse.json({ ok: false, error: "Missing required parameters." }, { status: 400 });
+    return providerError("Missing required parameters.");
   }
 
   if (!verifyApiToken(payload, headerApiToken)) {
-    return NextResponse.json({ ok: false, error: "Invalid API key." }, { status: 401 });
+    return providerError("Invalid API key.", 401);
   }
 
   if (!verifyHash(payload, rawUrl, rawBody)) {
-    return NextResponse.json({ ok: false, error: "Invalid hash." }, { status: 401 });
+    return providerError("Invalid hash.", 401);
   }
 
   const payoutCents = payload.amountUsdCents ?? payload.amountCurrencyCents;
@@ -666,7 +735,7 @@ async function handleRequest(
   }
 
   if (payoutCents === null) {
-    return NextResponse.json({ ok: false, error: "Missing reward value." }, { status: 400 });
+    return providerError("Missing reward value.");
   }
 
   return handleCredit(payload, payoutCents);
