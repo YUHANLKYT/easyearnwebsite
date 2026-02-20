@@ -5,6 +5,7 @@ import { FlashMessage } from "@/components/flash-message";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
+import { buildKiwiWallOfferwallUrl } from "@/lib/kiwiwall";
 import { OFFERWALL_AVAILABILITY } from "@/lib/offerwall-flags";
 import { buildTheoremReachOfferwallUrl } from "@/lib/theoremreach";
 
@@ -27,6 +28,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     userId: user.id,
   });
   const theoremreachUrl = buildTheoremReachOfferwallUrl({
+    userId: user.id,
+  });
+  const kiwiwallUrl = buildKiwiWallOfferwallUrl({
     userId: user.id,
   });
   const offerwalls = [
@@ -97,6 +101,29 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       showAccentOrb: true,
       locked: false,
       popular: true,
+      logoPanelClass:
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
+    },
+    {
+      key: "kiwiwall",
+      name: "KiwiWall",
+      href: "/kiwiwall",
+      logoSrc: "/kiwiwall-logo.svg",
+      logoAlt: "KiwiWall",
+      logoWidth: 300,
+      logoHeight: 68,
+      logoClass: "h-auto w-full max-w-[220px] sm:max-w-[300px]",
+      logoDisabledClass: "h-auto w-full max-w-[220px] opacity-70 sm:max-w-[300px]",
+      available: OFFERWALL_AVAILABILITY.kiwiwall && Boolean(kiwiwallUrl),
+      gradient: "from-lime-500 via-emerald-500 to-green-500",
+      copy: "Offer-focused wall with mobile and web campaigns plus survey opportunities.",
+      missingEnvCopy: OFFERWALL_AVAILABILITY.kiwiwall ? "Missing env var: KIWIWALL_WALL_TOKEN." : "Coming Soon",
+      hideTitleText: false,
+      ctaLabel: "Open KiwiWall",
+      showAccentOrb: true,
+      locked: !OFFERWALL_AVAILABILITY.kiwiwall,
+      popular: false,
       logoPanelClass:
         "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",

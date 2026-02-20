@@ -158,3 +158,43 @@ npm run prisma:studio
 ## Offerwall Integration Later
 
 When you add offerwalls, point their callbacks/claim actions into the same wallet transaction flow used in `/api/earn` so levels, balance, and withdrawal eligibility remain consistent.
+
+## Revtoo Postback
+
+Use this callback endpoint for Revtoo:
+
+`https://ezearn.org/api/revtoo/postback`
+
+Recommended query template:
+
+`https://ezearn.org/api/revtoo/postback?transaction_id={transaction_id}&user_id={user_id}&amount_usd={amount_usd}&offer_id={offer_id}&offer_name={offer_name}&status={status}&hash={hash}`
+
+For auth/verification, configure these env vars in Vercel:
+
+- `REVTOO_POSTBACK_SECRET` (primary hash secret)
+- `REVTOO_APP_SECRET`
+- `REVTOO_SERVER_TO_SERVER_KEY`
+- `REVTOO_SECRET_KEY`
+- `REVTOO_APP_TOKEN` and/or `REVTOO_APP_ID` (optional API token/app-id validation)
+
+## KiwiWall Postback
+
+Use this callback endpoint for KiwiWall:
+
+`https://ezearn.org/api/kiwiwall`
+
+Recommended query template:
+
+`https://ezearn.org/api/kiwiwall?transaction_id={transaction_id}&user_id={user_id}&amount_usd={amount_usd}&offer_id={offer_id}&offer_name={offer_name}&status={status}&hash={hash}`
+
+For auth/verification, configure these env vars in Vercel:
+
+- `KIWIWALL_POSTBACK_SECRET` (primary hash secret)
+- `KIWIWALL_APP_SECRET`
+- `KIWIWALL_SERVER_TO_SERVER_KEY`
+- `KIWIWALL_SECRET_KEY`
+- `KIWIWALL_APP_TOKEN` and/or `KIWIWALL_APP_ID` (optional API token/app-id validation)
+
+For iframe wall rendering, you can also set:
+
+- `KIWIWALL_WALL_TOKEN` (defaults to the current integrated wall token if not set)

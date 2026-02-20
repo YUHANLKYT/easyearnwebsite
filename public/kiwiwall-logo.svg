@@ -1,0 +1,17 @@
+<svg width="360" height="96" viewBox="0 0 360 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kw-bg" x1="0" y1="0" x2="360" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22c55e" />
+      <stop offset="1" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="kw-leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#ecfccb" />
+      <stop offset="1" stop-color="#bbf7d0" />
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="356" height="92" rx="20" fill="url(#kw-bg)" />
+  <rect x="2" y="2" width="356" height="92" rx="20" stroke="#4ade80" stroke-width="4" />
+  <circle cx="50" cy="48" r="20" fill="#14532d" />
+  <path d="M42 50c8-10 16-12 24-10-3 10-9 18-20 18-2 0-3-3-4-8z" fill="url(#kw-leaf)" />
+  <path d="M80 66V30h8v16l14-16h10L96 48l17 18h-10L88 50v16h-8zM122 66V30h8v36h-8zM142 66V30h8l13 22 13-22h8v36h-8V44l-10 16h-6l-10-16v22h-8zM196 66V30h26v7h-18v7h16v7h-16v8h18v7h-26zM232 66V30h12c10 0 17 7 17 18s-7 18-17 18h-12zm8-7h4c6 0 10-4 10-11s-4-11-10-11h-4v22zM271 66V30h8v36h-8zM288 66l15-36h8l15 36h-9l-3-7h-14l-3 7h-9zm15-14h8l-4-10-4 10z" fill="#f0fdf4" />
+</svg>
