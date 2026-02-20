@@ -337,9 +337,11 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "tx",
       "transId",
       "transid",
+      "transaction",
       "transaction_id",
       "trans_id",
       "transactionId",
+      "conversionId",
       "conversion_id",
       "event_id",
       "id",
@@ -347,9 +349,14 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
     userId: getParam(searchParams, [
       "user_id",
       "subId",
+      "sub_id_1",
+      "subid_1",
+      "sub1",
+      "sid",
       "uid",
       "userid",
       "userId",
+      "user",
       "ext_user_id",
       "external_user_id",
       "player_id",
@@ -361,6 +368,9 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "subId",
       "sub_id",
       "subid",
+      "sub_id_1",
+      "subid_1",
+      "sub1",
       "user_id",
       "uid",
       "userid",
@@ -770,7 +780,13 @@ export async function POST(request: Request) {
 
   if (!formData && rawBody.trim().length > 0) {
     const contentType = request.headers.get("content-type")?.toLowerCase() ?? "";
-    if (contentType.includes("application/json")) {
+    const bodyText = rawBody.trim();
+
+    if (
+      contentType.includes("application/json") ||
+      bodyText.startsWith("{") ||
+      bodyText.startsWith("[")
+    ) {
       try {
         const payload = JSON.parse(rawBody) as Record<string, unknown>;
         for (const [key, value] of Object.entries(payload)) {
@@ -784,7 +800,12 @@ export async function POST(request: Request) {
       } catch {
         // ignore invalid JSON
       }
-    } else if (contentType.includes("application/x-www-form-urlencoded")) {
+    }
+
+    if (
+      contentType.includes("application/x-www-form-urlencoded") ||
+      bodyText.includes("=")
+    ) {
       const bodyParams = new URLSearchParams(rawBody);
       for (const [key, value] of bodyParams.entries()) {
         if (value.length > 0) {
