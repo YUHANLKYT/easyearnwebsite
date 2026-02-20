@@ -246,7 +246,7 @@ export function ReferralCaseOpening({
           type="button"
           onClick={openCase}
           disabled={!canOpen}
-          className={`case-chest-btn ${chestBurst || spinning ? "case-chest-live" : ""} ${!canOpen ? "case-chest-disabled" : ""}`}
+          className={`case-chest-btn case-chest-btn-platinum ${chestBurst || spinning ? "case-chest-live" : ""} ${!canOpen ? "case-chest-disabled" : ""}`}
         >
           <span className="case-chest-glow" />
           <span className="case-chest-lid" />

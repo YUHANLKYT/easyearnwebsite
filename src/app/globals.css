@@ -970,14 +970,21 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 .case-chest-btn-violet {
   background:
     linear-gradient(154deg, rgba(210, 150, 92, 0.97), rgba(170, 110, 62, 0.96)) padding-box,
-    linear-gradient(130deg, rgba(196, 181, 253, 0.78), rgba(167, 139, 250, 0.7), rgba(255, 191, 94, 0.72))
+    linear-gradient(130deg, rgba(248, 250, 252, 0.9), rgba(203, 213, 225, 0.84), rgba(148, 163, 184, 0.82))
       border-box;
 }
 
 .case-chest-btn-blue {
   background:
     linear-gradient(154deg, rgba(210, 150, 92, 0.97), rgba(170, 110, 62, 0.96)) padding-box,
-    linear-gradient(130deg, rgba(103, 232, 249, 0.78), rgba(56, 189, 248, 0.68), rgba(255, 191, 94, 0.72))
+    linear-gradient(130deg, rgba(254, 240, 138, 0.9), rgba(251, 191, 36, 0.84), rgba(217, 119, 6, 0.82))
+      border-box;
+}
+
+.case-chest-btn-platinum {
+  background:
+    linear-gradient(154deg, rgba(210, 150, 92, 0.97), rgba(170, 110, 62, 0.96)) padding-box,
+    linear-gradient(130deg, rgba(241, 245, 249, 0.95), rgba(219, 234, 254, 0.86), rgba(148, 163, 184, 0.84))
       border-box;
 }
 
@@ -1128,6 +1135,124 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   animation: case-loader-spin 0.78s linear infinite;
 }
 
+/* Metallic crate variants */
+.case-chest-btn-violet .case-chest-lid {
+  border-color: rgba(100, 116, 139, 0.42);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.97), rgba(226, 232, 240, 0.94) 44%, rgba(148, 163, 184, 0.96));
+}
+
+.case-chest-btn-violet .case-chest-lid::after {
+  border-color: rgba(100, 116, 139, 0.44);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(203, 213, 225, 0.9));
+}
+
+.case-chest-btn-violet .case-chest-base {
+  border-color: rgba(100, 116, 139, 0.4);
+  background:
+    linear-gradient(165deg, rgba(226, 232, 240, 0.96), rgba(148, 163, 184, 0.94)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.28), transparent 60%);
+}
+
+.case-chest-btn-violet .case-chest-base::before {
+  border-left: 1px solid rgba(248, 250, 252, 0.75);
+  border-right: 1px solid rgba(100, 116, 139, 0.55);
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.8), rgba(100, 116, 139, 0.62));
+}
+
+.case-chest-btn-violet .case-chest-base::after {
+  background: rgba(248, 250, 252, 0.5);
+}
+
+.case-chest-btn-violet .case-chest-lock {
+  border-color: rgba(100, 116, 139, 0.42);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(226, 232, 240, 0.92));
+  color: #334155;
+}
+
+.case-chest-btn-violet .case-chest-loader {
+  border-color: rgba(203, 213, 225, 0.62);
+  border-top-color: rgba(248, 250, 252, 0.98);
+  border-right-color: rgba(100, 116, 139, 0.92);
+}
+
+.case-chest-btn-blue .case-chest-lid {
+  border-color: rgba(180, 83, 9, 0.48);
+  background: linear-gradient(180deg, rgba(254, 249, 195, 0.98), rgba(253, 224, 71, 0.95) 42%, rgba(217, 119, 6, 0.96));
+}
+
+.case-chest-btn-blue .case-chest-lid::after {
+  border-color: rgba(180, 83, 9, 0.46);
+  background: linear-gradient(180deg, rgba(255, 251, 235, 0.98), rgba(251, 191, 36, 0.92));
+}
+
+.case-chest-btn-blue .case-chest-base {
+  border-color: rgba(180, 83, 9, 0.46);
+  background:
+    linear-gradient(165deg, rgba(253, 224, 71, 0.96), rgba(217, 119, 6, 0.94)),
+    radial-gradient(circle at 50% 20%, rgba(255, 251, 235, 0.3), transparent 60%);
+}
+
+.case-chest-btn-blue .case-chest-base::before {
+  border-left: 1px solid rgba(255, 251, 235, 0.72);
+  border-right: 1px solid rgba(180, 83, 9, 0.56);
+  background: linear-gradient(180deg, rgba(254, 240, 138, 0.82), rgba(194, 65, 12, 0.66));
+}
+
+.case-chest-btn-blue .case-chest-base::after {
+  background: rgba(255, 251, 235, 0.56);
+}
+
+.case-chest-btn-blue .case-chest-lock {
+  border-color: rgba(180, 83, 9, 0.45);
+  background: linear-gradient(180deg, rgba(255, 251, 235, 0.98), rgba(251, 191, 36, 0.92));
+  color: #7c2d12;
+}
+
+.case-chest-btn-blue .case-chest-loader {
+  border-color: rgba(253, 230, 138, 0.6);
+  border-top-color: rgba(255, 251, 235, 0.98);
+  border-right-color: rgba(217, 119, 6, 0.94);
+}
+
+.case-chest-btn-platinum .case-chest-lid {
+  border-color: rgba(71, 85, 105, 0.42);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(219, 234, 254, 0.94) 42%, rgba(148, 163, 184, 0.96));
+}
+
+.case-chest-btn-platinum .case-chest-lid::after {
+  border-color: rgba(71, 85, 105, 0.44);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(191, 219, 254, 0.9));
+}
+
+.case-chest-btn-platinum .case-chest-base {
+  border-color: rgba(71, 85, 105, 0.42);
+  background:
+    linear-gradient(165deg, rgba(224, 231, 255, 0.96), rgba(148, 163, 184, 0.95)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.34), transparent 60%);
+}
+
+.case-chest-btn-platinum .case-chest-base::before {
+  border-left: 1px solid rgba(255, 255, 255, 0.76);
+  border-right: 1px solid rgba(71, 85, 105, 0.58);
+  background: linear-gradient(180deg, rgba(219, 234, 254, 0.86), rgba(100, 116, 139, 0.66));
+}
+
+.case-chest-btn-platinum .case-chest-base::after {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.case-chest-btn-platinum .case-chest-lock {
+  border-color: rgba(71, 85, 105, 0.44);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(219, 234, 254, 0.92));
+  color: #1e293b;
+}
+
+.case-chest-btn-platinum .case-chest-loader {
+  border-color: rgba(191, 219, 254, 0.62);
+  border-top-color: rgba(255, 255, 255, 0.98);
+  border-right-color: rgba(59, 130, 246, 0.9);
+}
+
 .case-spinner-pop {
   --case-origin-x: 0px;
   --case-origin-y: 0px;
@@ -1193,14 +1318,21 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 :root[data-theme="dark"] .case-chest-btn-violet {
   background:
     linear-gradient(154deg, rgba(174, 112, 62, 0.96), rgba(124, 62, 26, 0.95)) padding-box,
-    linear-gradient(130deg, rgba(196, 181, 253, 0.76), rgba(167, 139, 250, 0.68), rgba(255, 191, 94, 0.72))
+    linear-gradient(130deg, rgba(226, 232, 240, 0.78), rgba(148, 163, 184, 0.72), rgba(100, 116, 139, 0.7))
       border-box;
 }
 
 :root[data-theme="dark"] .case-chest-btn-blue {
   background:
     linear-gradient(154deg, rgba(174, 112, 62, 0.96), rgba(124, 62, 26, 0.95)) padding-box,
-    linear-gradient(130deg, rgba(103, 232, 249, 0.74), rgba(56, 189, 248, 0.66), rgba(255, 191, 94, 0.72))
+    linear-gradient(130deg, rgba(254, 240, 138, 0.8), rgba(245, 158, 11, 0.74), rgba(180, 83, 9, 0.72))
+      border-box;
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum {
+  background:
+    linear-gradient(154deg, rgba(174, 112, 62, 0.96), rgba(124, 62, 26, 0.95)) padding-box,
+    linear-gradient(130deg, rgba(226, 232, 240, 0.84), rgba(191, 219, 254, 0.76), rgba(100, 116, 139, 0.72))
       border-box;
 }
 
@@ -1224,6 +1356,111 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   border-color: rgba(255, 238, 204, 0.36);
   border-top-color: rgba(254, 240, 138, 0.98);
   border-right-color: rgba(245, 158, 11, 0.95);
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-lid {
+  border-color: rgba(148, 163, 184, 0.56);
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(203, 213, 225, 0.82), rgba(100, 116, 139, 0.88));
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-lid::after {
+  border-color: rgba(148, 163, 184, 0.5);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(148, 163, 184, 0.82));
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-base {
+  border-color: rgba(148, 163, 184, 0.52);
+  background:
+    linear-gradient(165deg, rgba(203, 213, 225, 0.84), rgba(100, 116, 139, 0.82)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.26), transparent 60%);
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-base::before {
+  border-left: 1px solid rgba(248, 250, 252, 0.62);
+  border-right: 1px solid rgba(71, 85, 105, 0.62);
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.74), rgba(71, 85, 105, 0.72));
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-lock {
+  border-color: rgba(148, 163, 184, 0.56);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(203, 213, 225, 0.82));
+  color: #334155;
+}
+
+:root[data-theme="dark"] .case-chest-btn-violet .case-chest-loader {
+  border-color: rgba(148, 163, 184, 0.44);
+  border-top-color: rgba(248, 250, 252, 0.95);
+  border-right-color: rgba(148, 163, 184, 0.9);
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-lid {
+  border-color: rgba(217, 119, 6, 0.56);
+  background: linear-gradient(180deg, rgba(254, 249, 195, 0.9), rgba(253, 224, 71, 0.84), rgba(217, 119, 6, 0.88));
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-lid::after {
+  border-color: rgba(217, 119, 6, 0.54);
+  background: linear-gradient(180deg, rgba(255, 251, 235, 0.92), rgba(245, 158, 11, 0.86));
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-base {
+  border-color: rgba(217, 119, 6, 0.56);
+  background:
+    linear-gradient(165deg, rgba(253, 224, 71, 0.86), rgba(217, 119, 6, 0.82)),
+    radial-gradient(circle at 50% 20%, rgba(255, 251, 235, 0.26), transparent 60%);
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-base::before {
+  border-left: 1px solid rgba(255, 251, 235, 0.62);
+  border-right: 1px solid rgba(180, 83, 9, 0.64);
+  background: linear-gradient(180deg, rgba(253, 230, 138, 0.78), rgba(194, 65, 12, 0.74));
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-lock {
+  border-color: rgba(217, 119, 6, 0.56);
+  background: linear-gradient(180deg, rgba(255, 251, 235, 0.92), rgba(245, 158, 11, 0.84));
+  color: #7c2d12;
+}
+
+:root[data-theme="dark"] .case-chest-btn-blue .case-chest-loader {
+  border-color: rgba(245, 158, 11, 0.45);
+  border-top-color: rgba(255, 251, 235, 0.95);
+  border-right-color: rgba(217, 119, 6, 0.92);
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-lid {
+  border-color: rgba(148, 163, 184, 0.58);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(191, 219, 254, 0.82), rgba(100, 116, 139, 0.88));
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-lid::after {
+  border-color: rgba(148, 163, 184, 0.52);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(147, 197, 253, 0.82));
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-base {
+  border-color: rgba(148, 163, 184, 0.56);
+  background:
+    linear-gradient(165deg, rgba(219, 234, 254, 0.84), rgba(100, 116, 139, 0.84)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.28), transparent 60%);
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-base::before {
+  border-left: 1px solid rgba(255, 255, 255, 0.64);
+  border-right: 1px solid rgba(71, 85, 105, 0.66);
+  background: linear-gradient(180deg, rgba(191, 219, 254, 0.8), rgba(71, 85, 105, 0.74));
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-lock {
+  border-color: rgba(148, 163, 184, 0.58);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(191, 219, 254, 0.84));
+  color: #1e293b;
+}
+
+:root[data-theme="dark"] .case-chest-btn-platinum .case-chest-loader {
+  border-color: rgba(148, 163, 184, 0.46);
+  border-top-color: rgba(255, 255, 255, 0.96);
+  border-right-color: rgba(96, 165, 250, 0.9);
 }
 
 :root[data-theme="dark"] .case-spinner-pop {
