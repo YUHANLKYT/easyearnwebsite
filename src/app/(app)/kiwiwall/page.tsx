@@ -15,8 +15,8 @@ export default async function KiwiWallPage() {
       <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">KiwiWall</h1>
-            <p className="mt-2 max-w-2xl text-slate-600">Complete KiwiWall offers and surveys to earn rewards in EasyEarn.</p>
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-900">KIWI WALL</h1>
+            <p className="mt-2 max-w-2xl text-slate-600">Complete KIWI WALL offers and surveys to earn rewards in EasyEarn.</p>
           </div>
           <Link
             href="/earn"
@@ -31,7 +31,7 @@ export default async function KiwiWallPage() {
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
             src="/kiwiwall-logo.svg"
-            alt="KiwiWall"
+            alt="KIWI WALL"
             width={300}
             height={68}
             priority
@@ -42,7 +42,7 @@ export default async function KiwiWallPage() {
         {kiwiwallUrl ? (
           <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
             <iframe
-              title="KiwiWall Offerwall"
+              title="KIWI WALL Offerwall"
               src={kiwiwallUrl}
               className="h-[1200px] w-full md:h-[1600px] xl:h-[2000px]"
               loading="lazy"
@@ -51,7 +51,7 @@ export default async function KiwiWallPage() {
           </div>
         ) : (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            KiwiWall is not configured yet. Add `KIWIWALL_WALL_TOKEN` in your environment variables.
+            KIWI WALL is not configured yet. Add `KIWIWALL_WALL_TOKEN` in your environment variables.
           </div>
         )}
       </section>

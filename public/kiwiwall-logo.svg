@@ -1,17 +1,43 @@
-<svg width="360" height="96" viewBox="0 0 360 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="420" height="96" viewBox="0 0 420 96" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="kw-bg" x1="0" y1="0" x2="360" y2="96" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22c55e" />
-      <stop offset="1" stop-color="#16a34a" />
+    <linearGradient id="kw-card" x1="0" y1="0" x2="420" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f0fdf4" />
+      <stop offset="1" stop-color="#dcfce7" />
     </linearGradient>
-    <linearGradient id="kw-leaf" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#ecfccb" />
-      <stop offset="1" stop-color="#bbf7d0" />
+    <linearGradient id="kw-ring" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#22c55e" />
+      <stop offset="1" stop-color="#15803d" />
+    </linearGradient>
+    <linearGradient id="kw-fill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#bef264" />
+      <stop offset="1" stop-color="#84cc16" />
     </linearGradient>
   </defs>
-  <rect x="2" y="2" width="356" height="92" rx="20" fill="url(#kw-bg)" />
-  <rect x="2" y="2" width="356" height="92" rx="20" stroke="#4ade80" stroke-width="4" />
-  <circle cx="50" cy="48" r="20" fill="#14532d" />
-  <path d="M42 50c8-10 16-12 24-10-3 10-9 18-20 18-2 0-3-3-4-8z" fill="url(#kw-leaf)" />
-  <path d="M80 66V30h8v16l14-16h10L96 48l17 18h-10L88 50v16h-8zM122 66V30h8v36h-8zM142 66V30h8l13 22 13-22h8v36h-8V44l-10 16h-6l-10-16v22h-8zM196 66V30h26v7h-18v7h16v7h-16v8h18v7h-26zM232 66V30h12c10 0 17 7 17 18s-7 18-17 18h-12zm8-7h4c6 0 10-4 10-11s-4-11-10-11h-4v22zM271 66V30h8v36h-8zM288 66l15-36h8l15 36h-9l-3-7h-14l-3 7h-9zm15-14h8l-4-10-4 10z" fill="#f0fdf4" />
+
+  <rect x="2" y="2" width="416" height="92" rx="20" fill="url(#kw-card)" />
+  <rect x="2" y="2" width="416" height="92" rx="20" stroke="#4ade80" stroke-width="4" />
+
+  <circle cx="56" cy="48" r="30" fill="url(#kw-ring)" />
+  <circle cx="56" cy="48" r="24" fill="url(#kw-fill)" />
+  <circle cx="56" cy="48" r="8" fill="#f8fafc" />
+
+  <ellipse cx="56" cy="25.5" rx="1.8" ry="3.2" fill="#1f2937" />
+  <ellipse cx="69.2" cy="29.8" rx="1.8" ry="3.2" transform="rotate(24 69.2 29.8)" fill="#1f2937" />
+  <ellipse cx="77.8" cy="40.5" rx="1.8" ry="3.2" transform="rotate(54 77.8 40.5)" fill="#1f2937" />
+  <ellipse cx="79.8" cy="54.8" rx="1.8" ry="3.2" transform="rotate(78 79.8 54.8)" fill="#1f2937" />
+  <ellipse cx="74.3" cy="67.2" rx="1.8" ry="3.2" transform="rotate(108 74.3 67.2)" fill="#1f2937" />
+  <ellipse cx="62.8" cy="74.7" rx="1.8" ry="3.2" transform="rotate(138 62.8 74.7)" fill="#1f2937" />
+  <ellipse cx="49.2" cy="74.7" rx="1.8" ry="3.2" transform="rotate(168 49.2 74.7)" fill="#1f2937" />
+  <ellipse cx="37.7" cy="67.2" rx="1.8" ry="3.2" transform="rotate(198 37.7 67.2)" fill="#1f2937" />
+  <ellipse cx="32.2" cy="54.8" rx="1.8" ry="3.2" transform="rotate(228 32.2 54.8)" fill="#1f2937" />
+  <ellipse cx="34.2" cy="40.5" rx="1.8" ry="3.2" transform="rotate(258 34.2 40.5)" fill="#1f2937" />
+  <ellipse cx="42.8" cy="29.8" rx="1.8" ry="3.2" transform="rotate(288 42.8 29.8)" fill="#1f2937" />
+
+  <path d="M108 67V29h9.3v16.8l16-16.8h11.6L126.8 48l19.1 19h-11.4l-17.2-17.3V67H108z" fill="#14532d" />
+  <path d="M155 67V29h9.3v38H155z" fill="#14532d" />
+  <path d="M173 67V29h9l14.6 23.2L211.2 29h9v38h-9.3V44.4l-11.7 18.5h-5.2l-11.7-18.5V67H173z" fill="#14532d" />
+  <path d="M233 67V29h28v7.4h-18.7v7.7H259v7.4h-16.7v8.1h18.7V67H233z" fill="#14532d" />
+  <path d="M273 67V29h13.1c10.8 0 18.3 7.5 18.3 19s-7.5 19-18.3 19H273zm9.3-7.4h3.8c5.7 0 8.9-4 8.9-11.6s-3.2-11.6-8.9-11.6h-3.8v23.2z" fill="#14532d" />
+  <path d="M316 67V29h9.3v38H316z" fill="#14532d" />
+  <path d="M335.4 67l15.6-38h8.6l15.7 38h-10l-2.9-7.2h-14.3l-2.9 7.2h-9.8zm15.7-14.2h8.4l-4.2-10.7-4.2 10.7z" fill="#14532d" />
 </svg>

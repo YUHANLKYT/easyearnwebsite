@@ -5,7 +5,18 @@ import { NextResponse } from "next/server";
 import { buildPendingEarnNotice, getOfferPendingDays, getPendingUntil } from "@/lib/pending-offers";
 import { prisma } from "@/lib/prisma";
 
-const OFFERWALL_NAME = "KiwiWall";
+const OFFERWALL_NAME = "KIWI WALL";
+const PROVIDER_RESPONSE_HEADERS = {
+  "cache-control": "no-store",
+  "content-type": "text/plain; charset=utf-8",
+};
+
+function providerAck(value: "1" | "0", status = 200) {
+  return new NextResponse(value, {
+    status,
+    headers: PROVIDER_RESPONSE_HEADERS,
+  });
+}
 
 type ParsedPostback = {
   tx: string | null;
@@ -356,11 +367,11 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
 
 async function handleCredit(payload: ParsedPostback, payoutCents: number) {
   if (!payload.tx || !payload.userId) {
-    return NextResponse.json({ ok: false, error: "Missing transaction_id or user_id." }, { status: 400 });
+    return providerAck("0");
   }
 
   if (payoutCents < 1) {
-    return NextResponse.json({ ok: true, ignored: "Non-positive amount." });
+    return providerAck("1");
   }
 
   const now = new Date();
@@ -368,7 +379,7 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
   const pendingDays = getOfferPendingDays(payoutCents);
   const pendingUntil = getPendingUntil(payoutCents, now);
   const normalizedOfferId = payload.offerId ?? payload.tx;
-  const offerTitle = payload.offerTitle ?? "KiwiWall Offer";
+  const offerTitle = payload.offerTitle ?? "KIWI WALL Offer";
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -423,7 +434,7 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
             userId: user.id,
             type: "EARN_PENDING",
             amountCents: payoutCents,
-            description: `${buildPendingEarnNotice(payoutCents, pendingDays)} (KiwiWall tx: ${payload.tx})`,
+            description: `${buildPendingEarnNotice(payoutCents, pendingDays)} (KIWI WALL tx: ${payload.tx})`,
           },
         });
         return;
@@ -448,36 +459,36 @@ async function handleCredit(payload: ParsedPostback, payoutCents: number) {
           userId: user.id,
           type: "EARN",
           amountCents: payoutCents,
-          description: `KiwiWall reward credited (tx: ${payload.tx})`,
+          description: `KIWI WALL reward credited (tx: ${payload.tx})`,
         },
       });
     });
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "DUPLICATE") {
-        return NextResponse.json({ ok: true, duplicate: true });
+        return providerAck("1");
       }
       if (error.message === "USER_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "Unknown user." });
+        return providerAck("1");
       }
       if (error.message === "USER_NOT_ACTIVE") {
-        return NextResponse.json({ ok: true, ignored: "User is not active." });
+        return providerAck("1");
       }
     }
 
-    return NextResponse.json({ ok: false, error: "Could not process KiwiWall reward." }, { status: 500 });
+    return providerAck("0", 500);
   }
 
-  return NextResponse.json({ ok: true, credited: true });
+  return providerAck("1");
 }
 
 async function handleReversal(payload: ParsedPostback) {
   if (!payload.tx) {
-    return NextResponse.json({ ok: false, error: "Missing transaction_id." }, { status: 400 });
+    return providerAck("0");
   }
 
   const taskKey = `kiwiwall:${payload.tx}`;
-  const reversalDescription = `KiwiWall reward reversed (tx: ${payload.tx})`;
+  const reversalDescription = `KIWI WALL reward reversed (tx: ${payload.tx})`;
   const now = new Date();
 
   try {
@@ -529,7 +540,7 @@ async function handleReversal(payload: ParsedPostback) {
             userId: claim.userId,
             type: "EARN_PENDING",
             amountCents: 0,
-            description: `KiwiWall pending reward canceled (tx: ${payload.tx})`,
+            description: `KIWI WALL pending reward canceled (tx: ${payload.tx})`,
           },
         });
         return;
@@ -581,20 +592,20 @@ async function handleReversal(payload: ParsedPostback) {
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "CLAIM_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "No claim found for reversal." });
+        return providerAck("1");
       }
       if (error.message === "ALREADY_REVERSED") {
-        return NextResponse.json({ ok: true, duplicate: true });
+        return providerAck("1");
       }
       if (error.message === "USER_NOT_FOUND") {
-        return NextResponse.json({ ok: true, ignored: "User not found for reversal." });
+        return providerAck("1");
       }
     }
 
-    return NextResponse.json({ ok: false, error: "Could not process KiwiWall reversal." }, { status: 500 });
+    return providerAck("0", 500);
   }
 
-  return NextResponse.json({ ok: true, reversed: true });
+  return providerAck("1");
 }
 
 function shouldTreatAsReversal(payload: ParsedPostback, payoutCents: number | null): boolean {
@@ -649,15 +660,15 @@ async function handleRequest(
   }
 
   if (!payload.tx || !payload.userId) {
-    return NextResponse.json({ ok: false, error: "Missing required parameters." }, { status: 400 });
+    return providerAck("0");
   }
 
   if (!verifyApiToken(payload, headerApiToken)) {
-    return NextResponse.json({ ok: false, error: "Invalid API key." }, { status: 401 });
+    return providerAck("0");
   }
 
   if (!verifyHash(payload, rawUrl, rawBody)) {
-    return NextResponse.json({ ok: false, error: "Invalid hash." }, { status: 401 });
+    return providerAck("0");
   }
 
   const payoutCents = payload.amountUsdCents ?? payload.amountCurrencyCents;
@@ -666,7 +677,7 @@ async function handleRequest(
   }
 
   if (payoutCents === null) {
-    return NextResponse.json({ ok: false, error: "Missing reward value." }, { status: 400 });
+    return providerAck("0");
   }
 
   return handleCredit(payload, payoutCents);
