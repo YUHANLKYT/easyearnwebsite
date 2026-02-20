@@ -711,6 +711,14 @@ async function handleRequest(
     return NextResponse.json({
       ok: true,
       debug: true,
+      parsed: {
+        tx: payload.tx,
+        userId: payload.userId,
+        subId: payload.subIdRaw,
+        reward: payload.rewardRaw,
+        payout: payload.payoutRaw,
+        status: payload.status,
+      },
       hashValid: verifyHash(payload, rawUrl, rawBody),
       tokenValid: verifyApiToken(payload, headerApiToken),
       ignored: "Debug callback accepted without wallet credit.",
