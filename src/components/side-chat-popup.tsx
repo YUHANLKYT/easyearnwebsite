@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -202,23 +202,23 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={`chat-toggle fixed top-1/2 z-50 -translate-y-1/2 transition-all ${
+        className={`chat-toggle fixed top-1/2 right-0 z-50 ${
           open ? "chat-toggle-open" : "chat-toggle-closed"
         }`}
         style={{
-          right: open ? "min(92vw, 390px)" : "0px",
+          transform: `translate3d(${open ? "calc(-1 * min(92vw, 390px))" : "0px"}, -50%, 0)`,
         }}
         title={open ? "Close chat" : "Open chat"}
       >
         <span className="chat-toggle-dot" aria-hidden />
         <span className="chat-toggle-label">{open ? "Close Chat" : "Open Chat"}</span>
         <span className="chat-toggle-chevron" aria-hidden>
-          {open ? "›" : "‹"}
+          {open ? ">" : "<"}
         </span>
       </button>
 
       <section
-        className={`chat-drawer fixed top-0 right-0 z-40 h-screen w-[min(92vw,390px)] border-l border-slate-200 bg-white/95 shadow-2xl transition-transform duration-300 ${
+        className={`chat-drawer fixed top-0 right-0 z-40 h-screen w-[min(92vw,390px)] border-l border-slate-200 bg-white/95 shadow-2xl ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
