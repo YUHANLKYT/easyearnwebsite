@@ -40,6 +40,8 @@ type SideChatPopupProps = {
   canSend: boolean;
 };
 
+const CHAT_DOCK_GAP = "12px";
+
 function formatTime(value: string): string {
   return new Date(value).toLocaleTimeString("en-US", {
     hour: "numeric",
@@ -202,11 +204,11 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={`chat-toggle fixed top-1/2 right-0 z-50 ${
+        className={`chat-toggle fixed top-1/2 right-3 z-50 ${
           open ? "chat-toggle-open" : "chat-toggle-closed"
         }`}
         style={{
-          transform: `translate3d(${open ? "calc(-1 * min(92vw, 390px))" : "0px"}, -50%, 0)`,
+          transform: `translate3d(${open ? `calc(-1 * min(92vw, 390px) - ${CHAT_DOCK_GAP})` : "0px"}, -50%, 0)`,
         }}
         title={open ? "Close chat" : "Open chat"}
       >
