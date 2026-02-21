@@ -35,7 +35,7 @@ export default async function KiwiWallPage() {
             width={480}
             height={96}
             priority
-            className="h-auto w-full max-w-[260px] sm:max-w-[360px]"
+            className="h-auto w-full max-w-none"
           />
         </div>
 
