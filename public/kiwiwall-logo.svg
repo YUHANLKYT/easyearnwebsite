@@ -14,7 +14,6 @@
     </linearGradient>
   </defs>
   <rect x="2" y="2" width="476" height="92" rx="20" fill="url(#kw-card)" />
-  <rect x="2" y="2" width="476" height="92" rx="20" stroke="#4ade80" stroke-width="4" />
   <circle cx="56" cy="48" r="30" fill="url(#kw-ring)" />
   <circle cx="56" cy="48" r="24" fill="url(#kw-fill)" />
   <circle cx="56" cy="48" r="8" fill="#f8fafc" />
@@ -29,7 +28,7 @@
   <ellipse cx="32.2" cy="54.8" rx="1.8" ry="3.2" transform="rotate(228 32.2 54.8)" fill="#1f2937" />
   <ellipse cx="34.2" cy="40.5" rx="1.8" ry="3.2" transform="rotate(258 34.2 40.5)" fill="#1f2937" />
   <ellipse cx="42.8" cy="29.8" rx="1.8" ry="3.2" transform="rotate(288 42.8 29.8)" fill="#1f2937" />
-  <text x="104" y="62" fill="#14532d" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" letter-spacing="1.8">
+  <text x="98" y="66" fill="#14532d" font-family="Inter, Arial, sans-serif" font-size="52" font-weight="800" letter-spacing="1.8">
     KIWIWALL
   </text>
 </svg>
