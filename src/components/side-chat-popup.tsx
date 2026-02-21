@@ -13,6 +13,12 @@ type ChatItem = {
   createdAt: string;
 };
 
+type ChatListResponse = {
+  items: ChatItem[];
+  currentUserId: string;
+  canModerate: boolean;
+};
+
 type ChatProfile = {
   id: string;
   name: string;
@@ -45,9 +51,23 @@ function displayMetric(value: string | number | null): string {
   return value === null ? "Hidden" : String(value);
 }
 
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) {
+    return "?";
+  }
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatItem[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [canModerate, setCanModerate] = useState(false);
+  const [deletingMessageId, setDeletingMessageId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,11 +80,14 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
   async function loadMessages() {
     try {
       const response = await fetch("/api/chat", { cache: "no-store" });
-      const payload = (await response.json()) as { error?: string; items?: ChatItem[] };
+      const payload = (await response.json()) as (ChatListResponse & { error?: string }) | { error?: string };
       if (!response.ok) {
         throw new Error(payload.error || "Could not load chat.");
       }
-      setMessages(payload.items ?? []);
+      const typedPayload = payload as ChatListResponse;
+      setMessages(typedPayload.items ?? []);
+      setCurrentUserId(typedPayload.currentUserId ?? null);
+      setCanModerate(Boolean(typedPayload.canModerate));
       setError(null);
     } catch (loadError) {
       setError(loadError instanceof Error ? loadError.message : "Could not load chat.");
@@ -140,6 +163,40 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
     }
   }
 
+  async function deleteMessage(messageId: string) {
+    if (!canModerate || deletingMessageId) {
+      return;
+    }
+
+    const confirmed = window.confirm("Delete this message from chat?");
+    if (!confirmed) {
+      return;
+    }
+
+    setDeletingMessageId(messageId);
+    try {
+      const response = await fetch("/api/chat", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ messageId }),
+      });
+
+      const payload = (await response.json().catch(() => ({}))) as { error?: string };
+      if (!response.ok) {
+        throw new Error(payload.error || "Failed to delete message.");
+      }
+
+      setMessages((current) => current.filter((item) => item.id !== messageId));
+      setError(null);
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : "Failed to delete message.");
+    } finally {
+      setDeletingMessageId(null);
+    }
+  }
+
   return (
     <>
       <button
@@ -177,42 +234,66 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
 
           <div className="space-y-2">
             {messages.map((item) => (
-              <article key={item.id} className="chat-message-card rounded-xl border border-slate-100 bg-white px-3 py-2">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      onClick={() => openProfile(item.userId)}
-                      className="text-xs font-semibold text-slate-800 underline decoration-dotted underline-offset-2 hover:text-sky-700"
-                    >
-                      {item.userName}
-                    </button>
-                    {item.userAnonymous ? (
-                      <span className="rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
-                        ANON
-                      </span>
-                    ) : (
-                      <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-bold text-sky-700">
-                        Lv {item.userLevel}
-                      </span>
-                    )}
-                    {item.userRole === "ADMIN" ? (
-                      <span className="rounded-full border border-fuchsia-200 bg-fuchsia-50 px-2 py-0.5 text-[10px] font-bold text-fuchsia-700">
-                        ADMIN
-                      </span>
-                    ) : !item.userAnonymous && item.userLevel >= 25 ? (
-                      <span className="rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-[10px] font-bold text-violet-700">
-                        VIP+
-                      </span>
-                    ) : !item.userAnonymous && item.userLevel >= 10 ? (
-                      <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700">
-                        VIP
-                      </span>
-                    ) : null}
+              <article key={item.id} className="chat-message-card rounded-2xl border px-3 py-3">
+                <div className="chat-message-shell flex items-start gap-3">
+                  <div className="chat-message-avatar mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[11px] font-bold">
+                    {item.userAnonymous ? "A" : getInitials(item.userName)}
                   </div>
-                  <p className="text-[11px] text-slate-500">{formatTime(item.createdAt)}</p>
+                  <div className="min-w-0 flex-1">
+                    <div className="chat-message-meta-row flex items-start justify-between gap-2">
+                      <div className="chat-message-name-row flex flex-wrap items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => openProfile(item.userId)}
+                          className="chat-message-user text-xs font-semibold underline decoration-dotted underline-offset-2"
+                        >
+                          {item.userName}
+                        </button>
+                        {item.userAnonymous ? (
+                          <span className="rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-700">
+                            ANON
+                          </span>
+                        ) : (
+                          <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 text-[10px] font-bold text-sky-700">
+                            Lv {item.userLevel}
+                          </span>
+                        )}
+                        {item.userRole === "ADMIN" ? (
+                          <span className="rounded-full border border-fuchsia-200 bg-fuchsia-50 px-2 py-0.5 text-[10px] font-bold text-fuchsia-700">
+                            ADMIN
+                          </span>
+                        ) : !item.userAnonymous && item.userLevel >= 25 ? (
+                          <span className="rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-[10px] font-bold text-violet-700">
+                            VIP+
+                          </span>
+                        ) : !item.userAnonymous && item.userLevel >= 10 ? (
+                          <span className="rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700">
+                            VIP
+                          </span>
+                        ) : null}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <p className="chat-message-time text-[11px]">{formatTime(item.createdAt)}</p>
+                        {canModerate ? (
+                          <button
+                            type="button"
+                            onClick={() => deleteMessage(item.id)}
+                            disabled={deletingMessageId === item.id}
+                            className="chat-message-delete rounded-md border px-2 py-0.5 text-[10px] font-semibold disabled:cursor-not-allowed disabled:opacity-55"
+                            title={
+                              item.userId === currentUserId
+                                ? "Delete your message"
+                                : "Delete this message as admin"
+                            }
+                          >
+                            {deletingMessageId === item.id ? "..." : "Delete"}
+                          </button>
+                        ) : null}
+                      </div>
+                    </div>
+                    <p className="chat-message-text mt-1.5 text-sm leading-relaxed">{item.message}</p>
+                  </div>
                 </div>
-                <p className="mt-1 text-sm text-slate-700">{item.message}</p>
               </article>
             ))}
           </div>

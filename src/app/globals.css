@@ -406,6 +406,27 @@ h6 {
   isolation: isolate;
 }
 
+.home-money-highlight {
+  display: inline-block;
+  padding-inline: 0.2em;
+  border-radius: 0.35em;
+  font-weight: 700;
+  color: #0f172a;
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.36), rgba(251, 146, 60, 0.38) 44%, rgba(56, 189, 248, 0.32));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    0 10px 20px -16px rgba(14, 165, 233, 0.6);
+}
+
+:root[data-theme="dark"] .home-money-highlight {
+  color: #f8fafc;
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.3), rgba(244, 114, 182, 0.26) 48%, rgba(56, 189, 248, 0.28));
+  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 12px 22px -16px rgba(56, 189, 248, 0.62);
+}
+
 .hero-spotlight-bg {
   background-size: 180% 180%;
   animation: hero-spotlight-drift 14s ease-in-out infinite;
@@ -1878,6 +1899,47 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 .chat-message-card {
   border-color: var(--ui-shell-border) !important;
   background: color-mix(in srgb, var(--ui-popover-bg) 94%, transparent) !important;
+  box-shadow:
+    0 10px 24px -22px rgba(15, 23, 42, 0.85),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.chat-message-card:hover {
+  border-color: color-mix(in srgb, var(--ui-shell-border) 70%, rgba(56, 189, 248, 0.38)) !important;
+}
+
+.chat-message-avatar {
+  border: 1px solid color-mix(in srgb, var(--ui-shell-border) 84%, rgba(14, 165, 233, 0.28));
+  background: linear-gradient(140deg, rgba(224, 242, 254, 0.95), rgba(219, 234, 254, 0.94));
+  color: #0c4a6e;
+}
+
+.chat-message-user {
+  color: #0f172a;
+}
+
+.chat-message-user:hover {
+  color: #0369a1;
+}
+
+.chat-message-time {
+  color: #64748b;
+}
+
+.chat-message-text {
+  color: #334155;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.chat-message-delete {
+  border-color: rgba(244, 63, 94, 0.35);
+  background: rgba(255, 241, 242, 0.8);
+  color: #be123c;
+}
+
+.chat-message-delete:hover {
+  background: rgba(255, 228, 230, 0.94);
 }
 
 .chat-drawer-compose {
@@ -1933,6 +1995,49 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 
 :root[data-theme="dark"] .chat-toggle:hover {
   background: linear-gradient(145deg, rgba(30, 41, 59, 0.94), rgba(17, 28, 49, 0.98)) !important;
+}
+
+:root[data-theme="dark"] .chat-message-card {
+  background: linear-gradient(150deg, rgba(9, 17, 32, 0.94), rgba(15, 23, 42, 0.9)) !important;
+  box-shadow:
+    0 12px 24px -20px rgba(2, 6, 23, 0.95),
+    inset 0 1px 0 rgba(148, 163, 184, 0.15);
+}
+
+:root[data-theme="dark"] .chat-message-card:hover {
+  border-color: rgba(56, 189, 248, 0.38) !important;
+}
+
+:root[data-theme="dark"] .chat-message-avatar {
+  border-color: rgba(56, 189, 248, 0.34);
+  background: linear-gradient(145deg, rgba(8, 47, 73, 0.86), rgba(30, 58, 138, 0.72));
+  color: #e0f2fe;
+}
+
+:root[data-theme="dark"] .chat-message-user {
+  color: #f8fafc;
+}
+
+:root[data-theme="dark"] .chat-message-user:hover {
+  color: #7dd3fc;
+}
+
+:root[data-theme="dark"] .chat-message-time {
+  color: #94a3b8;
+}
+
+:root[data-theme="dark"] .chat-message-text {
+  color: #cbd5e1;
+}
+
+:root[data-theme="dark"] .chat-message-delete {
+  border-color: rgba(251, 113, 133, 0.38);
+  background: rgba(127, 29, 29, 0.28);
+  color: #fecdd3;
+}
+
+:root[data-theme="dark"] .chat-message-delete:hover {
+  background: rgba(127, 29, 29, 0.4);
 }
 
 :root[data-theme="dark"] .chat-profile-header {

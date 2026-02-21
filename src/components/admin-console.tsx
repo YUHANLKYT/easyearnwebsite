@@ -67,7 +67,7 @@ type ComplaintItem = {
   userEmail: string;
   subject: string;
   message: string;
-  status: "OPEN" | "RESOLVED";
+  status: "OPEN" | "RESOLVED" | "DISMISSED";
   createdAt: string;
 };
 
@@ -1043,12 +1043,12 @@ export function AdminConsole() {
                   <p className="text-xs text-slate-500">
                     {complaint.status} - {timeAgo(complaint.createdAt, nowTimestamp)}
                   </p>
-                  <div className="mt-2">
+                  <div className="mt-2 flex flex-wrap gap-2">
                     <button
                       type="button"
-                      disabled={busyKey === `complaint-${complaint.id}`}
+                      disabled={busyKey === `complaint-primary-${complaint.id}`}
                       onClick={() =>
-                        runAction(`complaint-${complaint.id}`, () =>
+                        runAction(`complaint-primary-${complaint.id}`, () =>
                           postJson("/api/admin/complaints", {
                             complaintId: complaint.id,
                             action: complaint.status === "OPEN" ? "resolve" : "reopen",
@@ -1059,6 +1059,23 @@ export function AdminConsole() {
                     >
                       {complaint.status === "OPEN" ? "Resolve" : "Reopen"}
                     </button>
+                    {complaint.status !== "DISMISSED" ? (
+                      <button
+                        type="button"
+                        disabled={busyKey === `complaint-dismiss-${complaint.id}`}
+                        onClick={() =>
+                          runAction(`complaint-dismiss-${complaint.id}`, () =>
+                            postJson("/api/admin/complaints", {
+                              complaintId: complaint.id,
+                              action: "dismiss",
+                            }),
+                          )
+                        }
+                        className="rounded-lg bg-rose-700 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                      >
+                        Dismiss
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               ))

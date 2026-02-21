@@ -200,6 +200,21 @@ const spotlightBackdropTransition = {
   },
 };
 
+const MONEY_SPLIT_REGEX = /(\$\d+(?:\.\d+)?)/g;
+const MONEY_EXACT_REGEX = /^\$\d+(?:\.\d+)?$/;
+
+function highlightMoneyText(text: string) {
+  return text.split(MONEY_SPLIT_REGEX).map((part, index) =>
+    MONEY_EXACT_REGEX.test(part) ? (
+      <span key={`money-${index}`} className="home-money-highlight">
+        {part}
+      </span>
+    ) : (
+      <span key={`text-${index}`}>{part}</span>
+    ),
+  );
+}
+
 export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signupBonusText }: HomeHeroRotatorProps) {
   const [spotlightIndex, setSpotlightIndex] = useState<number>(-1);
 
@@ -338,9 +353,13 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                   ))}
                 </div>
               </div>
-              <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">{spotlight.title}</h1>
-              <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">{spotlight.subtitle}</p>
-              <p className="max-w-2xl text-base text-slate-700 md:text-lg">{spotlight.body}</p>
+              <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
+                {highlightMoneyText(spotlight.title)}
+              </h1>
+              <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">
+                {highlightMoneyText(spotlight.subtitle)}
+              </p>
+              <p className="max-w-2xl text-base text-slate-700 md:text-lg">{highlightMoneyText(spotlight.body)}</p>
             </>
           ) : (
             <>
@@ -348,13 +367,13 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                 Referral Start Bonus
               </p>
               <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
-                Sign up with a referral code and get {signupBonusText} free.
+                {highlightMoneyText(`Sign up with a referral code and get ${signupBonusText} free.`)}
               </h1>
               <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">
-                Average user first cashes out in 20 minutes.
+                {highlightMoneyText("Average user first cashes out in 20 minutes.")}
               </p>
               <p className="max-w-2xl text-base text-slate-600 md:text-lg">
-                Enter a valid referral code at signup to claim your {signupBonusText} welcome bonus. No code? Use{" "}
+                {highlightMoneyText(`Enter a valid referral code at signup to claim your ${signupBonusText} welcome bonus. No code? Use `)}
                 <span className="font-semibold">EASY</span>. Then complete offers, invite referrals, and withdraw to PayPal
                 or gift cards in USD.
               </p>
@@ -364,11 +383,11 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
               <p className="text-xs text-slate-500">Level System</p>
-              <p className="text-sm font-semibold text-slate-900">+1 level every $5 earned</p>
+              <p className="text-sm font-semibold text-slate-900">{highlightMoneyText("+1 level every $5 earned")}</p>
             </div>
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
               <p className="text-xs text-slate-500">Fast Withdrawals</p>
-              <p className="text-sm font-semibold text-slate-900">Withdraw starts from just $3</p>
+              <p className="text-sm font-semibold text-slate-900">{highlightMoneyText("Withdraw starts from just $3")}</p>
             </div>
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
               <p className="text-xs text-slate-500">Referral Bonus</p>

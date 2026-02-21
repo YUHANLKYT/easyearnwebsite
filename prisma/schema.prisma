@@ -285,6 +285,7 @@ enum RedemptionStatus {
 enum ComplaintStatus {
   OPEN
   RESOLVED
+  DISMISSED
 }
 
 enum UserRole {

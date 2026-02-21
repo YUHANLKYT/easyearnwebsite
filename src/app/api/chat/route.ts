@@ -43,6 +43,8 @@ export async function GET() {
   });
 
   return NextResponse.json({
+    currentUserId: user.id,
+    canModerate: user.role === "ADMIN" && user.status === "ACTIVE",
     items: messages.reverse().map((entry) => ({
       id: entry.id,
       userId: entry.userId,
@@ -131,4 +133,34 @@ export async function POST(request: Request) {
       createdAt: created.createdAt.toISOString(),
     },
   });
+}
+
+export async function DELETE(request: Request) {
+  const user = await getCurrentUser();
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (user.role !== "ADMIN" || user.status !== "ACTIVE") {
+    return NextResponse.json({ error: "Only active admins can delete chat messages." }, { status: 403 });
+  }
+
+  const payload = (await request.json().catch(() => null)) as { messageId?: string } | null;
+  const messageId = payload?.messageId?.trim() ?? "";
+
+  if (!messageId) {
+    return NextResponse.json({ error: "messageId is required." }, { status: 400 });
+  }
+
+  const deleted = await prisma.chatMessage.deleteMany({
+    where: {
+      id: messageId,
+    },
+  });
+
+  if (deleted.count === 0) {
+    return NextResponse.json({ error: "Message not found." }, { status: 404 });
+  }
+
+  return NextResponse.json({ ok: true, messageId });
 }

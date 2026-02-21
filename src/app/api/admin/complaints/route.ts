@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-type ComplaintAction = "resolve" | "reopen";
+type ComplaintAction = "resolve" | "reopen" | "dismiss";
 
 function isComplaintAction(value: string): value is ComplaintAction {
-  return value === "resolve" || value === "reopen";
+  return value === "resolve" || value === "reopen" || value === "dismiss";
 }
 
 export async function POST(request: Request) {
@@ -39,29 +39,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Complaint not found" }, { status: 404 });
   }
 
-  if (payload.action === "resolve") {
-    await prisma.complaint.update({
-      where: {
-        id: complaint.id,
-      },
-      data: {
-        status: "RESOLVED",
-        handledById: admin.id,
-        resolvedAt: new Date(),
-      },
-    });
-  } else {
-    await prisma.complaint.update({
-      where: {
-        id: complaint.id,
-      },
-      data: {
-        status: "OPEN",
-        handledById: admin.id,
-        resolvedAt: null,
-      },
-    });
-  }
+  const actionMap = {
+    resolve: { status: "RESOLVED" as const, resolvedAt: new Date() },
+    dismiss: { status: "DISMISSED" as const, resolvedAt: new Date() },
+    reopen: { status: "OPEN" as const, resolvedAt: null },
+  };
+
+  const nextState = actionMap[payload.action];
+
+  await prisma.complaint.update({
+    where: {
+      id: complaint.id,
+    },
+    data: {
+      status: nextState.status,
+      handledById: admin.id,
+      resolvedAt: nextState.resolvedAt,
+    },
+  });
 
   return NextResponse.json({ ok: true });
 }
