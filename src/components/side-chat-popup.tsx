@@ -202,7 +202,7 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={`chat-toggle fixed top-1/2 z-50 -translate-y-1/2 rounded-l-xl border px-4 py-3 text-[11px] font-semibold tracking-wide shadow-xl transition-all ${
+        className={`chat-toggle fixed top-1/2 z-50 -translate-y-1/2 transition-all ${
           open ? "chat-toggle-open" : "chat-toggle-closed"
         }`}
         style={{
@@ -210,7 +210,11 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
         }}
         title={open ? "Close chat" : "Open chat"}
       >
-        {open ? "Close Chat" : "Open Chat"}
+        <span className="chat-toggle-dot" aria-hidden />
+        <span className="chat-toggle-label">{open ? "Close Chat" : "Open Chat"}</span>
+        <span className="chat-toggle-chevron" aria-hidden>
+          {open ? "›" : "‹"}
+        </span>
       </button>
 
       <section
