@@ -59,6 +59,36 @@ function getParam(searchParams: URLSearchParams, keys: string[]): string | null 
   return null;
 }
 
+function mergeParamRecord(target: URLSearchParams, record: Record<string, string>) {
+  for (const [key, value] of Object.entries(record)) {
+    const trimmed = value.trim();
+    if (trimmed.length > 0) {
+      target.set(key, trimmed);
+    }
+  }
+}
+
+function parseMultipartFallback(rawBody: string): Record<string, string> {
+  const result: Record<string, string> = {};
+  if (!rawBody || !rawBody.includes("Content-Disposition")) {
+    return result;
+  }
+
+  // Fallback parser for malformed multipart payloads where Request.formData() fails.
+  const partRegex = /name="([^"]+)"[\s\S]*?\r?\n\r?\n([\s\S]*?)\r?\n(?=--)/g;
+  let match: RegExpExecArray | null = partRegex.exec(rawBody);
+  while (match) {
+    const key = (match[1] ?? "").trim();
+    const value = (match[2] ?? "").trim();
+    if (key.length > 0 && value.length > 0) {
+      result[key] = value;
+    }
+    match = partRegex.exec(rawBody);
+  }
+
+  return result;
+}
+
 function parseCents(value: string | null, allowNegative = false): number | null {
   if (!value) {
     return null;
@@ -335,6 +365,9 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
   return {
     tx: getParam(searchParams, [
       "tx",
+      "trans",
+      "txid",
+      "tx_id",
       "transId",
       "transid",
       "transaction",
@@ -345,6 +378,7 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "conversion_id",
       "event_id",
       "id",
+      "tid",
     ]),
     userId: getParam(searchParams, [
       "user_id",
@@ -363,6 +397,7 @@ function parsePostback(searchParams: URLSearchParams): ParsedPostback {
       "playerid",
       "sub_id",
       "subid",
+      "user_id_1",
     ]),
     subIdRaw: getParam(searchParams, [
       "subId",
@@ -736,7 +771,7 @@ async function handleRequest(
   }
 
   if (!payload.tx || !payload.userId) {
-    return providerError("Missing required parameters.");
+    return providerError("Missing required parameters. Expected transId/transaction_id and subId/user_id.");
   }
 
   if (!verifyApiToken(payload, headerApiToken)) {
@@ -812,6 +847,11 @@ export async function POST(request: Request) {
           params.set(key, value);
         }
       }
+    }
+
+    if (contentType.includes("multipart/form-data") || bodyText.includes("Content-Disposition")) {
+      const multipartFallback = parseMultipartFallback(rawBody);
+      mergeParamRecord(params, multipartFallback);
     }
   }
 
