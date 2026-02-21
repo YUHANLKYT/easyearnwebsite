@@ -152,8 +152,8 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       locked: !OFFERWALL_AVAILABILITY.revtoo,
       popular: false,
       logoPanelClass:
-        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
-      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
+        "offerwall-logo-panel offerwall-logo-panel-revtoo relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled offerwall-logo-panel-revtoo-disabled relative rounded-2xl px-4 py-4",
     },
   ] as const;
 
