@@ -121,7 +121,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[360px]",
       available: OFFERWALL_AVAILABILITY.kiwiwall && Boolean(kiwiwallUrl),
       gradient: "from-lime-500 via-emerald-500 to-green-500",
-      copy: "HIGH PAYING",
+      copy: "Offer-focused wall with mobile and web campaigns plus survey opportunities.",
       missingEnvCopy: OFFERWALL_AVAILABILITY.kiwiwall ? "Missing env var: KIWIWALL_WALL_TOKEN." : "Coming Soon",
       hideTitleText: false,
       ctaLabel: "Open KIWIWALL",
@@ -144,7 +144,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoDisabledClass: "h-auto w-full max-w-[240px] opacity-70 sm:max-w-[340px]",
       available: OFFERWALL_AVAILABILITY.revtoo && Boolean(revtooUrl),
       gradient: "from-cyan-500 via-blue-500 to-indigo-600",
-      copy: "50 CENT SURVEYS",
+      copy: "Offerwall with mixed mobile and web tasks and varied payouts.",
       missingEnvCopy: OFFERWALL_AVAILABILITY.revtoo ? "Missing env var: REVTOO_WALL_API_KEY." : "Coming Soon",
       hideTitleText: false,
       ctaLabel: "Open Revtoo",
@@ -190,7 +190,17 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                 ) : null}
                 {offerwall.popular ? (
                   <span className="absolute right-4 top-3 z-20 rounded-full border border-orange-200/85 bg-orange-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-orange-700">
-                    Popular 🔥
+                    {"Popular \u{1F525}"}
+                  </span>
+                ) : null}
+                {offerwall.key === "kiwiwall" ? (
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-emerald-200/85 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+                    {"HIGH PAYING \u{1F4B2}\u{1F4B2}"}
+                  </span>
+                ) : null}
+                {offerwall.key === "revtoo" ? (
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-cyan-200/85 bg-cyan-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cyan-700">
+                    {"50 CENT SURVEYS \u{1F4B2}\u{1F525}"}
                   </span>
                 ) : null}
                 {offerwall.available ? (
@@ -262,3 +272,4 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     </div>
   );
 }
+
