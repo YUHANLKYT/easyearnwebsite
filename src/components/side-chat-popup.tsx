@@ -201,10 +201,26 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
 
   return (
     <>
+      {!open ? (
+        <button type="button" onClick={() => setOpen(true)} className="chat-toggle-mobile fixed right-4 bottom-4 z-50 md:hidden">
+          <span className="chat-toggle-mobile-dot" aria-hidden />
+          <span>Open Chat</span>
+        </button>
+      ) : null}
+
+      {open ? (
+        <button
+          type="button"
+          aria-label="Close chat"
+          onClick={() => setOpen(false)}
+          className="chat-mobile-backdrop fixed inset-0 z-30 md:hidden"
+        />
+      ) : null}
+
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
-        className={`chat-toggle fixed top-1/2 right-3 z-50 ${
+        className={`chat-toggle fixed top-1/2 right-3 z-50 hidden md:inline-flex ${
           open ? "chat-toggle-open" : "chat-toggle-closed"
         }`}
         style={{
@@ -220,7 +236,7 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
       </button>
 
       <section
-        className={`chat-drawer fixed top-0 right-0 z-40 h-screen w-[min(92vw,390px)] border-l border-slate-200 bg-white/95 shadow-2xl ${
+        className={`chat-drawer fixed top-0 right-0 z-40 h-screen w-screen border-l border-slate-200 bg-white/95 shadow-2xl md:w-[min(92vw,390px)] ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -229,9 +245,14 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
             <p className="text-sm font-semibold text-slate-900">Easy Earn Chat</p>
             <p className="text-xs text-slate-500">Click a name to view stats</p>
           </div>
-          <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-1 text-[11px] font-semibold text-sky-700">
-            Live
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-1 text-[11px] font-semibold text-sky-700">
+              Live
+            </span>
+            <button type="button" onClick={() => setOpen(false)} className="chat-mobile-close md:hidden">
+              Close
+            </button>
+          </div>
         </header>
 
         <div className="chat-drawer-body h-[calc(100vh-152px)] overflow-y-auto bg-slate-50/80 p-3">

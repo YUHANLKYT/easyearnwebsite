@@ -81,6 +81,11 @@ export async function GET() {
         take: 40,
       }),
       prisma.complaint.findMany({
+        where: {
+          status: {
+            not: "DISMISSED",
+          },
+        },
         orderBy: {
           createdAt: "desc",
         },
