@@ -1,9 +1,20 @@
+import Link from "next/link";
+
 import { DISCORD_SERVER_URL } from "@/lib/constants";
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10 md:px-8">
       <article className="space-y-6 rounded-3xl border border-white/80 bg-white/85 p-6 shadow-sm md:p-8">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+          >
+            &larr; Back to EasyEarn
+          </Link>
+        </div>
+
         <header className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-sky-700">Legal</p>
           <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Privacy Policy - EasyEarn (ezearn.org)</h1>
@@ -209,6 +220,15 @@ export default function PrivacyPolicyPage() {
             </li>
           </ul>
         </section>
+
+        <div className="pt-1">
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+          >
+            Back to EasyEarn
+          </Link>
+        </div>
       </article>
     </main>
   );
