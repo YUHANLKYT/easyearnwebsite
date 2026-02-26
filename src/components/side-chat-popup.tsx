@@ -202,7 +202,11 @@ export function SideChatPopup({ chatUnlocked, canSend }: SideChatPopupProps) {
   return (
     <>
       {!open ? (
-        <button type="button" onClick={() => setOpen(true)} className="chat-toggle-mobile fixed right-4 bottom-4 z-50 md:hidden">
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="chat-toggle-mobile fixed right-4 bottom-4 z-50 inline-flex md:hidden"
+        >
           <span className="chat-toggle-mobile-dot" aria-hidden />
           <span>Open Chat</span>
         </button>

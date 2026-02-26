@@ -1855,7 +1855,6 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 .chat-toggle {
   --chat-panel-duration: 380ms;
   --chat-panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-flex;
   min-width: 132px;
   min-height: 42px;
   align-items: center;
@@ -1885,7 +1884,6 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 }
 
 .chat-toggle-mobile {
-  display: inline-flex;
   min-height: 44px;
   align-items: center;
   gap: 0.45rem;
