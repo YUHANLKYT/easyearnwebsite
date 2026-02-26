@@ -62,14 +62,30 @@ export default async function CpxResearchPage() {
         </div>
 
         {cpxSurveyUrl ? (
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
-            <iframe
-              title="CPX Research Offerwall"
-              src={cpxSurveyUrl}
-              className="h-[1200px] w-full md:h-[1600px] xl:h-[2000px]"
-              loading="lazy"
-              allow="clipboard-read; clipboard-write"
-            />
+          <div className="space-y-3">
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+              <iframe
+                title="CPX Research Offerwall"
+                src={cpxSurveyUrl}
+                width="100%"
+                height={2000}
+                frameBorder={0}
+                className="block w-full"
+                loading="eager"
+                allow="clipboard-read; clipboard-write"
+              />
+            </div>
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+              <p>If the wall appears blank, disable adblock/privacy extensions for this page and reload.</p>
+              <Link
+                href={cpxSurveyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex rounded-lg border border-slate-200 bg-white px-3 py-1.5 font-semibold text-slate-700 hover:border-slate-300 hover:text-slate-900"
+              >
+                Open CPX Directly
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
