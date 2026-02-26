@@ -48,10 +48,10 @@ export default async function AdtoGamePage() {
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
-            src="/adtogame-logo.svg"
+            src="/adtogame-logo.png"
             alt="AdtoGame"
-            width={860}
-            height={220}
+            width={667}
+            height={168}
             priority
             className="h-auto w-full max-w-[260px] sm:max-w-[360px]"
           />
