@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
+import { buildAdtoGameOfferwallUrl } from "@/lib/adtogame";
 import { requireUser } from "@/lib/auth";
 import { buildBitLabsOfferwallUrl } from "@/lib/bitlabs";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
@@ -35,6 +36,9 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     userId: user.id,
   });
   const revtooUrl = buildRevtooOfferwallUrl({
+    userId: user.id,
+  });
+  const adtoGameUrl = buildAdtoGameOfferwallUrl({
     userId: user.id,
   });
   const offerwalls = [
@@ -154,6 +158,29 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoPanelClass:
         "offerwall-logo-panel offerwall-logo-panel-revtoo relative block rounded-2xl px-4 py-4 transition",
       logoPanelDisabledClass: "offerwall-logo-panel-disabled offerwall-logo-panel-revtoo-disabled relative rounded-2xl px-4 py-4",
+    },
+    {
+      key: "adtogame",
+      name: "AdtoGame",
+      href: "/adtogame",
+      logoSrc: "/adtogame-logo.svg",
+      logoAlt: "AdtoGame",
+      logoWidth: 860,
+      logoHeight: 220,
+      logoClass: "h-auto w-full max-w-[260px] sm:max-w-[360px]",
+      logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[360px]",
+      available: OFFERWALL_AVAILABILITY.adtogame && Boolean(adtoGameUrl),
+      gradient: "from-violet-600 via-fuchsia-600 to-pink-600",
+      copy: "Offerwall with mobile and web tasks, installs, and CPA-style campaigns.",
+      missingEnvCopy: OFFERWALL_AVAILABILITY.adtogame ? "Missing env var: ADTOGAME_WALL_ID." : "Coming Soon",
+      hideTitleText: false,
+      ctaLabel: "Open AdtoGame",
+      showAccentOrb: true,
+      locked: !OFFERWALL_AVAILABILITY.adtogame,
+      popular: false,
+      logoPanelClass:
+        "offerwall-logo-panel relative block rounded-2xl px-4 py-4 transition",
+      logoPanelDisabledClass: "offerwall-logo-panel-disabled relative rounded-2xl px-4 py-4",
     },
   ] as const;
 
