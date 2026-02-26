@@ -30,12 +30,12 @@ export default async function KiwiWallPage() {
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
-            src="/kiwiwall-logo.svg"
+            src="/kiwiwall-logo.png"
             alt="KIWIWALL"
-            width={480}
-            height={96}
+            width={1464}
+            height={640}
             priority
-            className="h-auto w-[112%] max-w-none -ml-2 sm:w-[110%] sm:-ml-3"
+            className="h-auto w-full max-w-[300px] sm:max-w-[420px]"
           />
         </div>
 

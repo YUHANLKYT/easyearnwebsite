@@ -26,7 +26,9 @@ const STORE_METHOD_PRIORITY = [
   "LEAGUE_OF_LEGENDS_GIFT_CARD",
 ] as const;
 
-const STORE_METHOD_PRIORITY_INDEX = new Map(STORE_METHOD_PRIORITY.map((method, index) => [method, index]));
+const STORE_METHOD_PRIORITY_INDEX = new Map<string, number>(
+  STORE_METHOD_PRIORITY.map((method, index) => [method, index]),
+);
 
 function getStatusLabel(status: "PENDING" | "APPROVED" | "SENT" | "CANCELED") {
   if (status === "PENDING") {
