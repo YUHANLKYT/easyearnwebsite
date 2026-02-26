@@ -218,6 +218,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                     {"Popular \u{1F525}"}
                   </span>
                 ) : null}
+                {offerwall.key === "cpx" ? (
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-rose-200/85 bg-rose-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-rose-700">
+                    {"HOT SURVEYS \u{1F525}"}
+                  </span>
+                ) : null}
                 {offerwall.key === "kiwiwall" ? (
                   <span className="absolute right-4 top-3 z-20 rounded-full border border-emerald-200/85 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
                     {"HIGH PAYING \u{1F4B2}\u{1F4B2}"}
@@ -226,6 +231,11 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
                 {offerwall.key === "revtoo" ? (
                   <span className="absolute right-4 top-3 z-20 rounded-full border border-cyan-200/85 bg-cyan-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-cyan-700">
                     {"50 CENT SURVEYS \u{1F4B2}\u{1F525}"}
+                  </span>
+                ) : null}
+                {offerwall.key === "adtogame" ? (
+                  <span className="absolute right-4 top-3 z-20 rounded-full border border-sky-200/85 bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700">
+                    {"HIGH PAYING \u{1F4B2}\u{1F4B2}"}
                   </span>
                 ) : null}
                 {offerwall.available ? (
