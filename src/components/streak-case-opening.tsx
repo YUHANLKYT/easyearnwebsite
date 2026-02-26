@@ -3,6 +3,7 @@
 import { type CSSProperties, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { buildCaseReel, type ReelEntry } from "@/lib/case-reel";
 import {
   STREAK_CASE_14_SEGMENTS,
   STREAK_CASE_7_SEGMENTS,
@@ -34,12 +35,6 @@ type StreakCaseOpeningProps = {
   canUseCase: boolean;
 };
 
-type ReelEntry = {
-  id: string;
-  label: string;
-  colorClass: string;
-};
-
 type StreakStatePayload = {
   streakDays: number;
   todayEarnedCents: number;
@@ -63,31 +58,14 @@ function getSegmentsByTier(tier: StreakCaseTier): StreakCaseSegment[] {
   return tier === 14 ? STREAK_CASE_14_SEGMENTS : STREAK_CASE_7_SEGMENTS;
 }
 
-function randomSegmentByOdds(tier: StreakCaseTier): ReelEntry {
-  const segments = getSegmentsByTier(tier);
-  const totalWeight = segments.reduce((sum, item) => sum + item.chancePermille, 0);
-  let roll = Math.random() * totalWeight;
-
-  for (const segment of segments) {
-    roll -= segment.chancePermille;
-    if (roll <= 0) {
-      return { id: segment.id, label: segment.label, colorClass: segment.colorClass };
-    }
-  }
-
-  const fallback = segments[0];
-  return { id: fallback.id, label: fallback.label, colorClass: fallback.colorClass };
-}
-
 function buildReel(tier: StreakCaseTier, winningId?: string): ReelEntry[] {
-  const entries = Array.from({ length: REEL_COUNT }, () => randomSegmentByOdds(tier));
-  if (winningId) {
-    const winner = getSegmentsByTier(tier).find((segment) => segment.id === winningId);
-    if (winner) {
-      entries[WIN_INDEX] = { id: winner.id, label: winner.label, colorClass: winner.colorClass };
-    }
-  }
-  return entries;
+  return buildCaseReel({
+    segments: getSegmentsByTier(tier),
+    count: REEL_COUNT,
+    winIndex: WIN_INDEX,
+    winningId,
+    minPerSegment: 10,
+  });
 }
 
 function describeTierRewards(tier: StreakCaseTier): string {

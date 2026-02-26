@@ -3,6 +3,7 @@
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { buildCaseReel, type ReelEntry } from "@/lib/case-reel";
 import { REQUIRED_ACTIVE_REFERRALS_FOR_WHEEL, WHEEL_SEGMENTS } from "@/lib/constants";
 
 type RewardPayload = {
@@ -17,12 +18,6 @@ type ReferralCaseOpeningProps = {
   canUseCase: boolean;
   initialNextAvailableAt: string | null;
   adminTestMode?: boolean;
-};
-
-type ReelEntry = {
-  id: string;
-  label: string;
-  colorClass: string;
 };
 
 const CARD_WIDTH = 126;
@@ -40,28 +35,14 @@ function formatDuration(totalSeconds: number): string {
   return `${hours}h ${minutes}m ${seconds}s`;
 }
 
-function randomSegmentByOdds(): ReelEntry {
-  const totalWeight = WHEEL_SEGMENTS.reduce((sum, item) => sum + item.chancePermille, 0);
-  let roll = Math.random() * totalWeight;
-  for (const segment of WHEEL_SEGMENTS) {
-    roll -= segment.chancePermille;
-    if (roll <= 0) {
-      return { id: segment.id, label: segment.label, colorClass: segment.colorClass };
-    }
-  }
-  const fallback = WHEEL_SEGMENTS[0];
-  return { id: fallback.id, label: fallback.label, colorClass: fallback.colorClass };
-}
-
 function buildReel(winningId?: string): ReelEntry[] {
-  const entries = Array.from({ length: REEL_COUNT }, () => randomSegmentByOdds());
-  if (winningId) {
-    const winner = WHEEL_SEGMENTS.find((segment) => segment.id === winningId);
-    if (winner) {
-      entries[WIN_INDEX] = { id: winner.id, label: winner.label, colorClass: winner.colorClass };
-    }
-  }
-  return entries;
+  return buildCaseReel({
+    segments: WHEEL_SEGMENTS,
+    count: REEL_COUNT,
+    winIndex: WIN_INDEX,
+    winningId,
+    minPerSegment: 8,
+  });
 }
 
 export function ReferralCaseOpening({
