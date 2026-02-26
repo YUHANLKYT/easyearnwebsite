@@ -23,8 +23,6 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     userId: user.id,
     userName: user.name,
     userEmail: user.email,
-    subId1: "surveys",
-    subId2: "easyearn",
   });
   const bitlabsUrl = buildBitLabsOfferwallUrl({
     userId: user.id,

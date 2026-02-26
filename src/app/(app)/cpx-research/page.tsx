@@ -28,8 +28,6 @@ export default async function CpxResearchPage() {
     userId: user.id,
     userName: user.name,
     userEmail: user.email,
-    subId1: "surveys",
-    subId2: "easyearn",
   });
 
   return (
