@@ -6,11 +6,11 @@ import { sendWithdrawalProcessedEmail } from "@/lib/email";
 import { getReferralBonusCents } from "@/lib/gamification";
 import { prisma } from "@/lib/prisma";
 
-type WithdrawalAction = "approve" | "cancel" | "send";
+type WithdrawalAction = "approve" | "review" | "cancel" | "send";
 const giftCardMethods = new Set(GIFT_CARD_METHODS);
 
 function isWithdrawalAction(value: string): value is WithdrawalAction {
-  return value === "approve" || value === "cancel" || value === "send";
+  return value === "approve" || value === "review" || value === "cancel" || value === "send";
 }
 
 export async function POST(request: Request) {
@@ -83,6 +83,22 @@ export async function POST(request: Request) {
             status: "APPROVED",
             processedById: admin.id,
             processedAt: new Date(),
+          },
+        });
+        return;
+      }
+
+      if (payload.action === "review") {
+        if (redemption.status !== "APPROVED") {
+          throw new Error("INVALID_STATUS_TRANSITION");
+        }
+
+        await tx.redemption.update({
+          where: { id: redemption.id },
+          data: {
+            status: "PENDING",
+            processedById: null,
+            processedAt: null,
           },
         });
         return;

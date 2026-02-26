@@ -981,6 +981,18 @@ export function AdminConsole() {
                         ) : null}
                         <button
                           type="button"
+                          disabled={busyKey === `review-${item.id}`}
+                          onClick={() =>
+                            runAction(`review-${item.id}`, () =>
+                              postJson("/api/admin/withdrawals", { action: "review", redemptionId: item.id }),
+                            )
+                          }
+                          className="rounded-lg bg-amber-500 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                        >
+                          Put On Review
+                        </button>
+                        <button
+                          type="button"
                           disabled={
                             busyKey === `send-${item.id}` ||
                             (requiresCode(item.method) &&
