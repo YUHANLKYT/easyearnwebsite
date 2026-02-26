@@ -5,8 +5,14 @@ import { requireUser } from "@/lib/auth";
 import { buildCpxOfferwallUrl } from "@/lib/cpx";
 import { OFFERWALL_AVAILABILITY } from "@/lib/offerwall-flags";
 
-export default async function CpxResearchPage() {
+type SearchParams = Promise<{
+  adblock_notice?: string;
+}>;
+
+export default async function CpxResearchPage({ searchParams }: { searchParams: SearchParams }) {
   const user = await requireUser("/cpx-research");
+  const params = await searchParams;
+  const showAdblockNotice = params.adblock_notice === "1";
   if (!OFFERWALL_AVAILABILITY.cpx) {
     return (
       <div className="space-y-6">
@@ -50,6 +56,12 @@ export default async function CpxResearchPage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+        {showAdblockNotice ? (
+          <div className="rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-900">
+            CPX not showing? Turn off AdBlock/privacy blockers for this page, then refresh.
+          </div>
+        ) : null}
+
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
             src="/cpx-research-logo.svg"

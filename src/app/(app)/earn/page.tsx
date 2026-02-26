@@ -43,7 +43,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
     {
       key: "cpx",
       name: "CPX Research",
-      href: "/cpx-research",
+      href: "/cpx-research?adblock_notice=1",
       logoSrc: "/cpx-research-logo.svg",
       logoAlt: "CPX Research",
       logoWidth: 220,
