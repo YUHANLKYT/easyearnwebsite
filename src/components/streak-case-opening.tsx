@@ -1,7 +1,8 @@
 "use client";
 
-import { type CSSProperties, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 
 import { buildCaseReel, type ReelEntry } from "@/lib/case-reel";
 import {
@@ -115,6 +116,7 @@ export function StreakCaseOpening({
   const [chestBurstTier, setChestBurstTier] = useState<StreakCaseTier | null>(null);
   const [spinPanelState, setSpinPanelState] = useState<"from-chest" | "open">("from-chest");
   const [spinOrigin, setSpinOrigin] = useState({ x: 0, y: 0 });
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
   const canOpen7 = canUseCase && state.availableCase7 && !spinning;
   const canOpen14 = canUseCase && state.availableCase14 && !spinning;
@@ -122,6 +124,10 @@ export function StreakCaseOpening({
     "--case-origin-x": `${spinOrigin.x}px`,
     "--case-origin-y": `${spinOrigin.y}px`,
   } as CSSProperties;
+
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
   const nextMilestoneText = useMemo(() => {
     if (!state.nextMilestone || state.daysToNextMilestone === null) {
       return "All streak case milestones unlocked.";
@@ -324,7 +330,7 @@ export function StreakCaseOpening({
         </article>
       </div>
 
-      {showSpinPanel ? (
+      {showSpinPanel && portalRoot ? createPortal(
         <div className="case-spinner-pop" data-state={spinPanelState} style={spinPanelStyle}>
           <div className="case-spinner-shell">
             <div className="mb-3 flex items-center justify-between gap-2">
@@ -372,7 +378,7 @@ export function StreakCaseOpening({
             ) : null}
           </div>
         </div>
-      ) : null}
+      , portalRoot) : null}
     </section>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
-import { type CSSProperties, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 
 import { buildCaseReel, type ReelEntry } from "@/lib/case-reel";
 import { LEVEL_CASE_SEGMENTS } from "@/lib/constants";
@@ -54,6 +55,7 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
   const [chestBurst, setChestBurst] = useState(false);
   const [spinPanelState, setSpinPanelState] = useState<"from-chest" | "open">("from-chest");
   const [spinOrigin, setSpinOrigin] = useState({ x: 0, y: 0 });
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
   const claimableLevels = useMemo(
     () => Math.max(0, currentLevelState - claimedLevelState),
@@ -65,6 +67,10 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
     "--case-origin-x": `${spinOrigin.x}px`,
     "--case-origin-y": `${spinOrigin.y}px`,
   } as CSSProperties;
+
+  useEffect(() => {
+    setPortalRoot(document.body);
+  }, []);
 
   function openSpinPanelFromChest() {
     const rect = chestButtonRef.current?.getBoundingClientRect();
@@ -249,7 +255,8 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
         </div>
       </div>
 
-      {showSpinPanel ? (
+      {showSpinPanel && portalRoot
+        ? createPortal(
         <div className="case-spinner-pop" data-state={spinPanelState} style={spinPanelStyle}>
           <div className="case-spinner-shell">
             <div className="mb-3 flex items-center justify-between gap-2">
@@ -297,7 +304,10 @@ export function LevelCaseOpening({ currentLevel, claimedLevel, availableKeys, ca
             ) : null}
           </div>
         </div>
-      ) : null}
+          ,
+          portalRoot,
+        )
+        : null}
     </section>
   );
 }

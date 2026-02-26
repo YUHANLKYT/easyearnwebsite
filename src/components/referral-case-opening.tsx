@@ -2,6 +2,7 @@
 
 import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 
 import { buildCaseReel, type ReelEntry } from "@/lib/case-reel";
 import { REQUIRED_ACTIVE_REFERRALS_FOR_WHEEL, WHEEL_SEGMENTS } from "@/lib/constants";
@@ -66,10 +67,15 @@ export function ReferralCaseOpening({
   const [chestBurst, setChestBurst] = useState(false);
   const [spinPanelState, setSpinPanelState] = useState<"from-chest" | "open">("from-chest");
   const [spinOrigin, setSpinOrigin] = useState({ x: 0, y: 0 });
+  const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setNowTimestamp(Date.now()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    setPortalRoot(document.body);
   }, []);
 
   const cooldownSeconds = useMemo(() => {
@@ -245,7 +251,7 @@ export function ReferralCaseOpening({
         </div>
       </div>
 
-      {showSpinPanel ? (
+      {showSpinPanel && portalRoot ? createPortal(
         <div className="case-spinner-pop" data-state={spinPanelState} style={spinPanelStyle}>
           <div className="case-spinner-shell">
             <div className="mb-3 flex items-center justify-between gap-2">
@@ -293,7 +299,7 @@ export function ReferralCaseOpening({
             ) : null}
           </div>
         </div>
-      ) : null}
+      , portalRoot) : null}
     </section>
   );
 }
