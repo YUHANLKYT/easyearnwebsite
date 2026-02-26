@@ -73,7 +73,7 @@ export default async function CpxResearchPage() {
           </div>
         ) : (
           <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            CPX is not configured yet. Add `CPX_APP_ID` and `CPX_APP_SECRET` in your environment variables.
+            CPX is not configured yet. Add `CPX_APP_ID`. If your CPX account enforces secure hash, also add `CPX_APP_SECRET`.
           </div>
         )}
       </section>

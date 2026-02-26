@@ -54,7 +54,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       gradient: "from-emerald-500 via-teal-500 to-cyan-500",
       copy: "Survey-focused wall with frequent studies and quick completions.",
       missingEnvCopy: OFFERWALL_AVAILABILITY.cpx
-        ? "Missing env vars: CPX_APP_ID and CPX_APP_SECRET."
+        ? "Missing env var: CPX_APP_ID."
         : "Coming Soon",
       hideTitleText: false,
       ctaLabel: "Open CPX Research",
@@ -168,7 +168,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       logoClass: "h-auto w-full max-w-[260px] sm:max-w-[360px]",
       logoDisabledClass: "h-auto w-full max-w-[260px] opacity-70 sm:max-w-[360px]",
       available: OFFERWALL_AVAILABILITY.adtogame && Boolean(adtoGameUrl),
-      gradient: "from-violet-600 via-fuchsia-600 to-pink-600",
+      gradient: "from-sky-600 via-cyan-500 to-teal-500",
       copy: "Offerwall with mobile and web tasks, installs, and CPA-style campaigns.",
       missingEnvCopy: OFFERWALL_AVAILABILITY.adtogame ? "Missing env var: ADTOGAME_WALL_ID." : "Coming Soon",
       hideTitleText: false,

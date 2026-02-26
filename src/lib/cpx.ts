@@ -20,9 +20,14 @@ export function buildCpxOfferwallUrl(input: BuildCpxOfferwallUrlInput): string |
   const url = new URL("https://offers.cpx-research.com/index.php");
   url.searchParams.set("app_id", appId);
   url.searchParams.set("ext_user_id", userId);
-  // CPX expects md5(ext_user_id + app_secret) for secure_hash.
-  const secureHash = appSecret ? createHash("md5").update(`${userId}${appSecret}`).digest("hex") : "";
-  url.searchParams.set("secure_hash", secureHash);
+
+  // CPX expects md5(ext_user_id + app_secret) when secure hash is enabled.
+  // Do not send an empty hash, because some setups reject/blank the wall on empty values.
+  if (appSecret) {
+    const secureHash = createHash("md5").update(`${userId}${appSecret}`).digest("hex");
+    url.searchParams.set("secure_hash", secureHash);
+  }
+
   url.searchParams.set("username", (input.userName ?? "").trim());
   url.searchParams.set("email", (input.userEmail ?? "").trim());
   url.searchParams.set("subid_1", (input.subId1 ?? "").trim());
