@@ -287,13 +287,13 @@ export type WheelSegment = {
 };
 
 export const WHEEL_SEGMENTS: WheelSegment[] = [
-  { id: "10c", label: "$0.10", amountCents: 10, chancePermille: 300, colorClass: "bg-white text-slate-700" },
-  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 300, colorClass: "bg-white text-slate-700" },
-  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 270, colorClass: "bg-white text-slate-700" },
-  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 80, colorClass: "bg-sky-300 text-slate-900" },
-  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 40, colorClass: "bg-fuchsia-300 text-slate-900" },
-  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 8, colorClass: "bg-rose-400 text-white" },
-  { id: "10d", label: "$10.00", amountCents: 1000, chancePermille: 2, colorClass: "bg-yellow-300 text-slate-900" },
+  { id: "10c", label: "$0.10", amountCents: 10, chancePermille: 360, colorClass: "bg-white text-slate-700" },
+  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 314, colorClass: "bg-white text-slate-700" },
+  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 236, colorClass: "bg-white text-slate-700" },
+  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 70, colorClass: "bg-sky-300 text-slate-900" },
+  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 15, colorClass: "bg-fuchsia-300 text-slate-900" },
+  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 4, colorClass: "bg-rose-400 text-white" },
+  { id: "10d", label: "$10.00", amountCents: 1000, chancePermille: 1, colorClass: "bg-yellow-300 text-slate-900" },
 ];
 
 export type LevelCaseSegment = {
@@ -305,12 +305,12 @@ export type LevelCaseSegment = {
 };
 
 export const LEVEL_CASE_SEGMENTS: LevelCaseSegment[] = [
-  { id: "5c", label: "$0.05", amountCents: 5, chancePermille: 200, colorClass: "bg-white text-slate-700" },
-  { id: "10c", label: "$0.10", amountCents: 10, chancePermille: 200, colorClass: "bg-white text-slate-700" },
-  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 300, colorClass: "bg-white text-slate-700" },
-  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 250, colorClass: "bg-sky-300 text-slate-900" },
-  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 45, colorClass: "bg-rose-400 text-white" },
-  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 5, colorClass: "bg-yellow-300 text-slate-900" },
+  { id: "5c", label: "$0.05", amountCents: 5, chancePermille: 430, colorClass: "bg-white text-slate-700" },
+  { id: "10c", label: "$0.10", amountCents: 10, chancePermille: 250, colorClass: "bg-white text-slate-700" },
+  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 210, colorClass: "bg-white text-slate-700" },
+  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 82, colorClass: "bg-sky-300 text-slate-900" },
+  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 20, colorClass: "bg-rose-400 text-white" },
+  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 8, colorClass: "bg-yellow-300 text-slate-900" },
 ];
 
 export type StreakCaseTier = 7 | 14;
@@ -324,15 +324,15 @@ export type StreakCaseSegment = {
 };
 
 export const STREAK_CASE_7_SEGMENTS: StreakCaseSegment[] = [
-  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 500, colorClass: "bg-white text-slate-700" },
-  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 350, colorClass: "bg-sky-300 text-slate-900" },
-  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 120, colorClass: "bg-indigo-300 text-slate-900" },
-  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 30, colorClass: "bg-fuchsia-300 text-slate-900" },
+  { id: "25c", label: "$0.25", amountCents: 25, chancePermille: 820, colorClass: "bg-white text-slate-700" },
+  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 100, colorClass: "bg-sky-300 text-slate-900" },
+  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 70, colorClass: "bg-indigo-300 text-slate-900" },
+  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 10, colorClass: "bg-fuchsia-300 text-slate-900" },
 ];
 
 export const STREAK_CASE_14_SEGMENTS: StreakCaseSegment[] = [
-  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 600, colorClass: "bg-sky-300 text-slate-900" },
-  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 300, colorClass: "bg-indigo-300 text-slate-900" },
-  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 70, colorClass: "bg-fuchsia-300 text-slate-900" },
-  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 30, colorClass: "bg-yellow-300 text-slate-900" },
+  { id: "50c", label: "$0.50", amountCents: 50, chancePermille: 997, colorClass: "bg-sky-300 text-slate-900" },
+  { id: "1d", label: "$1.00", amountCents: 100, chancePermille: 1, colorClass: "bg-indigo-300 text-slate-900" },
+  { id: "2d50", label: "$2.50", amountCents: 250, chancePermille: 1, colorClass: "bg-fuchsia-300 text-slate-900" },
+  { id: "5d", label: "$5.00", amountCents: 500, chancePermille: 1, colorClass: "bg-yellow-300 text-slate-900" },
 ];
