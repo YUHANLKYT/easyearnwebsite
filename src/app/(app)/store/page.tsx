@@ -11,6 +11,23 @@ type SearchParams = Promise<{
   error?: string;
 }>;
 
+const STORE_METHOD_PRIORITY = [
+  "PAYPAL",
+  "DISCORD_NITRO",
+  "ROBLOX_GIFT_CARD",
+  "AMAZON_GIFT_CARD",
+  "GOOGLE_PLAY_GIFT_CARD",
+  "APPLE_GIFT_CARD",
+  "STEAM_GIFT_CARD",
+  "XBOX_GIFT_CARD",
+  "PLAYSTATION_GIFT_CARD",
+  "NINTENDO_GIFT_CARD",
+  "VALORANT_GIFT_CARD",
+  "LEAGUE_OF_LEGENDS_GIFT_CARD",
+] as const;
+
+const STORE_METHOD_PRIORITY_INDEX = new Map(STORE_METHOD_PRIORITY.map((method, index) => [method, index]));
+
 function getStatusLabel(status: "PENDING" | "APPROVED" | "SENT" | "CANCELED") {
   if (status === "PENDING") {
     return "PROCESSING";
@@ -48,7 +65,28 @@ function formatPayoutCurrency(cents: number | null, currency: PayoutCurrency): s
 export default async function StorePage({ searchParams }: { searchParams: SearchParams }) {
   const user = await requireUser("/store");
   const params = await searchParams;
-  const storeOptions = REDEMPTION_OPTIONS.filter((option) => option.method !== "VISA_GIFT_CARD");
+  const storeOptions = REDEMPTION_OPTIONS.filter((option) => option.method !== "VISA_GIFT_CARD").sort((left, right) => {
+    if (left.method === "CUSTOM_WITHDRAWAL") {
+      return 1;
+    }
+    if (right.method === "CUSTOM_WITHDRAWAL") {
+      return -1;
+    }
+
+    const leftPriority = STORE_METHOD_PRIORITY_INDEX.get(left.method);
+    const rightPriority = STORE_METHOD_PRIORITY_INDEX.get(right.method);
+
+    if (leftPriority !== undefined && rightPriority !== undefined) {
+      return leftPriority - rightPriority;
+    }
+    if (leftPriority !== undefined) {
+      return -1;
+    }
+    if (rightPriority !== undefined) {
+      return 1;
+    }
+    return 0;
+  });
   const canRedeem = user.status === "ACTIVE" && Boolean(user.emailVerifiedAt);
 
   const redemptions = await prisma.redemption.findMany({
