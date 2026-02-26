@@ -8,6 +8,19 @@ export const dynamic = "force-dynamic";
 
 type LiveCategory = "offer-complete" | "withdrawal-request" | "offer-chargeback" | "case-reward";
 
+const LIVE_ACTIVITY_RESET_AT = (() => {
+  const configured = process.env.LIVE_ACTIVITY_RESET_AT?.trim();
+  if (configured) {
+    const parsed = new Date(configured);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed;
+    }
+  }
+
+  // Hard reset point: only events after this time will appear in live activity.
+  return new Date("2026-02-26T11:50:18.291Z");
+})();
+
 function classifyLiveTransaction(transaction: {
   type: string;
   amountCents: number;
@@ -78,6 +91,7 @@ export async function GET() {
   });
 
   const filteredTransactions = transactions
+    .filter((transaction) => transaction.createdAt >= LIVE_ACTIVITY_RESET_AT)
     .map((transaction) => {
       const category = classifyLiveTransaction(transaction);
       if (!category) {
