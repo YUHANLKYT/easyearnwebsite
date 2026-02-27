@@ -1149,6 +1149,24 @@ export function AdminConsole() {
                       >
                         Terminate
                       </button>
+                      <button
+                        type="button"
+                        disabled={busyKey === `delete-user-${user.id}`}
+                        onClick={() => {
+                          const confirmed = window.confirm(
+                            `Permanently delete ${user.name}'s account? This action cannot be undone.`,
+                          );
+                          if (!confirmed) {
+                            return;
+                          }
+                          void runAction(`delete-user-${user.id}`, () =>
+                            postJson("/api/admin/users/delete", { userId: user.id }),
+                          );
+                        }}
+                        className="rounded-lg bg-rose-800 px-3 py-1 text-xs font-semibold text-white disabled:opacity-50"
+                      >
+                        Delete Permanently
+                      </button>
                     </div>
                   )}
                 </div>
