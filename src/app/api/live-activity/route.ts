@@ -6,7 +6,12 @@ import { maskDisplayName } from "@/lib/users";
 
 export const dynamic = "force-dynamic";
 
-type LiveCategory = "offer-complete" | "withdrawal-request" | "offer-chargeback" | "case-reward";
+type LiveCategory =
+  | "offer-complete"
+  | "withdrawal-request"
+  | "offer-chargeback"
+  | "case-reward"
+  | "referral-bonus";
 
 const LIVE_ACTIVITY_RESET_AT = (() => {
   const configured = process.env.LIVE_ACTIVITY_RESET_AT?.trim();
@@ -26,6 +31,14 @@ function classifyLiveTransaction(transaction: {
   amountCents: number;
   description: string;
 }): LiveCategory | null {
+  if (
+    transaction.type === "EARN_PENDING" &&
+    transaction.amountCents > 0 &&
+    /referral sign-up bonus/i.test(transaction.description)
+  ) {
+    return "referral-bonus";
+  }
+
   if (transaction.type === "WITHDRAWAL") {
     return "withdrawal-request";
   }
@@ -58,6 +71,9 @@ function classifyLiveTransaction(transaction: {
 }
 
 function getLiveDescription(category: LiveCategory, fallbackDescription: string): string {
+  if (category === "referral-bonus") {
+    return "Referral bonus";
+  }
   if (category === "offer-complete") {
     return "Offer completed";
   }
