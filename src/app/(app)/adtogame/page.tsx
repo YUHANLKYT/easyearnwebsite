@@ -46,6 +46,12 @@ export default async function AdtoGamePage() {
       </section>
 
       <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
+        <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-100 via-orange-100 to-emerald-100 px-5 py-4 text-center shadow-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-800">Conversion Rate</p>
+          <p className="mt-1 text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">1000 Coins = $1.00 USD</p>
+          <p className="mt-1 text-xs font-medium text-slate-700">AdtoGame earnings are converted to your EasyEarn USD wallet.</p>
+        </div>
+
         <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 sm:px-6">
           <Image
             src="/adtogame-logo.png"
