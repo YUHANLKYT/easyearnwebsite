@@ -1,9 +1,5 @@
 <svg width="480" height="96" viewBox="0 0 480 96" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="kw-card" x1="0" y1="0" x2="480" y2="96" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#f0fdf4" />
-      <stop offset="1" stop-color="#dcfce7" />
-    </linearGradient>
     <linearGradient id="kw-ring" x1="0" y1="0" x2="1" y2="1">
       <stop stop-color="#22c55e" />
       <stop offset="1" stop-color="#15803d" />
@@ -13,7 +9,6 @@
       <stop offset="1" stop-color="#84cc16" />
     </linearGradient>
   </defs>
-  <rect x="2" y="2" width="476" height="92" rx="20" fill="url(#kw-card)" />
   <circle cx="56" cy="48" r="30" fill="url(#kw-ring)" />
   <circle cx="56" cy="48" r="24" fill="url(#kw-fill)" />
   <circle cx="56" cy="48" r="8" fill="#f8fafc" />
