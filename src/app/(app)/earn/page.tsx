@@ -288,7 +288,7 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
       </section>
 
       <section className="rounded-3xl border border-slate-100 bg-white/85 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-slate-900">Withdrawal Rules</h2>
+        <h2 className="text-lg font-semibold text-slate-900">Earning Rules</h2>
         <p className="mt-2 text-sm text-slate-600">
           Rewards above $3.00 are held temporarily for anti-fraud review before they are released to balance and level
           progress.
@@ -296,6 +296,18 @@ export default async function EarnPage({ searchParams }: { searchParams: SearchP
         <p className="mt-2 text-xs font-medium text-amber-700">
           Anti-fraud hold policy: rewards above $3.00 are pending before release. Pending funds do not count toward level
           until released.
+        </p>
+        <p className="mt-2 text-xs text-slate-600">
+          Want to speed up the review process? Submit completion proof in our{" "}
+          <a
+            href="https://discord.gg/9rfdMgtGbG"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-sky-700 underline decoration-sky-400/70 underline-offset-2 transition hover:text-sky-800"
+          >
+            Discord server
+          </a>
+          .
         </p>
         <Link
           href="/store"

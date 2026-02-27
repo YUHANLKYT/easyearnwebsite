@@ -40,7 +40,7 @@ const giftCardCloud: GiftCardVisual[] = [
   {
     brand: "Amazon",
     icon: FaAmazon,
-    style: "top-[2%] left-[1%] rotate-[-14deg] gift-float-a",
+    style: "top-[1%] left-[-9%] rotate-[-12deg] gift-float-a",
     gradient: "from-amber-400 to-orange-500",
     orb: "bg-amber-300/60",
   },
@@ -54,7 +54,7 @@ const giftCardCloud: GiftCardVisual[] = [
   {
     brand: "Steam",
     icon: FaSteam,
-    style: "top-[24%] left-[4%] rotate-[8deg] gift-float-c",
+    style: "top-[24%] left-[-11%] rotate-[7deg] gift-float-c",
     gradient: "from-sky-500 to-indigo-500",
     orb: "bg-sky-300/55",
   },
@@ -68,7 +68,7 @@ const giftCardCloud: GiftCardVisual[] = [
   {
     brand: "Xbox",
     icon: FaXbox,
-    style: "bottom-[22%] left-[3%] rotate-[13deg] gift-float-b",
+    style: "bottom-[22%] left-[-10%] rotate-[11deg] gift-float-b",
     gradient: "from-emerald-500 to-teal-600",
     orb: "bg-emerald-300/55",
   },
@@ -82,7 +82,7 @@ const giftCardCloud: GiftCardVisual[] = [
   {
     brand: "Google Play",
     icon: FaGooglePlay,
-    style: "bottom-[3%] left-[15%] rotate-[-6deg] gift-float-a",
+    style: "bottom-[2%] left-[-8%] rotate-[-6deg] gift-float-a",
     gradient: "from-rose-500 to-orange-500",
     orb: "bg-rose-300/55",
   },
@@ -308,7 +308,7 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           {giftCardCloud.map((item) => (
             <div
               key={item.brand}
-              className={`absolute h-[136px] w-[220px] overflow-hidden rounded-[18px] border border-white/35 bg-gradient-to-br p-4 text-white shadow-2xl ${item.style} ${item.gradient}`}
+              className={`absolute h-[124px] w-[204px] overflow-hidden rounded-[18px] border border-white/35 bg-gradient-to-br p-4 text-white shadow-2xl lg:h-[136px] lg:w-[220px] ${item.style} ${item.gradient}`}
             >
               <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${item.orb}`} />
               <div className="relative flex h-full flex-col">
@@ -331,7 +331,9 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           initial={contentTransition.initial}
           animate={contentTransition.animate}
           exit={contentTransition.exit}
-          className="relative z-10 max-w-3xl space-y-5"
+          className={`relative z-10 space-y-5 ${
+            spotlight ? "max-w-3xl" : "max-w-3xl md:max-w-[62%] md:pl-8 lg:max-w-[58%] lg:pl-10"
+          }`}
         >
           {spotlight ? (
             <>
