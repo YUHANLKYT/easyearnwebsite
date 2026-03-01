@@ -39,6 +39,7 @@ import { formatUSD } from "@/lib/money";
 type StoreRedemptionGridProps = {
   options: RedemptionOption[];
   canRedeem: boolean;
+  initialRegionCode?: PayoutRegion;
 };
 
 type Region = {
@@ -120,8 +121,8 @@ function convertFaceToUsdCents(faceCents: number, currency: PayoutCurrency, rate
   return Math.max(1, Math.round(faceCents / rate));
 }
 
-export function StoreRedemptionGrid({ options, canRedeem }: StoreRedemptionGridProps) {
-  const [selectedRegionCode, setSelectedRegionCode] = useState<PayoutRegion>("US");
+export function StoreRedemptionGrid({ options, canRedeem, initialRegionCode = "US" }: StoreRedemptionGridProps) {
+  const [selectedRegionCode, setSelectedRegionCode] = useState<PayoutRegion>(initialRegionCode);
   const [fxState, setFxState] = useState<FxState>(defaultFxState);
   const [selectedAmountByMethod, setSelectedAmountByMethod] = useState<Record<string, number>>(
     Object.fromEntries(options.map((option) => [option.method, option.amountChoicesCents[0] ?? option.minAmountCents])),

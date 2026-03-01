@@ -1,9 +1,12 @@
 import { FlashMessage } from "@/components/flash-message";
 import { StoreRedemptionGrid } from "@/components/store-redemption-grid";
+import { TremendousCatalogGrid } from "@/components/tremendous-catalog-grid";
 import { requireUser } from "@/lib/auth";
-import { REDEMPTION_OPTIONS, type PayoutCurrency, getRedemptionLabel } from "@/lib/constants";
+import { REDEMPTION_OPTIONS, type PayoutCurrency, type PayoutRegion, getRedemptionLabel } from "@/lib/constants";
 import { formatUSD } from "@/lib/money";
 import { prisma } from "@/lib/prisma";
+import { getTremendousCatalogEntries } from "@/lib/tremendous";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 type SearchParams = Promise<{
@@ -13,6 +16,7 @@ type SearchParams = Promise<{
 
 const STORE_METHOD_PRIORITY = [
   "PAYPAL",
+  "VISA_GIFT_CARD",
   "DISCORD_NITRO",
   "ROBLOX_GIFT_CARD",
   "AMAZON_GIFT_CARD",
@@ -64,10 +68,40 @@ function formatPayoutCurrency(cents: number | null, currency: PayoutCurrency): s
   }).format(cents / 100);
 }
 
+function getDefaultRegionFromIpCountry(countryCode: string | null): PayoutRegion {
+  if (countryCode === "AU") {
+    return "AUS";
+  }
+  if (countryCode === "GB" || countryCode === "UK") {
+    return "UK";
+  }
+  return "US";
+}
+
+function getCountryNameFromCode(countryCode: string | null): string | null {
+  if (!countryCode) {
+    return null;
+  }
+  if (countryCode === "US") {
+    return "USA";
+  }
+  if (countryCode === "AU") {
+    return "Australia";
+  }
+  if (countryCode === "GB" || countryCode === "UK") {
+    return "United Kingdom";
+  }
+  return null;
+}
+
 export default async function StorePage({ searchParams }: { searchParams: SearchParams }) {
   const user = await requireUser("/store");
   const params = await searchParams;
-  const storeOptions = REDEMPTION_OPTIONS.filter((option) => option.method !== "VISA_GIFT_CARD").sort((left, right) => {
+  const requestHeaders = await headers();
+  const ipCountryCode = requestHeaders.get("x-vercel-ip-country") ?? requestHeaders.get("cf-ipcountry");
+  const initialRegionCode = getDefaultRegionFromIpCountry(ipCountryCode);
+  const detectedCountryName = getCountryNameFromCode(ipCountryCode);
+  const storeOptions = [...REDEMPTION_OPTIONS].sort((left, right) => {
     if (left.method === "CUSTOM_WITHDRAWAL") {
       return 1;
     }
@@ -90,6 +124,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
     return 0;
   });
   const canRedeem = user.status === "ACTIVE" && Boolean(user.emailVerifiedAt);
+  const tremendousEntries = getTremendousCatalogEntries();
 
   const redemptions = await prisma.redemption.findMany({
     where: {
@@ -110,7 +145,12 @@ export default async function StorePage({ searchParams }: { searchParams: Search
       <section className="page-hero rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm">
         <h1 className="text-3xl font-semibold tracking-tight text-slate-900">Store & Withdrawals</h1>
         <p className="mt-2 max-w-2xl text-slate-600">
-          Redeem your USD balance for PayPal and gift cards. Every withdrawal made by your referrals pays you a 5% bonus.
+          Redeem your USD balance for PayPal, prepaid options, and gift cards. Every withdrawal made by your referrals pays
+          you a 5% bonus.
+        </p>
+        <p className="mt-2 text-xs text-slate-500">
+          Location by IP: {detectedCountryName ?? "Unknown"} ({ipCountryCode ?? "N/A"}). Wallet balance always remains in
+          USD.
         </p>
       </section>
 
@@ -136,7 +176,9 @@ export default async function StorePage({ searchParams }: { searchParams: Search
         <p className="text-xs text-slate-500">USD</p>
       </section>
 
-      <StoreRedemptionGrid options={storeOptions} canRedeem={canRedeem} />
+      <StoreRedemptionGrid options={storeOptions} canRedeem={canRedeem} initialRegionCode={initialRegionCode} />
+
+      <TremendousCatalogGrid entries={tremendousEntries} canRedeem={canRedeem} detectedCountryName={detectedCountryName} />
 
       <section className="rounded-2xl border border-indigo-100 bg-indigo-50/60 px-4 py-3 text-sm text-slate-700">
         Custom Withdrawal is now built into the store grid. Add the item name, USD price, and optional wallet/email,

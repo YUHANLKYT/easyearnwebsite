@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DISCORD_SERVER_URL } from "@/lib/constants";
+import { DISCORD_SERVER_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
 function FaqCard({
   number,
@@ -153,6 +153,12 @@ export default function FaqPage() {
           <FaqCard number="11" title="Can I contact support?">
             <p>Yes. For any issues, questions, or account concerns:</p>
             <ul className="list-disc space-y-1 pl-5">
+              <li>
+                Email:{" "}
+                <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-sky-700 hover:text-sky-800">
+                  {SUPPORT_EMAIL}
+                </a>
+              </li>
               <li>
                 Discord Support:{" "}
                 <a

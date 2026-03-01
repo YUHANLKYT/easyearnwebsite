@@ -14,7 +14,7 @@ export const VIP_PLUS_KEYS_PER_LEVEL = 3;
 export const CHAT_MESSAGE_COOLDOWN_SECONDS = 5;
 export const SIGNUP_BONUS_CENTS = 100;
 const configuredSupportEmail = process.env.SUPPORT_EMAIL?.trim();
-export const SUPPORT_EMAIL = configuredSupportEmail ? configuredSupportEmail : null;
+export const SUPPORT_EMAIL = configuredSupportEmail ? configuredSupportEmail : "admin@ezearn.org";
 export const DISCORD_SERVER_URL = "https://discord.gg/9rfdMgtGbG";
 export const STREAK_DAILY_TARGET_CENTS = 200;
 
@@ -90,9 +90,9 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "APPLE_GIFT_CARD",
     label: "Apple Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for an Apple digital gift card.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "AMAZON_GIFT_CARD",
@@ -104,22 +104,22 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "GOOGLE_PLAY_GIFT_CARD",
     label: "Google Play Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for a Google Play digital card.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
     amountChoicesByRegion: {
-      AUS: [2500, 5000, 10000],
+      AUS: [500, 2500, 5000, 10000],
     },
   },
   {
     method: "SPOTIFY_GIFT_CARD",
     label: "Spotify Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem by Spotify subscription duration (region plans).",
-    amountChoicesCents: [1000, 3000, 6000, 10000],
+    amountChoicesCents: [500, 1000, 3000, 6000, 10000],
     amountChoicesByRegion: {
-      US: [1000, 3000, 6000, 10000],
-      AUS: [1400, 4200, 8400, 14000],
+      US: [500, 1000, 3000, 6000, 10000],
+      AUS: [500, 1400, 4200, 8400, 14000],
     },
     supportedRegions: ["US", "AUS"],
     amountChoiceLabelsByRegion: {
@@ -140,30 +140,30 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "NETFLIX_GIFT_CARD",
     label: "Netflix Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for Netflix balance.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "PLAYSTATION_GIFT_CARD",
     label: "PlayStation Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for PlayStation wallet balance.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "NINTENDO_GIFT_CARD",
     label: "Nintendo Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for Nintendo eShop balance.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "XBOX_GIFT_CARD",
     label: "Xbox Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for Xbox / Microsoft account balance.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "STARBUCKS_GIFT_CARD",
@@ -175,30 +175,30 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "DOORDASH_GIFT_CARD",
     label: "DoorDash Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for DoorDash credits.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "STEAM_GIFT_CARD",
     label: "Steam Gift Card",
-    minAmountCents: 2000,
+    minAmountCents: 500,
     description: "Redeem for a Steam wallet gift card.",
-    amountChoicesCents: [2000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "VALORANT_GIFT_CARD",
     label: "Valorant Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for Valorant points gift card.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "LEAGUE_OF_LEGENDS_GIFT_CARD",
     label: "League of Legends Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for League of Legends RP gift card.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "DISCORD_NITRO",
@@ -215,16 +215,16 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "ROBLOX_GIFT_CARD",
     label: "Roblox Gift Card",
-    minAmountCents: 1000,
+    minAmountCents: 500,
     description: "Redeem for Roblox credits.",
-    amountChoicesCents: [1000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
   {
     method: "FORTNITE_GIFT_CARD",
     label: "Fortnite Gift Card",
-    minAmountCents: 1500,
+    minAmountCents: 500,
     description: "Redeem for Fortnite V-Bucks gift cards (USD only).",
-    amountChoicesCents: [1500, 3000, 5000, 10000],
+    amountChoicesCents: [500, 1500, 3000, 5000, 10000],
     supportedRegions: ["US"],
   },
   {
@@ -239,9 +239,9 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "VISA_GIFT_CARD",
     label: "Visa Gift Card",
-    minAmountCents: 2000,
+    minAmountCents: 500,
     description: "Redeem for a prepaid Visa gift card.",
-    amountChoicesCents: [2000, 2500, 5000, 10000],
+    amountChoicesCents: [500, 1000, 2500, 5000, 10000],
   },
 ];
 

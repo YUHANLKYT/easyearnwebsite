@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { DISCORD_SERVER_URL } from "@/lib/constants";
+import { DISCORD_SERVER_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
 export default function TermsOfServicePage() {
   return (
@@ -166,7 +166,17 @@ export default function TermsOfServicePage() {
         <section className="space-y-3">
           <h2 className="text-xl font-semibold text-slate-900">13. Contact Us</h2>
           <p className="text-sm leading-7 text-slate-700">
-            For questions or concerns regarding these Terms, contact us through Discord support by{" "}
+            For questions or concerns regarding these Terms, contact us using:
+          </p>
+          <ul className="list-disc space-y-1 pl-5 text-sm leading-7 text-slate-700">
+            <li>
+              Email:{" "}
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-sky-700 hover:text-sky-800">
+                {SUPPORT_EMAIL}
+              </a>
+            </li>
+            <li>
+              Discord support by{" "}
             <a
               href={DISCORD_SERVER_URL}
               target="_blank"
@@ -175,8 +185,9 @@ export default function TermsOfServicePage() {
             >
               joining the server
             </a>{" "}
-            and opening a support ticket.
-          </p>
+              and opening a support ticket.
+            </li>
+          </ul>
         </section>
 
         <div className="pt-1">

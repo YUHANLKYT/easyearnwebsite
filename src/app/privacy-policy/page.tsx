@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { DISCORD_SERVER_URL } from "@/lib/constants";
+import { DISCORD_SERVER_URL, SUPPORT_EMAIL } from "@/lib/constants";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -206,6 +206,12 @@ export default function PrivacyPolicyPage() {
             support channel:
           </p>
           <ul className="list-disc space-y-1 pl-5 text-sm text-slate-700">
+            <li>
+              Email:{" "}
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="font-semibold text-sky-700 hover:text-sky-800">
+                {SUPPORT_EMAIL}
+              </a>
+            </li>
             <li>
               Discord Support:{" "}
               <a

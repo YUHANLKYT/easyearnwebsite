@@ -144,94 +144,113 @@ export function NotificationsPopover() {
       </button>
 
       {open ? (
-        <div className="ui-popover absolute right-0 z-40 mt-2 w-[380px] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
-          <div className="ui-popover-head border-b border-slate-100 bg-slate-50 px-4 py-3">
-            <p className="text-sm font-semibold text-slate-900">Notifications</p>
-            <p className="text-xs text-slate-600">
-              Pending: <span className="font-semibold text-amber-700">{formatUSD(payload?.pendingTotalCents ?? 0)}</span>
-            </p>
-          </div>
+        <>
+          <button
+            type="button"
+            aria-label="Close notifications"
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-40 bg-slate-900/25 backdrop-blur-[1px] sm:hidden"
+          />
+          <div className="ui-popover fixed inset-x-3 top-20 z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:z-40 sm:mt-2 sm:w-[380px]">
+            <div className="ui-popover-head border-b border-slate-100 bg-slate-50 px-4 py-3">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Notifications</p>
+                  <p className="text-xs text-slate-600">
+                    Pending: <span className="font-semibold text-amber-700">{formatUSD(payload?.pendingTotalCents ?? 0)}</span>
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-800 sm:hidden"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
 
-          <div className="max-h-[70vh] space-y-3 overflow-y-auto p-4">
-            {requiresEmailVerification ? (
-              <article className="rounded-xl border border-rose-200 bg-rose-50/85 p-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-rose-800">Email Verification Required</p>
-                <p className="mt-1 text-xs text-rose-800">
-                  Withdrawals are locked until your email is verified.
+            <div className="max-h-[calc(100vh-6.5rem)] space-y-3 overflow-y-auto p-4 sm:max-h-[70vh]">
+              {requiresEmailVerification ? (
+                <article className="rounded-xl border border-rose-200 bg-rose-50/85 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-rose-800">Email Verification Required</p>
+                  <p className="mt-1 text-xs text-rose-800">
+                    Withdrawals are locked until your email is verified.
+                  </p>
+                  <Link href="/settings" className="mt-2 inline-flex text-xs font-semibold text-rose-700 hover:text-rose-800">
+                    Go to Settings to verify email
+                  </Link>
+                </article>
+              ) : null}
+
+              <article className="rounded-xl border border-amber-100 bg-amber-50/60 p-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Pending Offer Credits</p>
+                <p className="mt-1 text-xs text-amber-800">
+                  If you have proof of completion, contact support and your pending credit may be released earlier.
                 </p>
-                <Link href="/settings" className="mt-2 inline-flex text-xs font-semibold text-rose-700 hover:text-rose-800">
-                  Go to Settings to verify email
-                </Link>
-              </article>
-            ) : null}
-
-            <article className="rounded-xl border border-amber-100 bg-amber-50/60 p-3">
-              <p className="text-xs font-semibold uppercase tracking-wide text-amber-800">Pending Offer Credits</p>
-              <p className="mt-1 text-xs text-amber-800">
-                If you have proof of completion, contact support and your pending credit may be released earlier.
-              </p>
-              <div className="mt-2 space-y-2">
-                {loading && !payload ? (
-                  <p className="text-xs text-amber-700">Loading pending offers...</p>
-                ) : pendingCount < 1 ? (
-                  <p className="text-xs text-amber-700">No pending offers right now.</p>
-                ) : (
-                  payload?.pendingClaims.map((claim) => (
-                    <div key={claim.id} className="rounded-lg border border-amber-200 bg-white px-2 py-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs font-semibold text-slate-900">{claim.offerName}</p>
-                        <p className="text-xs font-semibold text-amber-800">{formatUSD(claim.payoutCents)}</p>
-                      </div>
-                      <p className="text-[11px] text-slate-600">
-                        {claim.offerwallName} - {claim.offerId ?? "No offer ID"}
-                      </p>
-                      <p className="text-[11px] font-semibold text-amber-700">{claim.timeLeft}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </article>
-
-            <article>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-700">All Transactions</p>
-              {loading && !payload ? <p className="text-xs text-slate-500">Loading transactions...</p> : null}
-              {error ? <p className="text-xs text-rose-700">{error}</p> : null}
-              <div className="space-y-2">
-                {transactionRows.length < 1 && !loading ? (
-                  <p className="text-xs text-slate-500">No transactions yet.</p>
-                ) : (
-                  transactionRows.map((entry) => {
-                    const positive = entry.amountCents >= 0;
-                    const pending = entry.type === "EARN_PENDING";
-                    return (
-                      <div key={entry.id} className="rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2">
-                        <div className="flex items-start justify-between gap-2">
-                          <p className="text-xs font-medium text-slate-800">
-                            {entry.description}
-                            {pending ? (
-                              <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
-                                Pending
-                              </span>
-                            ) : null}
-                          </p>
-                          <p
-                            className={`text-xs font-semibold ${
-                              pending ? "text-amber-700" : positive ? "text-sky-700" : "text-rose-700"
-                            }`}
-                          >
-                            {positive ? "+" : "-"}
-                            {formatUSD(Math.abs(entry.amountCents))}
-                          </p>
+                <div className="mt-2 space-y-2">
+                  {loading && !payload ? (
+                    <p className="text-xs text-amber-700">Loading pending offers...</p>
+                  ) : pendingCount < 1 ? (
+                    <p className="text-xs text-amber-700">No pending offers right now.</p>
+                  ) : (
+                    payload?.pendingClaims.map((claim) => (
+                      <div key={claim.id} className="rounded-lg border border-amber-200 bg-white px-2 py-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-xs font-semibold text-slate-900">{claim.offerName}</p>
+                          <p className="text-xs font-semibold text-amber-800">{formatUSD(claim.payoutCents)}</p>
                         </div>
-                        <p className="mt-1 text-[11px] text-slate-500">{formatWhen(entry.createdAt)}</p>
+                        <p className="text-[11px] text-slate-600">
+                          {claim.offerwallName} - {claim.offerId ?? "No offer ID"}
+                        </p>
+                        <p className="text-[11px] font-semibold text-amber-700">{claim.timeLeft}</p>
                       </div>
-                    );
-                  })
-                )}
-              </div>
-            </article>
+                    ))
+                  )}
+                </div>
+              </article>
+
+              <article>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-700">All Transactions</p>
+                {loading && !payload ? <p className="text-xs text-slate-500">Loading transactions...</p> : null}
+                {error ? <p className="text-xs text-rose-700">{error}</p> : null}
+                <div className="space-y-2">
+                  {transactionRows.length < 1 && !loading ? (
+                    <p className="text-xs text-slate-500">No transactions yet.</p>
+                  ) : (
+                    transactionRows.map((entry) => {
+                      const positive = entry.amountCents >= 0;
+                      const pending = entry.type === "EARN_PENDING";
+                      return (
+                        <div key={entry.id} className="rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2">
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="text-xs font-medium text-slate-800">
+                              {entry.description}
+                              {pending ? (
+                                <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                                  Pending
+                                </span>
+                              ) : null}
+                            </p>
+                            <p
+                              className={`text-xs font-semibold ${
+                                pending ? "text-amber-700" : positive ? "text-sky-700" : "text-rose-700"
+                              }`}
+                            >
+                              {positive ? "+" : "-"}
+                              {formatUSD(Math.abs(entry.amountCents))}
+                            </p>
+                          </div>
+                          <p className="mt-1 text-[11px] text-slate-500">{formatWhen(entry.createdAt)}</p>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </article>
+            </div>
           </div>
-        </div>
+        </>
       ) : null}
     </div>
   );
