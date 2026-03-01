@@ -16,7 +16,7 @@ export function SiteFooter() {
             FAQ
           </Link>
         </div>
-        <p className="text-xs text-slate-500">Secure payouts in USD</p>
+        <p className="text-xs text-slate-500">admin@ezearn.org</p>
       </div>
     </footer>
   );

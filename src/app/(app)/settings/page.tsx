@@ -176,6 +176,19 @@ export default async function SettingsPage({ searchParams }: { searchParams: Sea
                       })}
                     </p>
                   ) : null}
+
+                  {redemption.status === "PENDING" ? (
+                    <form action="/api/settings/withdrawals/cancel" method="post" className="mt-3">
+                      <input type="hidden" name="redirectTo" value="/settings" />
+                      <input type="hidden" name="redemptionId" value={redemption.id} />
+                      <button
+                        type="submit"
+                        className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100"
+                      >
+                        Cancel Withdrawal
+                      </button>
+                    </form>
+                  ) : null}
                 </div>
               </details>
             ))

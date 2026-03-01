@@ -916,6 +916,75 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   border-color: rgba(148, 163, 184, 0.5) !important;
 }
 
+.redemption-catalog-shell {
+  border-color: color-mix(in srgb, var(--border-soft) 92%, rgba(56, 189, 248, 0.24)) !important;
+  background:
+    radial-gradient(120% 130% at 95% 0%, rgba(56, 189, 248, 0.1), transparent 58%),
+    radial-gradient(120% 120% at 0% 105%, rgba(251, 146, 60, 0.1), transparent 62%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface-card-strong) 96%, transparent), color-mix(in srgb, var(--surface-card) 96%, transparent));
+}
+
+.redemption-location-card {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  background: rgba(248, 250, 252, 0.82) !important;
+}
+
+.redemption-group {
+  border-color: rgba(148, 163, 184, 0.24) !important;
+}
+
+.redemption-group-prepaid {
+  background: linear-gradient(155deg, rgba(236, 253, 245, 0.78), rgba(217, 249, 238, 0.7));
+}
+
+.redemption-group-prepaid h3,
+.redemption-group-prepaid p {
+  color: #047857;
+}
+
+.redemption-group-popular {
+  background: linear-gradient(155deg, rgba(238, 242, 255, 0.78), rgba(224, 231, 255, 0.72));
+}
+
+.redemption-group-popular h3,
+.redemption-group-popular p {
+  color: #4338ca;
+}
+
+.redemption-group-more {
+  background: linear-gradient(155deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.72));
+}
+
+.redemption-group-more h3,
+.redemption-group-more p {
+  color: #334155;
+}
+
+.redemption-option-btn {
+  border-color: rgba(148, 163, 184, 0.3) !important;
+  backdrop-filter: blur(4px);
+}
+
+.redemption-option-btn-selected {
+  border-color: rgba(56, 189, 248, 0.45) !important;
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.98), rgba(186, 230, 253, 0.95)) !important;
+}
+
+.redemption-option-btn-idle {
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
+.redemption-option-btn-idle:hover {
+  border-color: rgba(148, 163, 184, 0.5) !important;
+  background: rgba(248, 250, 252, 0.96) !important;
+}
+
+.redemption-request-card,
+.redemption-custom-wd {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+}
+
 .level-stage-card {
   transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
@@ -1813,6 +1882,78 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 :root[data-theme="dark"] .amount-choice-idle:hover {
   border-color: rgba(148, 163, 184, 0.42) !important;
   background: rgba(30, 41, 59, 0.8);
+}
+
+:root[data-theme="dark"] .redemption-catalog-shell {
+  border-color: rgba(148, 163, 184, 0.3) !important;
+  background:
+    radial-gradient(120% 130% at 95% 0%, rgba(56, 189, 248, 0.12), transparent 58%),
+    radial-gradient(120% 120% at 0% 105%, rgba(251, 146, 60, 0.12), transparent 62%),
+    linear-gradient(180deg, rgba(9, 17, 32, 0.92), rgba(8, 14, 27, 0.9)) !important;
+}
+
+:root[data-theme="dark"] .redemption-location-card {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+  background: rgba(9, 17, 32, 0.84) !important;
+}
+
+:root[data-theme="dark"] .redemption-group {
+  border-color: rgba(148, 163, 184, 0.3) !important;
+  box-shadow: 0 14px 26px -24px rgba(2, 6, 23, 0.9);
+}
+
+:root[data-theme="dark"] .redemption-group-prepaid {
+  background: linear-gradient(160deg, rgba(6, 95, 70, 0.28), rgba(6, 24, 22, 0.82)) !important;
+}
+
+:root[data-theme="dark"] .redemption-group-prepaid h3,
+:root[data-theme="dark"] .redemption-group-prepaid p {
+  color: #6ee7b7 !important;
+}
+
+:root[data-theme="dark"] .redemption-group-popular {
+  background: linear-gradient(160deg, rgba(49, 46, 129, 0.32), rgba(15, 23, 42, 0.84)) !important;
+}
+
+:root[data-theme="dark"] .redemption-group-popular h3,
+:root[data-theme="dark"] .redemption-group-popular p {
+  color: #c4b5fd !important;
+}
+
+:root[data-theme="dark"] .redemption-group-more {
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.8), rgba(9, 17, 32, 0.86)) !important;
+}
+
+:root[data-theme="dark"] .redemption-group-more h3 {
+  color: #e2e8f0 !important;
+}
+
+:root[data-theme="dark"] .redemption-group-more p {
+  color: #94a3b8 !important;
+}
+
+:root[data-theme="dark"] .redemption-option-btn {
+  border-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+:root[data-theme="dark"] .redemption-option-btn-selected {
+  border-color: rgba(56, 189, 248, 0.48) !important;
+  background: linear-gradient(140deg, rgba(8, 47, 73, 0.84), rgba(14, 116, 144, 0.62)) !important;
+}
+
+:root[data-theme="dark"] .redemption-option-btn-idle {
+  background: rgba(15, 23, 42, 0.8) !important;
+}
+
+:root[data-theme="dark"] .redemption-option-btn-idle:hover {
+  border-color: rgba(148, 163, 184, 0.42) !important;
+  background: rgba(30, 41, 59, 0.86) !important;
+}
+
+:root[data-theme="dark"] .redemption-request-card,
+:root[data-theme="dark"] .redemption-custom-wd {
+  border-color: rgba(148, 163, 184, 0.3) !important;
+  background: linear-gradient(155deg, rgba(12, 21, 38, 0.88), rgba(8, 14, 27, 0.9)) !important;
 }
 
 :root[data-theme="dark"] [class*="text-slate-900"],

@@ -188,7 +188,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
     selectedFaceCents && selectedRate && selectedRate > 0 ? Math.max(1, Math.round(selectedFaceCents / selectedRate)) : null;
 
   return (
-    <section className="space-y-4 rounded-3xl border border-white/70 bg-white/85 p-5 shadow-sm">
+    <section className="redemption-catalog-shell space-y-4 rounded-3xl border border-white/70 bg-white/85 p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold text-slate-900">Redemption Store</h2>
@@ -220,7 +220,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
             className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
           />
         </label>
-        <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
+        <div className="redemption-location-card rounded-xl border border-slate-200 bg-slate-50/70 p-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Location</p>
           <p className="mt-1 text-xs text-slate-600">
             {detectedCountryName ? `Detected by IP: ${detectedCountryName}` : "Detected by IP: Unknown"}
@@ -254,9 +254,9 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
 
       <div className="grid gap-4 xl:grid-cols-[2fr_1fr]">
         <div className="space-y-4">
-          <div className="rounded-2xl border border-emerald-100 bg-emerald-50/40 p-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-emerald-800">Prepaid</h3>
-            <p className="mt-1 text-xs text-emerald-700">{grouped.prepaid.length} options</p>
+          <div className="redemption-group redemption-group-prepaid rounded-2xl border p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide">Prepaid</h3>
+            <p className="mt-1 text-xs">{grouped.prepaid.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {grouped.prepaid.map((entry) => (
                 <button
@@ -266,10 +266,10 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                     setSelectedId(entry.id);
                     setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
-                  className={`rounded-xl border px-3 py-2 text-left transition ${
+                  className={`redemption-option-btn rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
-                      ? "border-sky-300 bg-sky-50 shadow-sm"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      ? "redemption-option-btn-selected shadow-sm"
+                      : "redemption-option-btn-idle"
                   }`}
                 >
                   <p className="text-sm font-semibold text-slate-900">{entry.product}</p>
@@ -279,9 +279,9 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
             </div>
           </div>
 
-          <div className="rounded-2xl border border-indigo-100 bg-indigo-50/35 p-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-indigo-800">Popular Gift Cards</h3>
-            <p className="mt-1 text-xs text-indigo-700">{grouped.popular.length} options</p>
+          <div className="redemption-group redemption-group-popular rounded-2xl border p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide">Popular Gift Cards</h3>
+            <p className="mt-1 text-xs">{grouped.popular.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {grouped.popular.map((entry) => (
                 <button
@@ -291,10 +291,10 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                     setSelectedId(entry.id);
                     setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
-                  className={`rounded-xl border px-3 py-2 text-left transition ${
+                  className={`redemption-option-btn rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
-                      ? "border-sky-300 bg-sky-50 shadow-sm"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      ? "redemption-option-btn-selected shadow-sm"
+                      : "redemption-option-btn-idle"
                   }`}
                 >
                   <p className="text-sm font-semibold text-slate-900">{entry.product}</p>
@@ -304,9 +304,9 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50/30 p-4">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">More Gift Cards</h3>
-            <p className="mt-1 text-xs text-slate-600">{grouped.more.length} options</p>
+          <div className="redemption-group redemption-group-more rounded-2xl border p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide">More Gift Cards</h3>
+            <p className="mt-1 text-xs">{grouped.more.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {grouped.more.map((entry) => (
                 <button
@@ -316,10 +316,10 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                     setSelectedId(entry.id);
                     setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
-                  className={`rounded-xl border px-3 py-2 text-left transition ${
+                  className={`redemption-option-btn rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
-                      ? "border-sky-300 bg-sky-50 shadow-sm"
-                      : "border-slate-200 bg-white hover:border-slate-300"
+                      ? "redemption-option-btn-selected shadow-sm"
+                      : "redemption-option-btn-idle"
                   }`}
                 >
                   <p className="text-sm font-semibold text-slate-900">{entry.product}</p>
@@ -330,7 +330,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
           </div>
         </div>
 
-        <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <aside className="redemption-request-card h-fit rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <h3 className="text-base font-semibold text-slate-900">Request Selected Gift Card</h3>
           {!selectedEntry ? (
             <p className="mt-2 text-sm text-slate-500">Select a catalog item to continue.</p>
@@ -397,7 +397,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
         </aside>
       </div>
 
-      <section className="rounded-2xl border border-slate-200 bg-slate-50/35 p-4">
+      <section className="redemption-custom-wd rounded-2xl border border-slate-200 bg-slate-50/35 p-4">
         <div className="mb-3">
           <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">Custom WD</h3>
           <p className="mt-1 text-xs text-slate-600">Request a custom payout item. Minimum request is $5.00 USD.</p>
