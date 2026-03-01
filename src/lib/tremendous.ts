@@ -15,6 +15,8 @@ const MONETARY_PRODUCT_PATTERN =
   /\b(bank transfer|cash app|paypal|venmo|wire transfer|wire|crypto|bitcoin|ach|moneygram|western union)\b/i;
 
 const PREPAID_PRODUCT_PATTERN = /\b(prepaid|visa|mastercard)\b/i;
+const CHARITY_NONPROFIT_PATTERN =
+  /\b(charity|non[-\s]?profit|donation|foundation|ngo|relief|red cross|unicef|unhcr|wwf|save the children)\b/i;
 
 const POPULAR_PRODUCT_PATTERNS = [
   /amazon/i,
@@ -84,6 +86,10 @@ export function isPopularTremendousProduct(product: string): boolean {
   return POPULAR_PRODUCT_PATTERNS.some((pattern) => pattern.test(product));
 }
 
+export function isCharityNonProfitTremendousProduct(product: string, category?: string): boolean {
+  return CHARITY_NONPROFIT_PATTERN.test(`${product} ${category ?? ""}`);
+}
+
 export function getTremendousCatalogEntries(): TremendousCatalogEntry[] {
   return normalizedCatalog.filter((entry) => !isMonetaryTremendousProduct(entry.product));
 }
@@ -99,4 +105,3 @@ export function getTremendousCatalogEntryById(id: string): TremendousCatalogEntr
   }
   return match;
 }
-

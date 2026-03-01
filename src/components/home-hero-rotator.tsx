@@ -2,24 +2,16 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
-import { FaAmazon, FaApple, FaCcVisa, FaGooglePlay, FaPaypal, FaPlaystation, FaSteam, FaXbox } from "react-icons/fa";
-import { SiDiscord, SiRoblox } from "react-icons/si";
+import { FaAmazon, FaCcVisa, FaPaypal, FaSteam } from "react-icons/fa";
+import { SiRoblox } from "react-icons/si";
 
 type HomeHeroRotatorProps = {
   isSignedIn: boolean;
   signedInHome: string;
   referralParam: string;
   signupBonusText: string;
-};
-
-type GiftCardVisual = {
-  brand: string;
-  icon: IconType;
-  style: string;
-  gradient: string;
-  orb: string;
 };
 
 type HeroSpotlight = {
@@ -36,114 +28,55 @@ type HeroSpotlight = {
   lineTone: "nitro" | "soft";
 };
 
-const giftCardCloud: GiftCardVisual[] = [
-  {
-    brand: "Amazon",
-    icon: FaAmazon,
-    style: "top-[2%] right-[18%] rotate-[-11deg] gift-float-a",
-    gradient: "from-amber-400 to-orange-500",
-    orb: "bg-amber-300/60",
-  },
-  {
-    brand: "Apple",
-    icon: FaApple,
-    style: "top-[3%] right-[3%] rotate-[10deg] gift-float-b",
-    gradient: "from-slate-700 to-slate-900",
-    orb: "bg-slate-300/50",
-  },
-  {
-    brand: "Steam",
-    icon: FaSteam,
-    style: "top-[24%] right-[16%] rotate-[7deg] gift-float-c",
-    gradient: "from-sky-500 to-indigo-500",
-    orb: "bg-sky-300/55",
-  },
-  {
-    brand: "PayPal",
-    icon: FaPaypal,
-    style: "top-[27%] right-[0%] rotate-[-10deg] gift-float-a",
-    gradient: "from-sky-500 to-blue-700",
-    orb: "bg-blue-300/55",
-  },
-  {
-    brand: "Xbox",
-    icon: FaXbox,
-    style: "bottom-[22%] right-[19%] rotate-[12deg] gift-float-b",
-    gradient: "from-emerald-500 to-teal-600",
-    orb: "bg-emerald-300/55",
-  },
-  {
-    brand: "PlayStation",
-    icon: FaPlaystation,
-    style: "bottom-[18%] right-[5%] rotate-[-11deg] gift-float-c",
-    gradient: "from-indigo-500 to-violet-600",
-    orb: "bg-violet-300/55",
-  },
-  {
-    brand: "Google Play",
-    icon: FaGooglePlay,
-    style: "bottom-[3%] right-[17%] rotate-[-6deg] gift-float-a",
-    gradient: "from-rose-500 to-orange-500",
-    orb: "bg-rose-300/55",
-  },
-  {
-    brand: "Visa",
-    icon: FaCcVisa,
-    style: "bottom-[1%] right-[1%] rotate-[9deg] gift-float-b",
-    gradient: "from-blue-600 to-sky-500",
-    orb: "bg-sky-300/50",
-  },
-];
-
 const heroSpotlights: HeroSpotlight[] = [
   {
-    id: "discord-nitro",
-    kicker: "Discord Nitro Spotlight",
-    title: "Withdraw Discord Nitro from just $3.",
-    subtitle: "Get $1 to start and cash out in around 10 minutes.",
-    body: "Complete a few fast offers, then redeem 1-month Discord Nitro directly from the Store tab.",
+    id: "catalog-brands",
+    kicker: "Redemption Store",
+    title: "Redeem across up to 2,400 gift card brands.",
+    subtitle: "One USD wallet with massive catalog coverage.",
+    body: "From gaming to shopping and prepaid cards, Easy Earn supports one of the largest gift card catalogs in GPT.",
     backgroundImage:
-      "linear-gradient(125deg, rgba(129,96,255,0.42) 0%, rgba(178,131,255,0.34) 35%, rgba(236,122,220,0.28) 68%, rgba(122,171,255,0.26) 100%)",
-    cardTone: "border-violet-200 bg-violet-50/70 text-violet-800",
-    accentOrb: "bg-violet-300/45",
-    mascot: SiDiscord,
-    mascotTone: "text-violet-500/35",
+      "linear-gradient(126deg, rgba(45,212,191,0.24) 0%, rgba(56,189,248,0.3) 38%, rgba(99,102,241,0.24) 100%)",
+    cardTone: "border-cyan-200 bg-cyan-50/70 text-cyan-800",
+    accentOrb: "bg-cyan-300/45",
+    mascot: FaCcVisa,
+    mascotTone: "text-cyan-500/30",
     lineTone: "nitro",
   },
   {
-    id: "paypal",
-    kicker: "PayPal Fastout",
-    title: "Turn offer rewards into PayPal USD quickly.",
-    subtitle: "Start with $1 and stack toward your first withdrawal.",
-    body: "Your wallet stays in USD, and you can request PayPal cashout as soon as you reach the minimum.",
+    id: "withdraw-minimum",
+    kicker: "Fast Withdrawal",
+    title: "Withdraw from just $5 USD.",
+    subtitle: "Clear rules, tracked requests, and clean payout flow.",
+    body: "Complete offers, build your wallet, and redeem once you hit the $5 minimum threshold.",
     backgroundImage:
-      "linear-gradient(120deg, rgba(56,189,248,0.32) 0%, rgba(14,165,233,0.24) 40%, rgba(59,130,246,0.24) 100%)",
-    cardTone: "border-sky-200 bg-sky-50/70 text-sky-800",
-    accentOrb: "bg-sky-300/45",
+      "linear-gradient(120deg, rgba(251,191,36,0.28) 0%, rgba(249,115,22,0.25) 42%, rgba(236,72,153,0.2) 100%)",
+    cardTone: "border-amber-200 bg-amber-50/75 text-amber-900",
+    accentOrb: "bg-amber-300/45",
     mascot: FaPaypal,
     mascotTone: "text-sky-500/30",
     lineTone: "soft",
   },
   {
-    id: "amazon",
-    kicker: "Amazon Reward Drop",
-    title: "Cash out to Amazon gift cards in USD.",
-    subtitle: "Popular fixed card amounts are available in one click.",
-    body: "Perfect for everyday spending: complete tasks, build balance, then redeem instantly from Store.",
+    id: "everyday-brands",
+    kicker: "Everyday Brands",
+    title: "Amazon, Apple, Google Play, and hundreds more.",
+    subtitle: "Shopping, entertainment, subscriptions, and prepaid.",
+    body: "Search by brand, category, and currency in the Redemption Store and submit redemptions in seconds.",
     backgroundImage:
-      "linear-gradient(122deg, rgba(251,191,36,0.28) 0%, rgba(249,115,22,0.25) 42%, rgba(244,114,182,0.2) 100%)",
-    cardTone: "border-amber-200 bg-amber-50/75 text-amber-900",
-    accentOrb: "bg-amber-300/45",
+      "linear-gradient(122deg, rgba(16,185,129,0.27) 0%, rgba(45,212,191,0.24) 38%, rgba(56,189,248,0.2) 100%)",
+    cardTone: "border-emerald-200 bg-emerald-50/75 text-emerald-900",
+    accentOrb: "bg-emerald-300/45",
     mascot: FaAmazon,
-    mascotTone: "text-amber-500/30",
+    mascotTone: "text-emerald-500/30",
     lineTone: "soft",
   },
   {
-    id: "roblox",
-    kicker: "Roblox Gift Cards",
-    title: "Cash out Roblox gift cards directly from your USD balance.",
-    subtitle: "Fast path from offer rewards to Robux-ready credit.",
-    body: "Complete offers, stack your wallet, then redeem Roblox gift cards straight from the Store tab.",
+    id: "gaming-stack",
+    kicker: "Gaming Cards",
+    title: "Roblox, Steam, PlayStation, Xbox, and more.",
+    subtitle: "Top-up your game wallets directly from your balance.",
+    body: "Use offer rewards to redeem gaming gift cards instantly from your dashboard store flow.",
     backgroundImage:
       "linear-gradient(126deg, rgba(217,70,239,0.28) 0%, rgba(139,92,246,0.3) 45%, rgba(59,130,246,0.22) 100%)",
     cardTone: "border-fuchsia-200 bg-fuchsia-50/70 text-fuchsia-800",
@@ -153,11 +86,11 @@ const heroSpotlights: HeroSpotlight[] = [
     lineTone: "soft",
   },
   {
-    id: "steam",
-    kicker: "Steam Wallet Rewards",
-    title: "Redeem Steam wallet gift cards without extra steps.",
-    subtitle: "Fast path from tasks to game credit.",
-    body: "Use Easy Earn offers to fund your Steam purchases and keep your gaming budget topped up.",
+    id: "always-updating",
+    kicker: "Catalog Rotation",
+    title: "Gift card inventory updates with new options regularly.",
+    subtitle: "High-demand brands stay prioritized and easy to find.",
+    body: "Prepaid, popular brands, charity options, and more are organized for faster cashout decisions.",
     backgroundImage:
       "linear-gradient(124deg, rgba(34,211,238,0.25) 0%, rgba(56,189,248,0.28) 38%, rgba(99,102,241,0.22) 100%)",
     cardTone: "border-cyan-200 bg-cyan-50/70 text-cyan-800",
@@ -216,37 +149,16 @@ function highlightMoneyText(text: string) {
 }
 
 export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signupBonusText }: HomeHeroRotatorProps) {
-  const [spotlightIndex, setSpotlightIndex] = useState<number>(-1);
+  const [spotlightIndex, setSpotlightIndex] = useState<number>(0);
 
   useEffect(() => {
-    if (spotlightIndex !== -1) {
-      return undefined;
-    }
-
-    const startTimer = window.setTimeout(() => setSpotlightIndex(0), 8000);
-    return () => window.clearTimeout(startTimer);
-  }, [spotlightIndex]);
-
-  useEffect(() => {
-    if (spotlightIndex < 0) {
-      return undefined;
-    }
-
-    const stepTimer = window.setTimeout(() => {
-      if (spotlightIndex >= heroSpotlights.length - 1) {
-        setSpotlightIndex(-1);
-        return;
-      }
-      setSpotlightIndex((current) => current + 1);
+    const stepTimer = window.setInterval(() => {
+      setSpotlightIndex((current) => (current + 1) % heroSpotlights.length);
     }, 8000);
+    return () => window.clearInterval(stepTimer);
+  }, []);
 
-    return () => window.clearTimeout(stepTimer);
-  }, [spotlightIndex]);
-
-  const spotlight = useMemo(
-    () => (spotlightIndex >= 0 && spotlightIndex < heroSpotlights.length ? heroSpotlights[spotlightIndex] : null),
-    [spotlightIndex],
-  );
+  const spotlight = heroSpotlights[spotlightIndex] ?? heroSpotlights[0];
 
   const primaryCtaHref = isSignedIn ? signedInHome : `/signup${referralParam}`;
   const primaryCtaLabel = isSignedIn ? "Open Dashboard" : `Sign up and claim your ${signupBonusText}`;
@@ -255,75 +167,42 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
     <section className="home-hero-shell relative overflow-hidden rounded-[2rem] border border-white/80 bg-white/80 px-6 py-10 shadow-xl shadow-sky-100/60 md:px-10 md:py-14">
       <div className="pointer-events-none absolute inset-0">
         <AnimatePresence mode="wait">
-          {spotlight ? (
-            <motion.div
-              key={`spotlight-bg-${spotlight.id}`}
-              initial={spotlightBackdropTransition.initial}
-              animate={spotlightBackdropTransition.animate}
-              exit={spotlightBackdropTransition.exit}
-              className="hero-spotlight-bg absolute inset-0"
-              style={{ backgroundImage: spotlight.backgroundImage }}
-            >
-              <div className={`hero-spotlight-lines ${spotlight.lineTone === "nitro" ? "hero-spotlight-lines-nitro" : "hero-spotlight-lines-soft"}`} />
-              <div className={`hero-spotlight-orb hero-spotlight-orb-a ${spotlight.accentOrb}`} />
-              <div className={`hero-spotlight-orb hero-spotlight-orb-b ${spotlight.accentOrb}`} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="default-bg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="absolute inset-0"
-            />
-          )}
+          <motion.div
+            key={`spotlight-bg-${spotlight.id}`}
+            initial={spotlightBackdropTransition.initial}
+            animate={spotlightBackdropTransition.animate}
+            exit={spotlightBackdropTransition.exit}
+            className="hero-spotlight-bg absolute inset-0"
+            style={{ backgroundImage: spotlight.backgroundImage }}
+          >
+            <div className={`hero-spotlight-lines ${spotlight.lineTone === "nitro" ? "hero-spotlight-lines-nitro" : "hero-spotlight-lines-soft"}`} />
+            <div className={`hero-spotlight-orb hero-spotlight-orb-a ${spotlight.accentOrb}`} />
+            <div className={`hero-spotlight-orb hero-spotlight-orb-b ${spotlight.accentOrb}`} />
+          </motion.div>
         </AnimatePresence>
       </div>
 
       <div className="pointer-events-none absolute -top-24 -left-12 h-72 w-72 rounded-full bg-[radial-gradient(circle,_rgba(249,115,22,0.22),_transparent_70%)]" />
       <div className="pointer-events-none absolute -right-20 -bottom-16 h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(14,165,233,0.22),_transparent_70%)]" />
 
-      {spotlight ? (
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`mascot-${spotlight.id}`}
-            initial={{ opacity: 0, x: 96, y: 20, rotate: -8, scale: 0.88 }}
-            animate={{
-              opacity: 1,
-              x: 0,
-              y: 0,
-              rotate: 0,
-              scale: 1,
-              transition: { type: "spring", stiffness: 118, damping: 13, mass: 0.8 },
-            }}
-            exit={{ opacity: 0, x: 72, y: -18, scale: 0.92, transition: { duration: 0.34 } }}
-            className="pointer-events-none absolute top-1/2 right-4 hidden -translate-y-1/2 md:block"
-          >
-            <spotlight.mascot className={`hero-spotlight-mascot h-56 w-56 ${spotlight.mascotTone}`} />
-          </motion.div>
-        </AnimatePresence>
-      ) : (
-        <div className="pointer-events-none absolute inset-0 hidden md:block">
-          {giftCardCloud.map((item) => (
-            <div
-              key={item.brand}
-              className={`absolute h-[124px] w-[204px] overflow-hidden rounded-[18px] border border-white/35 bg-gradient-to-br p-4 text-white shadow-2xl lg:h-[136px] lg:w-[220px] ${item.style} ${item.gradient}`}
-            >
-              <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${item.orb}`} />
-              <div className="relative flex h-full flex-col">
-                <item.icon className="h-7 w-7 text-white/95" />
-                <p className="mt-5 text-sm font-semibold tracking-wide">{item.brand}</p>
-                <p className="text-xs font-medium text-white/80">Gift Card</p>
-                <div className="mt-auto flex items-center justify-between text-[11px] font-semibold text-white/90">
-                  <span>USD</span>
-                  <span>Easy Earn</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={`mascot-${spotlight.id}`}
+          initial={{ opacity: 0, x: 96, y: 20, rotate: -8, scale: 0.88 }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            y: 0,
+            rotate: 0,
+            scale: 1,
+            transition: { type: "spring", stiffness: 118, damping: 13, mass: 0.8 },
+          }}
+          exit={{ opacity: 0, x: 72, y: -18, scale: 0.92, transition: { duration: 0.34 } }}
+          className="pointer-events-none absolute top-1/2 right-4 hidden -translate-y-1/2 md:block"
+        >
+          <spotlight.mascot className={`hero-spotlight-mascot h-56 w-56 ${spotlight.mascotTone}`} />
+        </motion.div>
+      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -331,56 +210,33 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           initial={contentTransition.initial}
           animate={contentTransition.animate}
           exit={contentTransition.exit}
-          className={`relative z-10 space-y-5 ${
-            spotlight ? "max-w-3xl" : "max-w-3xl md:max-w-[62%] md:pl-8 lg:max-w-[58%] lg:pl-10"
-          }`}
+          className="relative z-10 max-w-3xl space-y-5"
         >
-          {spotlight ? (
-            <>
-              <div className="flex items-center gap-2">
-                <p className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wider ${spotlight.cardTone}`}>
-                  {spotlight.kicker}
-                </p>
-                <span className={`rounded-full border px-2 py-1 text-[10px] font-semibold ${spotlight.cardTone}`}>
-                  {spotlightIndex + 1}/{heroSpotlights.length}
-                </span>
-                <div className="ml-2 hidden items-center gap-1 sm:flex">
-                  {heroSpotlights.map((item, index) => (
-                    <span
-                      key={item.id}
-                      className={`h-1.5 rounded-full transition-all ${
-                        spotlightIndex === index ? "w-5 bg-slate-900" : "w-1.5 bg-slate-400/60"
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-              <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
-                {highlightMoneyText(spotlight.title)}
-              </h1>
-              <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">
-                {highlightMoneyText(spotlight.subtitle)}
-              </p>
-              <p className="max-w-2xl text-base text-slate-700 md:text-lg">{highlightMoneyText(spotlight.body)}</p>
-            </>
-          ) : (
-            <>
-              <p className="inline-flex rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-rose-700">
-                Referral Start Bonus
-              </p>
-              <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
-                {highlightMoneyText(`Sign up with a referral code and get ${signupBonusText} free.`)}
-              </h1>
-              <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">
-                {highlightMoneyText("Average user first cashes out in 20 minutes.")}
-              </p>
-              <p className="max-w-2xl text-base text-slate-600 md:text-lg">
-                {highlightMoneyText(`Enter a valid referral code at signup to claim your ${signupBonusText} welcome bonus. No code? Use `)}
-                <span className="font-semibold">EASY</span>. Then complete offers, invite referrals, and withdraw to PayPal
-                or gift cards in USD.
-              </p>
-            </>
-          )}
+          <div className="flex items-center gap-2">
+            <p className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-wider ${spotlight.cardTone}`}>
+              {spotlight.kicker}
+            </p>
+            <span className={`rounded-full border px-2 py-1 text-[10px] font-semibold ${spotlight.cardTone}`}>
+              {spotlightIndex + 1}/{heroSpotlights.length}
+            </span>
+            <div className="ml-2 hidden items-center gap-1 sm:flex">
+              {heroSpotlights.map((item, index) => (
+                <span
+                  key={item.id}
+                  className={`h-1.5 rounded-full transition-all ${
+                    spotlightIndex === index ? "w-5 bg-slate-900" : "w-1.5 bg-slate-400/60"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-slate-900 md:text-6xl">
+            {highlightMoneyText(spotlight.title)}
+          </h1>
+          <p className="text-2xl font-semibold tracking-tight text-sky-700 md:text-3xl">
+            {highlightMoneyText(spotlight.subtitle)}
+          </p>
+          <p className="max-w-2xl text-base text-slate-700 md:text-lg">{highlightMoneyText(spotlight.body)}</p>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
@@ -389,11 +245,11 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
             </div>
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
               <p className="text-xs text-slate-500">Fast Withdrawals</p>
-              <p className="text-sm font-semibold text-slate-900">{highlightMoneyText("Withdraw starts from just $3")}</p>
+              <p className="text-sm font-semibold text-slate-900">{highlightMoneyText("Withdraw starts from just $5")}</p>
             </div>
             <div className="rounded-2xl border border-white/70 bg-white/85 px-4 py-3">
-              <p className="text-xs text-slate-500">Referral Bonus</p>
-              <p className="text-sm font-semibold text-slate-900">5% of referral withdrawals</p>
+              <p className="text-xs text-slate-500">Catalog Size</p>
+              <p className="text-sm font-semibold text-slate-900">Up to 2400 brands</p>
             </div>
           </div>
 
@@ -408,7 +264,7 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
               href="/store"
               className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
             >
-              View Withdrawal Store
+              Open Redemption Store
             </Link>
           </div>
         </motion.div>

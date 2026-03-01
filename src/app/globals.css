@@ -951,6 +951,15 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
   color: #4338ca;
 }
 
+.redemption-group-charity {
+  background: linear-gradient(155deg, rgba(240, 253, 250, 0.82), rgba(224, 242, 254, 0.76));
+}
+
+.redemption-group-charity h3,
+.redemption-group-charity p {
+  color: #0f766e;
+}
+
 .redemption-group-more {
   background: linear-gradient(155deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.72));
 }
@@ -1918,6 +1927,15 @@ main div[class*="rounded-2xl"][class*="border"][class*="bg-white"] {
 :root[data-theme="dark"] .redemption-group-popular h3,
 :root[data-theme="dark"] .redemption-group-popular p {
   color: #c4b5fd !important;
+}
+
+:root[data-theme="dark"] .redemption-group-charity {
+  background: linear-gradient(160deg, rgba(13, 148, 136, 0.3), rgba(8, 32, 39, 0.84)) !important;
+}
+
+:root[data-theme="dark"] .redemption-group-charity h3,
+:root[data-theme="dark"] .redemption-group-charity p {
+  color: #99f6e4 !important;
 }
 
 :root[data-theme="dark"] .redemption-group-more {

@@ -10,7 +10,7 @@ type FxResponse = {
   rates?: Record<string, number>;
 };
 
-const AUD_MINIMUM = 5;
+const USD_MINIMUM = 5;
 
 function buildRedirect(path: string, params: Record<string, string | undefined>): string {
   const search = new URLSearchParams();
@@ -54,15 +54,14 @@ async function getUsdRates(): Promise<Record<string, number> | null> {
 function getMinimumFaceCents(entryCurrency: string, providerMinAmount: number | null | undefined, rates: Record<string, number>): number {
   const providerMinCents = Math.max(0, Math.round((providerMinAmount ?? 0) * 100));
 
-  const audRate = rates.AUD;
   const targetRate = entryCurrency === "USD" ? 1 : rates[entryCurrency];
 
-  if (!audRate || !targetRate || audRate <= 0 || targetRate <= 0) {
+  if (!targetRate || targetRate <= 0) {
     return Math.max(providerMinCents, 500);
   }
 
-  const audEquivalentCents = Math.ceil(((AUD_MINIMUM * targetRate) / audRate) * 100);
-  return Math.max(providerMinCents, audEquivalentCents);
+  const usdEquivalentCents = Math.ceil(USD_MINIMUM * targetRate * 100);
+  return Math.max(providerMinCents, usdEquivalentCents);
 }
 
 export async function POST(request: Request) {
@@ -112,7 +111,7 @@ export async function POST(request: Request) {
   if (faceValueCents < minFaceCents || faceValueCents > maxFaceCents) {
     redirect(
       buildRedirect(redirectTo, {
-        error: `Amount must be between ${(minFaceCents / 100).toFixed(2)} and ${(maxFaceCents / 100).toFixed(2)} ${entry.currency} (minimum A$5.00 equivalent).`,
+        error: `Amount must be between ${(minFaceCents / 100).toFixed(2)} and ${(maxFaceCents / 100).toFixed(2)} ${entry.currency} (minimum $5.00 USD equivalent).`,
       }),
     );
   }

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import {
   type TremendousCatalogEntry,
+  isCharityNonProfitTremendousProduct,
   isPopularTremendousProduct,
   isPrepaidTremendousProduct,
 } from "@/lib/tremendous";
@@ -20,7 +21,7 @@ type FxAllState = {
   updatedAt: string | null;
 };
 
-const AUD_MINIMUM = 5;
+const USD_MINIMUM = 5;
 
 const defaultFxAllState: FxAllState = {
   rates: {
@@ -61,25 +62,23 @@ function toTwoDecimals(value: number): number {
   return Math.ceil(value * 100) / 100;
 }
 
-function getAudEquivalentMinimum(currency: string, rates: Record<string, number>): number {
-  if (currency === "AUD") {
-    return AUD_MINIMUM;
+function getUsdEquivalentMinimum(currency: string, rates: Record<string, number>): number {
+  if (currency === "USD") {
+    return USD_MINIMUM;
   }
 
-  const audRate = rates.AUD;
-  const currencyRate = rates[currency];
-  if (!audRate || !currencyRate || audRate <= 0 || currencyRate <= 0) {
-    return AUD_MINIMUM;
+  const rate = rates[currency];
+  if (!rate || rate <= 0) {
+    return USD_MINIMUM;
   }
 
-  const usdAmount = AUD_MINIMUM / audRate;
-  return toTwoDecimals(usdAmount * currencyRate);
+  return toTwoDecimals(USD_MINIMUM * rate);
 }
 
 function getEntryMinimum(entry: TremendousCatalogEntry, rates: Record<string, number>): number {
   const providerMinimum = entry.minAmount ?? 0;
-  const audEquivalentMinimum = getAudEquivalentMinimum(entry.currency, rates);
-  return toTwoDecimals(Math.max(providerMinimum, audEquivalentMinimum));
+  const usdEquivalentMinimum = getUsdEquivalentMinimum(entry.currency, rates);
+  return toTwoDecimals(Math.max(providerMinimum, usdEquivalentMinimum));
 }
 
 function getRegionScopedEntries(entries: TremendousCatalogEntry[], countryName: string | null): TremendousCatalogEntry[] {
@@ -152,12 +151,17 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
 
   const grouped = useMemo(() => {
     const prepaid: TremendousCatalogEntry[] = [];
+    const charity: TremendousCatalogEntry[] = [];
     const popular: TremendousCatalogEntry[] = [];
     const more: TremendousCatalogEntry[] = [];
 
     for (const entry of filteredEntries) {
       if (isPrepaidTremendousProduct(entry.product)) {
         prepaid.push(entry);
+        continue;
+      }
+      if (isCharityNonProfitTremendousProduct(entry.product, entry.category)) {
+        charity.push(entry);
         continue;
       }
       if (isPopularTremendousProduct(entry.product)) {
@@ -167,7 +171,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
       more.push(entry);
     }
 
-    return { prepaid, popular, more };
+    return { prepaid, charity, popular, more };
   }, [filteredEntries]);
 
   const effectiveSelectedId =
@@ -179,7 +183,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
   );
 
   const selectedCurrency = selectedEntry?.currency ?? "USD";
-  const selectedMinAmount = selectedEntry ? getEntryMinimum(selectedEntry, fxState.rates) : AUD_MINIMUM;
+  const selectedMinAmount = selectedEntry ? getEntryMinimum(selectedEntry, fxState.rates) : USD_MINIMUM;
   const selectedMaxAmount = selectedEntry ? Math.max(selectedMinAmount, selectedEntry.maxAmount ?? 1000) : 1000;
   const resolvedAmountInput = selectedEntry ? amountInput || selectedMinAmount.toFixed(2) : "";
   const selectedFaceCents = selectedEntry ? toFaceCents(resolvedAmountInput) : null;
@@ -193,7 +197,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
         <div>
           <h2 className="text-lg font-semibold text-slate-900">Redemption Store</h2>
           <p className="text-xs text-slate-500">
-            Search gift cards by prepaid, popular, and more options. Catalog redemptions require at least A$5.00 equivalent.
+            Search gift cards by prepaid, popular, and more options. Catalog redemptions require at least $5.00 USD equivalent.
           </p>
         </div>
         <p className="text-xs text-slate-500">
@@ -304,6 +308,37 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
             </div>
           </div>
 
+          <div className="redemption-group redemption-group-charity rounded-2xl border p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide">Charities & Non-Profit</h3>
+            <p className="mt-1 text-xs">{grouped.charity.length} options</p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {grouped.charity.length < 1 ? (
+                <p className="text-xs text-slate-600 sm:col-span-2 lg:col-span-3">
+                  No charity/non-profit options are currently available for this location.
+                </p>
+              ) : (
+                grouped.charity.map((entry) => (
+                  <button
+                    key={entry.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(entry.id);
+                      setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
+                    }}
+                    className={`redemption-option-btn rounded-xl border px-3 py-2 text-left transition ${
+                      effectiveSelectedId === entry.id
+                        ? "redemption-option-btn-selected shadow-sm"
+                        : "redemption-option-btn-idle"
+                    }`}
+                  >
+                    <p className="text-sm font-semibold text-slate-900">{entry.product}</p>
+                    <p className="text-xs text-slate-500">{entry.currency}</p>
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+
           <div className="redemption-group redemption-group-more rounded-2xl border p-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide">More Gift Cards</h3>
             <p className="mt-1 text-xs">{grouped.more.length} options</p>
@@ -347,7 +382,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   : ""}
               </p>
               <p className="mt-2 text-xs text-slate-600">
-                Min: {formatMoney(selectedMinAmount, selectedEntry.currency)} (A$5.00 equivalent) | Max:{" "}
+                Min: {formatMoney(selectedMinAmount, selectedEntry.currency)} ($5.00 USD equivalent) | Max:{" "}
                 {formatMoney(selectedMaxAmount, selectedEntry.currency)}
               </p>
 

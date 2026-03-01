@@ -116,6 +116,43 @@ export function NotificationsPopover() {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    if (desktopQuery.matches) {
+      return undefined;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
   const pendingCount = payload?.pendingClaims.length ?? 0;
   const requiresEmailVerification = Boolean(payload?.requiresEmailVerification);
 
@@ -149,9 +186,9 @@ export function NotificationsPopover() {
             type="button"
             aria-label="Close notifications"
             onClick={() => setOpen(false)}
-            className="fixed inset-0 z-40 bg-slate-900/25 backdrop-blur-[1px] sm:hidden"
+            className="fixed inset-0 z-40 bg-slate-900/35 backdrop-blur-[2px] lg:hidden"
           />
-          <div className="ui-popover fixed inset-x-3 top-20 z-50 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl sm:absolute sm:inset-x-auto sm:top-auto sm:right-0 sm:z-40 sm:mt-2 sm:w-[380px]">
+          <div className="ui-popover fixed inset-x-2 top-[4.75rem] bottom-2 z-50 flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl lg:absolute lg:inset-auto lg:top-[calc(100%+0.5rem)] lg:right-0 lg:bottom-auto lg:z-40 lg:w-[400px] lg:max-h-[70vh]">
             <div className="ui-popover-head border-b border-slate-100 bg-slate-50 px-4 py-3">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -163,14 +200,14 @@ export function NotificationsPopover() {
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-800 sm:hidden"
+                  className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-800 lg:hidden"
                 >
                   Close
                 </button>
               </div>
             </div>
 
-            <div className="max-h-[calc(100vh-6.5rem)] space-y-3 overflow-y-auto p-4 sm:max-h-[70vh]">
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
               {requiresEmailVerification ? (
                 <article className="rounded-xl border border-rose-200 bg-rose-50/85 p-3">
                   <p className="text-xs font-semibold uppercase tracking-wide text-rose-800">Email Verification Required</p>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { DashboardBrandRotator } from "@/components/dashboard-brand-rotator";
 import { FlashMessage } from "@/components/flash-message";
 import { GoogleReferralModal } from "@/components/google-referral-modal";
 import { SignupBonusModal } from "@/components/signup-bonus-modal";
@@ -170,8 +171,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Se
             Welcome back, {user.name}
           </h1>
           <p className="dashboard-hero-copy mt-2 max-w-2xl text-sm md:text-base">
-            Complete offers, build your streak, level up, and cash out quickly. Everything in your account updates in real time.
+            Complete offers, build your streak, level up, and withdraw from $5. Redeem across up to 2400 gift card brands.
           </p>
+          <DashboardBrandRotator />
           <div className="mt-5 flex flex-wrap gap-2">
             <Link
               href="/earn"
