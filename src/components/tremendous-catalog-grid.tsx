@@ -20,6 +20,8 @@ type FxAllState = {
   updatedAt: string | null;
 };
 
+const AUD_MINIMUM = 5;
+
 const defaultFxAllState: FxAllState = {
   rates: {
     USD: 1,
@@ -53,6 +55,31 @@ function toFaceCents(value: string): number | null {
     return null;
   }
   return Math.round(parsed * 100);
+}
+
+function toTwoDecimals(value: number): number {
+  return Math.ceil(value * 100) / 100;
+}
+
+function getAudEquivalentMinimum(currency: string, rates: Record<string, number>): number {
+  if (currency === "AUD") {
+    return AUD_MINIMUM;
+  }
+
+  const audRate = rates.AUD;
+  const currencyRate = rates[currency];
+  if (!audRate || !currencyRate || audRate <= 0 || currencyRate <= 0) {
+    return AUD_MINIMUM;
+  }
+
+  const usdAmount = AUD_MINIMUM / audRate;
+  return toTwoDecimals(usdAmount * currencyRate);
+}
+
+function getEntryMinimum(entry: TremendousCatalogEntry, rates: Record<string, number>): number {
+  const providerMinimum = entry.minAmount ?? 0;
+  const audEquivalentMinimum = getAudEquivalentMinimum(entry.currency, rates);
+  return toTwoDecimals(Math.max(providerMinimum, audEquivalentMinimum));
 }
 
 function getRegionScopedEntries(entries: TremendousCatalogEntry[], countryName: string | null): TremendousCatalogEntry[] {
@@ -151,22 +178,22 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
     [effectiveSelectedId, filteredEntries],
   );
 
-  const resolvedAmountInput = selectedEntry ? amountInput || Math.max(selectedEntry.minAmount ?? 5, 5).toFixed(2) : "";
-  const selectedFaceCents = selectedEntry ? toFaceCents(resolvedAmountInput) : null;
   const selectedCurrency = selectedEntry?.currency ?? "USD";
+  const selectedMinAmount = selectedEntry ? getEntryMinimum(selectedEntry, fxState.rates) : AUD_MINIMUM;
+  const selectedMaxAmount = selectedEntry ? Math.max(selectedMinAmount, selectedEntry.maxAmount ?? 1000) : 1000;
+  const resolvedAmountInput = selectedEntry ? amountInput || selectedMinAmount.toFixed(2) : "";
+  const selectedFaceCents = selectedEntry ? toFaceCents(resolvedAmountInput) : null;
   const selectedRate = fxState.rates[selectedCurrency] ?? null;
   const estimatedUsdCents =
     selectedFaceCents && selectedRate && selectedRate > 0 ? Math.max(1, Math.round(selectedFaceCents / selectedRate)) : null;
-  const selectedMinAmount = selectedEntry ? Math.max(selectedEntry.minAmount ?? 5, 5) : 5;
-  const selectedMaxAmount = selectedEntry?.maxAmount ?? 1000;
 
   return (
-    <section className="space-y-4 rounded-3xl border border-slate-100 bg-white/90 p-5 shadow-sm">
+    <section className="space-y-4 rounded-3xl border border-white/70 bg-white/85 p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-slate-900">Tremendous Gift Card Catalog</h2>
+          <h2 className="text-lg font-semibold text-slate-900">Redemption Store</h2>
           <p className="text-xs text-slate-500">
-            Search all non-monetary Tremendous options. Grouped by prepaid, popular gift cards, and more gift cards.
+            Search gift cards by prepaid, popular, and more options. Catalog redemptions require at least A$5.00 equivalent.
           </p>
         </div>
         <p className="text-xs text-slate-500">
@@ -237,7 +264,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   type="button"
                   onClick={() => {
                     setSelectedId(entry.id);
-                    setAmountInput(Math.max(entry.minAmount ?? 5, 5).toFixed(2));
+                    setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
                   className={`rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
@@ -262,7 +289,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   type="button"
                   onClick={() => {
                     setSelectedId(entry.id);
-                    setAmountInput(Math.max(entry.minAmount ?? 5, 5).toFixed(2));
+                    setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
                   className={`rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
@@ -287,7 +314,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   type="button"
                   onClick={() => {
                     setSelectedId(entry.id);
-                    setAmountInput(Math.max(entry.minAmount ?? 5, 5).toFixed(2));
+                    setAmountInput(getEntryMinimum(entry, fxState.rates).toFixed(2));
                   }}
                   className={`rounded-xl border px-3 py-2 text-left transition ${
                     effectiveSelectedId === entry.id
@@ -320,7 +347,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   : ""}
               </p>
               <p className="mt-2 text-xs text-slate-600">
-                Min: {formatMoney(selectedMinAmount, selectedEntry.currency)} | Max:{" "}
+                Min: {formatMoney(selectedMinAmount, selectedEntry.currency)} (A$5.00 equivalent) | Max:{" "}
                 {formatMoney(selectedMaxAmount, selectedEntry.currency)}
               </p>
 
@@ -338,17 +365,6 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                     required
                     value={resolvedAmountInput}
                     onChange={(event) => setAmountInput(event.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                  />
-                </label>
-                <label className="block text-xs text-slate-600">
-                  <span className="mb-1 block font-semibold text-slate-700">Country (optional)</span>
-                  <input
-                    name="country"
-                    type="text"
-                    defaultValue={detectedCountryName ?? ""}
-                    maxLength={80}
-                    placeholder="Country for fulfillment"
                     className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                   />
                 </label>
@@ -373,13 +389,67 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   disabled={!canRedeem}
                   className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {canRedeem ? "Submit Tremendous Request" : "Unavailable"}
+                  {canRedeem ? "Submit Redemption Request" : "Unavailable"}
                 </button>
               </form>
             </>
           )}
         </aside>
       </div>
+
+      <section className="rounded-2xl border border-slate-200 bg-slate-50/35 p-4">
+        <div className="mb-3">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">Custom WD</h3>
+          <p className="mt-1 text-xs text-slate-600">Request a custom payout item. Minimum request is $5.00 USD.</p>
+        </div>
+        <form action="/api/redeem/custom" method="post" className="grid gap-3 md:grid-cols-3">
+          <input type="hidden" name="redirectTo" value="/store" />
+          <label className="block text-xs text-slate-600 md:col-span-1">
+            <span className="mb-1 block font-semibold text-slate-700">Name</span>
+            <input
+              name="name"
+              type="text"
+              required
+              minLength={2}
+              maxLength={120}
+              placeholder="Example: PSN 1 Month"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+          </label>
+          <label className="block text-xs text-slate-600 md:col-span-1">
+            <span className="mb-1 block font-semibold text-slate-700">Price in USD</span>
+            <input
+              name="amount"
+              type="number"
+              required
+              min="5"
+              max="1000"
+              step="0.01"
+              placeholder="5.00"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+          </label>
+          <label className="block text-xs text-slate-600 md:col-span-1">
+            <span className="mb-1 block font-semibold text-slate-700">Wallet / Email (optional)</span>
+            <input
+              name="destination"
+              type="text"
+              maxLength={160}
+              placeholder="Optional payout wallet or email"
+              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+          </label>
+          <div className="md:col-span-3">
+            <button
+              type="submit"
+              disabled={!canRedeem}
+              className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {canRedeem ? "Submit Custom WD" : "Unavailable"}
+            </button>
+          </div>
+        </form>
+      </section>
     </section>
   );
 }

@@ -10,6 +10,8 @@ type FxResponse = {
   rates?: Record<string, number>;
 };
 
+const AUD_MINIMUM = 5;
+
 function buildRedirect(path: string, params: Record<string, string | undefined>): string {
   const search = new URLSearchParams();
   Object.entries(params).forEach(([key, value]) => {
@@ -31,11 +33,7 @@ function mapCurrencyToPayoutMeta(currency: string): { payoutCurrency: "USD" | "A
   return { payoutCurrency: "USD", payoutRegion: "US" };
 }
 
-async function getUsdRateForCurrency(currency: string): Promise<number | null> {
-  if (currency === "USD") {
-    return 1;
-  }
-
+async function getUsdRates(): Promise<Record<string, number> | null> {
   try {
     const response = await fetch("https://open.er-api.com/v6/latest/USD", {
       cache: "no-store",
@@ -44,14 +42,27 @@ async function getUsdRateForCurrency(currency: string): Promise<number | null> {
       return null;
     }
     const payload = (await response.json()) as FxResponse;
-    const rate = payload.rates?.[currency];
-    if (!rate || !Number.isFinite(rate) || rate <= 0) {
+    if (!payload.rates) {
       return null;
     }
-    return rate;
+    return payload.rates;
   } catch {
     return null;
   }
+}
+
+function getMinimumFaceCents(entryCurrency: string, providerMinAmount: number | null | undefined, rates: Record<string, number>): number {
+  const providerMinCents = Math.max(0, Math.round((providerMinAmount ?? 0) * 100));
+
+  const audRate = rates.AUD;
+  const targetRate = entryCurrency === "USD" ? 1 : rates[entryCurrency];
+
+  if (!audRate || !targetRate || audRate <= 0 || targetRate <= 0) {
+    return Math.max(providerMinCents, 500);
+  }
+
+  const audEquivalentCents = Math.ceil(((AUD_MINIMUM * targetRate) / audRate) * 100);
+  return Math.max(providerMinCents, audEquivalentCents);
 }
 
 export async function POST(request: Request) {
@@ -77,7 +88,7 @@ export async function POST(request: Request) {
 
   const entry = getTremendousCatalogEntryById(catalogId);
   if (!entry) {
-    redirect(buildRedirect(redirectTo, { error: "Selected Tremendous gift card is unavailable." }));
+    redirect(buildRedirect(redirectTo, { error: "Selected gift card is unavailable." }));
   }
 
   const faceValueCents = parseDollarInputToCents(amountInput);
@@ -85,19 +96,9 @@ export async function POST(request: Request) {
     redirect(buildRedirect(redirectTo, { error: "Enter a valid amount for the selected gift card." }));
   }
 
-  const minFaceCents = Math.max(500, Math.round((entry.minAmount ?? 5) * 100));
-  const maxFaceCents = Math.max(minFaceCents, Math.round((entry.maxAmount ?? 1000) * 100));
-
-  if (faceValueCents < minFaceCents || faceValueCents > maxFaceCents) {
-    redirect(
-      buildRedirect(redirectTo, {
-        error: `Amount must be between ${(minFaceCents / 100).toFixed(2)} and ${(maxFaceCents / 100).toFixed(2)} ${entry.currency}.`,
-      }),
-    );
-  }
-
-  const rate = await getUsdRateForCurrency(entry.currency);
-  if (!rate) {
+  const rates = await getUsdRates();
+  const rate = entry.currency === "USD" ? 1 : rates?.[entry.currency];
+  if (!rate || !Number.isFinite(rate) || rate <= 0 || !rates) {
     redirect(
       buildRedirect(redirectTo, {
         error: `Unsupported currency conversion for ${entry.currency} right now. Please try again later.`,
@@ -105,10 +106,21 @@ export async function POST(request: Request) {
     );
   }
 
+  const minFaceCents = getMinimumFaceCents(entry.currency, entry.minAmount, rates);
+  const maxFaceCents = Math.max(minFaceCents, Math.round((entry.maxAmount ?? 1000) * 100));
+
+  if (faceValueCents < minFaceCents || faceValueCents > maxFaceCents) {
+    redirect(
+      buildRedirect(redirectTo, {
+        error: `Amount must be between ${(minFaceCents / 100).toFixed(2)} and ${(maxFaceCents / 100).toFixed(2)} ${entry.currency} (minimum A$5.00 equivalent).`,
+      }),
+    );
+  }
+
   const amountCents = Math.max(1, Math.round(faceValueCents / rate));
   const requestedLocalAmount = `${(faceValueCents / 100).toFixed(2)} ${entry.currency}`;
   const payoutMeta = mapCurrencyToPayoutMeta(entry.currency);
-  const customName = `Tremendous: ${entry.product}`;
+  const customName = `Catalog: ${entry.product}`;
   const customDestination = [
     `Currency=${entry.currency}`,
     `LocalAmount=${requestedLocalAmount}`,
@@ -166,13 +178,13 @@ export async function POST(request: Request) {
           userId: latestUser.id,
           type: "WITHDRAWAL",
           amountCents: -amountCents,
-          description: `Tremendous request: ${entry.product} (${requestedLocalAmount}, charged ${formatUSD(amountCents)} pending admin review)`,
+          description: `Catalog request: ${entry.product} (${requestedLocalAmount}, charged ${formatUSD(amountCents)} pending admin review)`,
         },
       });
     });
   } catch (error) {
     if (error instanceof Error && error.message === "INSUFFICIENT_BALANCE") {
-      redirect(buildRedirect(redirectTo, { error: "Insufficient balance for this Tremendous request." }));
+      redirect(buildRedirect(redirectTo, { error: "Insufficient balance for this redemption request." }));
     }
 
     if (error instanceof Error && error.message === "ACCOUNT_RESTRICTED") {
@@ -183,13 +195,12 @@ export async function POST(request: Request) {
       redirect(buildRedirect(redirectTo, { error: "Verify your email before requesting withdrawals." }));
     }
 
-    redirect(buildRedirect(redirectTo, { error: "Tremendous request failed. Please try again." }));
+    redirect(buildRedirect(redirectTo, { error: "Redemption request failed. Please try again." }));
   }
 
   redirect(
     buildRedirect(redirectTo, {
-      notice: `Tremendous request submitted for ${entry.product} (${requestedLocalAmount}, charged ${formatUSD(amountCents)}).`,
+      notice: `Redemption request submitted for ${entry.product} (${requestedLocalAmount}, charged ${formatUSD(amountCents)}).`,
     }),
   );
 }
-
