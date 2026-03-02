@@ -435,6 +435,9 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
       <section className="redemption-custom-wd rounded-2xl border border-slate-200 bg-slate-50/35 p-4">
         <div className="mb-3">
           <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-800">Custom WD</h3>
+          <p className="mt-1 text-xs font-medium text-slate-700">
+            Not a gift card or reward you&apos;re looking for? Try submitting a custom withdrawal.
+          </p>
           <p className="mt-1 text-xs text-slate-600">Request a custom payout item. Minimum request is $5.00 USD.</p>
         </div>
         <form action="/api/redeem/custom" method="post" className="grid gap-3 md:grid-cols-3">
