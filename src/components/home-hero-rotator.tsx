@@ -1,8 +1,21 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
-import { FaAmazon, FaApple, FaCcVisa, FaGooglePlay, FaPaypal, FaPlaystation, FaSteam, FaXbox } from "react-icons/fa";
+import {
+  FaAmazon,
+  FaApple,
+  FaCcVisa,
+  FaGamepad,
+  FaGift,
+  FaGooglePlay,
+  FaPaypal,
+  FaPlaystation,
+  FaSteam,
+  FaXbox,
+} from "react-icons/fa";
 import { SiDiscord, SiRoblox } from "react-icons/si";
 
 type HomeHeroRotatorProps = {
@@ -15,7 +28,7 @@ type HomeHeroRotatorProps = {
 type GiftCardVisual = {
   brand: string;
   icon: IconType;
-  style: string;
+  stackStyle: string;
   gradient: string;
   orb: string;
 };
@@ -24,72 +37,86 @@ const giftCardCloud: GiftCardVisual[] = [
   {
     brand: "Amazon",
     icon: FaAmazon,
-    style: "top-[2%] right-[18%] rotate-[-11deg] gift-float-a",
+    stackStyle: "top-[2%] right-[18%] rotate-[-11deg] gift-float-a",
     gradient: "from-amber-400 to-orange-500",
     orb: "bg-amber-300/60",
   },
   {
     brand: "Apple",
     icon: FaApple,
-    style: "top-[3%] right-[3%] rotate-[10deg] gift-float-b",
+    stackStyle: "top-[3%] right-[3%] rotate-[10deg] gift-float-b",
     gradient: "from-slate-700 to-slate-900",
     orb: "bg-slate-300/50",
   },
   {
     brand: "Steam",
     icon: FaSteam,
-    style: "top-[24%] right-[16%] rotate-[7deg] gift-float-c",
+    stackStyle: "top-[24%] right-[16%] rotate-[7deg] gift-float-c",
     gradient: "from-sky-500 to-indigo-500",
     orb: "bg-sky-300/55",
   },
   {
     brand: "PayPal",
     icon: FaPaypal,
-    style: "top-[27%] right-[0%] rotate-[-10deg] gift-float-a",
+    stackStyle: "top-[27%] right-[0%] rotate-[-10deg] gift-float-a",
     gradient: "from-sky-500 to-blue-700",
     orb: "bg-blue-300/55",
   },
   {
     brand: "Discord Nitro",
     icon: SiDiscord,
-    style: "bottom-[22%] right-[19%] rotate-[12deg] gift-float-b",
+    stackStyle: "bottom-[22%] right-[19%] rotate-[12deg] gift-float-b",
     gradient: "from-violet-500 to-indigo-600",
     orb: "bg-violet-300/55",
   },
   {
     brand: "Roblox",
     icon: SiRoblox,
-    style: "bottom-[18%] right-[5%] rotate-[-11deg] gift-float-c",
+    stackStyle: "bottom-[18%] right-[5%] rotate-[-11deg] gift-float-c",
     gradient: "from-indigo-500 to-violet-600",
     orb: "bg-violet-300/55",
   },
   {
     brand: "Google Play",
     icon: FaGooglePlay,
-    style: "bottom-[3%] right-[17%] rotate-[-6deg] gift-float-a",
+    stackStyle: "bottom-[3%] right-[17%] rotate-[-6deg] gift-float-a",
     gradient: "from-rose-500 to-orange-500",
     orb: "bg-rose-300/55",
   },
   {
     brand: "Visa",
     icon: FaCcVisa,
-    style: "bottom-[1%] right-[1%] rotate-[9deg] gift-float-b",
+    stackStyle: "bottom-[1%] right-[1%] rotate-[9deg] gift-float-b",
     gradient: "from-blue-600 to-sky-500",
     orb: "bg-sky-300/50",
   },
   {
     brand: "PlayStation",
     icon: FaPlaystation,
-    style: "bottom-[38%] right-[30%] rotate-[4deg] gift-float-c",
+    stackStyle: "bottom-[38%] right-[30%] rotate-[4deg] gift-float-c",
     gradient: "from-indigo-600 to-blue-500",
     orb: "bg-indigo-300/55",
   },
   {
     brand: "Xbox",
     icon: FaXbox,
-    style: "top-[43%] right-[29%] rotate-[-5deg] gift-float-a",
+    stackStyle: "top-[43%] right-[29%] rotate-[-5deg] gift-float-a",
     gradient: "from-emerald-500 to-teal-600",
     orb: "bg-emerald-300/55",
+  },
+  {
+    brand: "Nintendo",
+    icon: FaGift,
+    stackStyle: "top-[12%] right-[31%] rotate-[-7deg] gift-float-b",
+    gradient: "from-red-500 to-rose-600",
+    orb: "bg-red-300/55",
+  },
+  {
+    brand: "Valorant",
+    icon: FaGamepad,
+    stackStyle: "top-[59%] right-[30%] rotate-[6deg] gift-float-c",
+    gradient: "from-pink-500 to-red-500",
+    orb: "bg-pink-300/55",
   },
 ];
 
@@ -108,7 +135,38 @@ function highlightMoneyText(text: string) {
   );
 }
 
+function GiftCardTile({ item, compact = false }: { item: GiftCardVisual; compact?: boolean }) {
+  return (
+    <div
+      className={`relative overflow-hidden rounded-[16px] border border-white/35 bg-gradient-to-br text-white shadow-2xl ${item.gradient} ${
+        compact ? "h-[88px] p-3" : "h-[124px] w-[204px] p-4 lg:h-[136px] lg:w-[220px]"
+      }`}
+    >
+      <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${item.orb}`} />
+      <div className="relative flex h-full flex-col">
+        <item.icon className={compact ? "h-5 w-5 text-white/95" : "h-7 w-7 text-white/95"} />
+        <p className={`font-semibold tracking-wide ${compact ? "mt-2 text-xs" : "mt-5 text-sm"}`}>{item.brand}</p>
+        {!compact ? <p className="text-xs font-medium text-white/80">Gift Card</p> : null}
+        <div className={`mt-auto flex items-center justify-between font-semibold text-white/90 ${compact ? "text-[10px]" : "text-[11px]"}`}>
+          <span>USD</span>
+          <span>Easy Earn</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signupBonusText }: HomeHeroRotatorProps) {
+  const [showGrid, setShowGrid] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setShowGrid((current) => !current);
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
   const primaryCtaHref = isSignedIn ? signedInHome : `/signup${referralParam}`;
   const primaryCtaLabel = isSignedIn ? "Open Dashboard" : `Sign up and claim your ${signupBonusText}`;
 
@@ -118,24 +176,65 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
       <div className="pointer-events-none absolute -top-24 -left-12 h-72 w-72 rounded-full bg-[radial-gradient(circle,_rgba(249,115,22,0.22),_transparent_70%)]" />
       <div className="pointer-events-none absolute -right-20 -bottom-16 h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(14,165,233,0.22),_transparent_70%)]" />
 
-      <div className="pointer-events-none absolute inset-0 hidden md:block">
-        {giftCardCloud.map((item) => (
-          <div
-            key={item.brand}
-            className={`absolute h-[124px] w-[204px] overflow-hidden rounded-[18px] border border-white/35 bg-gradient-to-br p-4 text-white shadow-2xl lg:h-[136px] lg:w-[220px] ${item.style} ${item.gradient}`}
-          >
-            <div className={`absolute -top-8 -right-8 h-24 w-24 rounded-full ${item.orb}`} />
-            <div className="relative flex h-full flex-col">
-              <item.icon className="h-7 w-7 text-white/95" />
-              <p className="mt-5 text-sm font-semibold tracking-wide">{item.brand}</p>
-              <p className="text-xs font-medium text-white/80">Gift Card</p>
-              <div className="mt-auto flex items-center justify-between text-[11px] font-semibold text-white/90">
-                <span>USD</span>
-                <span>Easy Earn</span>
+      <div className="pointer-events-none absolute inset-y-4 right-4 hidden w-[44%] md:block">
+        <AnimatePresence mode="wait">
+          {showGrid ? (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.98 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="h-full rounded-2xl border border-white/20 bg-slate-900/35 p-3 backdrop-blur-sm"
+            >
+              <motion.p
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1, duration: 0.35 }}
+                className="text-center text-sm font-semibold text-white"
+              >
+                Up to 2400+ brands to redeem your money with.
+              </motion.p>
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {giftCardCloud.map((item, index) => (
+                  <motion.div
+                    key={item.brand}
+                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.28, delay: 0.03 * index }}
+                    className="relative"
+                  >
+                    <GiftCardTile item={item} compact />
+                  </motion.div>
+                ))}
               </div>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="stack"
+              initial={{ opacity: 0, y: 14, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.98 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="relative h-full"
+            >
+              {giftCardCloud.map((item, index) => (
+                <motion.div
+                  key={item.brand}
+                  initial={{ opacity: 0, y: 16, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.96 }}
+                  transition={{ duration: 0.32, delay: 0.02 * index }}
+                  className={`absolute ${item.stackStyle}`}
+                >
+                  <div className="relative">
+                    <GiftCardTile item={item} />
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="relative z-10 max-w-3xl space-y-5 md:max-w-[62%] md:pl-8 lg:max-w-[58%] lg:pl-10">
