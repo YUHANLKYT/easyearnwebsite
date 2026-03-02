@@ -8,7 +8,6 @@ import {
   FaAmazon,
   FaApple,
   FaCcVisa,
-  FaGamepad,
   FaGift,
   FaGooglePlay,
   FaPaypal,
@@ -16,7 +15,7 @@ import {
   FaSteam,
   FaXbox,
 } from "react-icons/fa";
-import { SiDiscord, SiRoblox } from "react-icons/si";
+import { SiDiscord, SiRoblox, SiValorant } from "react-icons/si";
 
 type HomeHeroRotatorProps = {
   isSignedIn: boolean;
@@ -52,7 +51,7 @@ const giftCardCloud: GiftCardVisual[] = [
   { brand: "PlayStation", icon: FaPlaystation, gradient: "from-indigo-600 to-blue-500", orb: "bg-indigo-300/55" },
   { brand: "Xbox", icon: FaXbox, gradient: "from-emerald-500 to-teal-600", orb: "bg-emerald-300/55" },
   { brand: "Nintendo", icon: FaGift, gradient: "from-red-500 to-rose-600", orb: "bg-red-300/55" },
-  { brand: "Valorant", icon: FaGamepad, gradient: "from-pink-500 to-red-500", orb: "bg-pink-300/55" },
+  { brand: "Valorant", icon: SiValorant, gradient: "from-pink-500 to-red-500", orb: "bg-pink-300/55" },
 ];
 
 const stackLayouts: CardLayout[] = [
@@ -144,13 +143,18 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         />
 
-        <motion.p
-          className="absolute top-4 left-1/2 z-20 -translate-x-1/2 text-center text-2xl font-semibold tracking-tight text-white"
-          animate={{ opacity: showGrid ? 1 : 0, y: showGrid ? 0 : -10 }}
+        <motion.div
+          className="absolute top-4 left-1/2 z-20 -translate-x-1/2 rounded-2xl border border-white/20 bg-slate-950/35 px-5 py-3 text-center backdrop-blur"
+          animate={{ opacity: showGrid ? 1 : 0, y: showGrid ? 0 : -18, scale: showGrid ? 1 : 0.98 }}
           transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
-          Up to 2400+ brands to redeem your money with.
-        </motion.p>
+          <p className="bg-gradient-to-r from-cyan-200 via-white to-indigo-200 bg-clip-text text-3xl font-extrabold tracking-[0.08em] text-transparent md:text-4xl">
+            UP TO 2400+ BRANDS
+          </p>
+          <p className="mt-1 text-xs font-medium text-slate-100/90 md:text-sm">
+            Redeem your money across gaming, shopping, and prepaid cards.
+          </p>
+        </motion.div>
 
         {giftCardCloud.map((item, index) => {
           const layout = showGrid ? fullLayouts[index] : stackLayouts[index];
@@ -164,10 +168,28 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                 width: `${layout.width}%`,
                 height: `${layout.height}%`,
                 rotate: layout.rotate,
+                filter: ["blur(1.4px)", "blur(0px)"],
               }}
-              transition={{ duration: 0.8, delay: index * 0.012, ease: [0.22, 1, 0.36, 1] }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.012,
+                ease: [0.22, 1, 0.36, 1],
+                filter: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+              }}
+              style={{ willChange: "transform, filter" }}
             >
-              <GiftCardTile item={item} compact={showGrid} />
+              <motion.div
+                animate={{ y: [0, -5, 0, 5, 0] }}
+                transition={{
+                  duration: 5.8 + (index % 4) * 0.45,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "easeInOut",
+                  delay: index * 0.08,
+                }}
+                className="h-full w-full"
+              >
+                <GiftCardTile item={item} compact={showGrid} />
+              </motion.div>
             </motion.div>
           );
         })}
