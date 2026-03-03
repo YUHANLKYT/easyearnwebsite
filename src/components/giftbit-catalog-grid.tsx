@@ -21,7 +21,15 @@ type FxAllState = {
   updatedAt: string | null;
 };
 
+type GroupKey = "prepaid" | "popular" | "charity" | "more";
+
 const USD_MINIMUM = 5;
+const COLLAPSED_LIMITS: Record<GroupKey, number> = {
+  prepaid: 9,
+  popular: 12,
+  charity: 9,
+  more: 18,
+};
 
 const defaultFxAllState: FxAllState = {
   rates: {
@@ -99,6 +107,12 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
   const [amountInput, setAmountInput] = useState("");
   const [fxState, setFxState] = useState<FxAllState>(defaultFxAllState);
   const [locationMode, setLocationMode] = useState<"AUTO" | "ALL">("AUTO");
+  const [expandedGroups, setExpandedGroups] = useState<Record<GroupKey, boolean>>({
+    prepaid: false,
+    popular: false,
+    charity: false,
+    more: false,
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -173,6 +187,53 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
 
     return { prepaid, charity, popular, more };
   }, [filteredEntries]);
+
+  const isSearching = query.trim().length > 0;
+
+  const visibleByGroup = useMemo(() => {
+    function resolve(groupKey: GroupKey, items: GiftbitCatalogEntry[]) {
+      if (isSearching || expandedGroups[groupKey]) {
+        return items;
+      }
+      return items.slice(0, COLLAPSED_LIMITS[groupKey]);
+    }
+
+    return {
+      prepaid: resolve("prepaid", grouped.prepaid),
+      popular: resolve("popular", grouped.popular),
+      charity: resolve("charity", grouped.charity),
+      more: resolve("more", grouped.more),
+    };
+  }, [expandedGroups, grouped, isSearching]);
+
+  function renderExpandControls(groupKey: GroupKey, totalCount: number, visibleCount: number) {
+    if (isSearching || totalCount <= COLLAPSED_LIMITS[groupKey]) {
+      return null;
+    }
+
+    const expanded = expandedGroups[groupKey];
+    const hiddenCount = Math.max(0, totalCount - visibleCount);
+
+    return (
+      <div className="mt-3 flex items-center justify-between gap-3">
+        <p className="text-xs text-slate-500">
+          {expanded ? `Showing all ${totalCount}` : `Showing ${visibleCount} of ${totalCount}`}
+        </p>
+        <button
+          type="button"
+          onClick={() =>
+            setExpandedGroups((current) => ({
+              ...current,
+              [groupKey]: !current[groupKey],
+            }))
+          }
+          className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-900"
+        >
+          {expanded ? "Show less" : `Show ${hiddenCount} more`}
+        </button>
+      </div>
+    );
+  }
 
   const effectiveSelectedId =
     selectedId && filteredEntries.some((entry) => entry.id === selectedId) ? selectedId : (filteredEntries[0]?.id ?? null);
@@ -262,7 +323,7 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
             <h3 className="text-sm font-semibold uppercase tracking-wide">Prepaid</h3>
             <p className="mt-1 text-xs">{grouped.prepaid.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {grouped.prepaid.map((entry) => (
+              {visibleByGroup.prepaid.map((entry) => (
                 <button
                   key={entry.id}
                   type="button"
@@ -281,13 +342,14 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
                 </button>
               ))}
             </div>
+            {renderExpandControls("prepaid", grouped.prepaid.length, visibleByGroup.prepaid.length)}
           </div>
 
           <div className="redemption-group redemption-group-popular rounded-2xl border p-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide">Popular Gift Cards</h3>
             <p className="mt-1 text-xs">{grouped.popular.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {grouped.popular.map((entry) => (
+              {visibleByGroup.popular.map((entry) => (
                 <button
                   key={entry.id}
                   type="button"
@@ -306,6 +368,7 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
                 </button>
               ))}
             </div>
+            {renderExpandControls("popular", grouped.popular.length, visibleByGroup.popular.length)}
           </div>
 
           <div className="redemption-group redemption-group-charity rounded-2xl border p-4">
@@ -317,7 +380,7 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
                   No charity/non-profit options are currently available for this location.
                 </p>
               ) : (
-                grouped.charity.map((entry) => (
+                visibleByGroup.charity.map((entry) => (
                   <button
                     key={entry.id}
                     type="button"
@@ -337,13 +400,16 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
                 ))
               )}
             </div>
+            {grouped.charity.length > 0
+              ? renderExpandControls("charity", grouped.charity.length, visibleByGroup.charity.length)
+              : null}
           </div>
 
           <div className="redemption-group redemption-group-more rounded-2xl border p-4">
             <h3 className="text-sm font-semibold uppercase tracking-wide">More Gift Cards</h3>
             <p className="mt-1 text-xs">{grouped.more.length} options</p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {grouped.more.map((entry) => (
+              {visibleByGroup.more.map((entry) => (
                 <button
                   key={entry.id}
                   type="button"
@@ -362,6 +428,7 @@ export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: 
                 </button>
               ))}
             </div>
+            {renderExpandControls("more", grouped.more.length, visibleByGroup.more.length)}
           </div>
         </div>
 
