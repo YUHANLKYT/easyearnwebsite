@@ -1,0 +1,3746 @@
+[
+    {
+        "id":  "76us",
+        "product":  "76",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "abercrombie",
+        "product":  "Abercrombie \u0026 Fitch",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "academysportsus",
+        "product":  "Academy Sports + Outdoors",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle - wellness",
+        "minAmount":  3,
+        "maxAmount":  1500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "acehardwareus",
+        "product":  "Ace Hardware",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "acmemarketsus",
+        "product":  "ACME Markets",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "adidas",
+        "product":  "Adidas",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "advanceautopartsus",
+        "product":  "Advance Auto Parts",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "aerieus",
+        "product":  "Aerie",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "aeropostale",
+        "product":  "Aeropostale",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "airbnbus",
+        "product":  "Airbnb",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "albertsonsus",
+        "product":  "Albertsons",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "allbirdsus",
+        "product":  "Allbirds",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - wellness",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "allmodernus",
+        "product":  "AllModern",
+        "currency":  "USD",
+        "category":  "home",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "amazonus",
+        "product":  "Amazon.com",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - entertainment - food-and-drink - home - wellness",
+        "minAmount":  0.01,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "amctheatres",
+        "product":  "AMC Theatres",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "aeusa",
+        "product":  "American Eagle",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "amtrakus",
+        "product":  "Amtrak",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "anntaylorus",
+        "product":  "Ann Taylor",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "itunesus",
+        "product":  "Apple",
+        "currency":  "USD",
+        "category":  "entertainment - lifestyle - wellness",
+        "minAmount":  2,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "applebees",
+        "product":  "Applebees",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "aquariumrestaurantsus",
+        "product":  "Aquarium Restaurants",
+        "currency":  "USD",
+        "category":  "destination - food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "arbysus",
+        "product":  "Arby\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  150,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "asosus",
+        "product":  "ASOS",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "athleta",
+        "product":  "Athleta",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "auntieannesus",
+        "product":  "Auntie Anne\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "autozoneus",
+        "product":  "AutoZone",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "babydepotus",
+        "product":  "Baby Depot at Burlington",
+        "currency":  "USD",
+        "category":  "apparel - home",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "babygap",
+        "product":  "babyGap",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "babylistus",
+        "product":  "Babylist",
+        "currency":  "USD",
+        "category":  "online-shopping - lifestyle - wellness",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bahamabreezeus",
+        "product":  "Bahama Breeze",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bajafreshus",
+        "product":  "Baja Fresh",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bananarepus",
+        "product":  "Banana Republic",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "barnesandnoble",
+        "product":  "Barnes and Noble",
+        "currency":  "USD",
+        "category":  "lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "baskinrobbinsus",
+        "product":  "Baskin Robbins",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  150,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bassproshops",
+        "product":  "Bass Pro Shops",
+        "currency":  "USD",
+        "category":  "online-shopping - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bathandbodyus",
+        "product":  "Bath \u0026 Body Works",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "overstock",
+        "product":  "Bed Bath \u0026 Beyond",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "belkus",
+        "product":  "Belk",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "benihanaus",
+        "product":  "Benihana",
+        "currency":  "USD",
+        "category":  "restaurants",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bestbuy",
+        "product":  "Best Buy",
+        "currency":  "USD",
+        "category":  "online-shopping - entertainment - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bestwesternus",
+        "product":  "Best Western",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "billsbarandburgerus",
+        "product":  "Bill\u0027s Bar \u0026 Burger",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "birchlaneus",
+        "product":  "Birch Lane",
+        "currency":  "USD",
+        "category":  "home",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "foldbitcoinus",
+        "product":  "Bitcoin",
+        "currency":  "USD",
+        "category":  "online-shopping - lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bjsrestaurantus",
+        "product":  "BJ\u0027s Restaurant \u0026 Brewhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "blackangussteakhouseus",
+        "product":  "Black Angus Steakhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "blazepizzaus",
+        "product":  "Blaze Pizza",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "blimpieus",
+        "product":  "Blimpie",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bloomingdalesus",
+        "product":  "Bloomingdale\u0027s",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bobevansus",
+        "product":  "Bob Evans Restaurants",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  15,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bonefishgrillus",
+        "product":  "Bonefish Grill",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "boscovsus",
+        "product":  "Boscov\u0027s",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping",
+        "minAmount":  10,
+        "maxAmount":  150,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "bubbagump",
+        "product":  "Bubba Gump Shrimp Co.",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "buffalowildwingsus",
+        "product":  "Buffalo Wild Wings",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "buildabear",
+        "product":  "Build-A-Bear Workshop",
+        "currency":  "USD",
+        "category":  "lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "burgerkingus",
+        "product":  "Burger King",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "burlingtonus",
+        "product":  "Burlington",
+        "currency":  "USD",
+        "category":  "apparel - home",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cabelas",
+        "product":  "Cabela\u0027s",
+        "currency":  "USD",
+        "category":  "online-shopping - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cadillacbarus",
+        "product":  "Cadillac Bar",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "californiapizzakitchenus",
+        "product":  "California Pizza Kitchen",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  20,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "callaway",
+        "product":  "Callaway",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "campingworldus",
+        "product":  "Camping World",
+        "currency":  "USD",
+        "category":  "destination - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "candycrushus",
+        "product":  "Candy Crush",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  15,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "carnivalcruisesus",
+        "product":  "Carnival Cruise Lines",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  100,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "carrabbasus",
+        "product":  "Carrabba\u0027s Italian Grill",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cartersus",
+        "product":  "Carter\u0027s",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "carvelus",
+        "product":  "Carvel",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "catherinesus",
+        "product":  "Catherines",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  20,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cb2us",
+        "product":  "CB2",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "champssportsus",
+        "product":  "Champs Sports",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "charitychoice",
+        "product":  "Charity Choice",
+        "currency":  "USD",
+        "category":  "lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "charityontopus",
+        "product":  "Charity On Top",
+        "currency":  "USD",
+        "category":  "lifestyle",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "charthouse",
+        "product":  "Chart House",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cheddarsus",
+        "product":  "Cheddar\u0027s Scratch Kitchen",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cheryls",
+        "product":  "Cheryls Cookies",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chevrontexacous",
+        "product":  "Chevron and Texaco",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chewyus",
+        "product":  "Chewy",
+        "currency":  "USD",
+        "category":  "home - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chicosus",
+        "product":  "Chico\u0027s",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chilis",
+        "product":  "Chili\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chipotle",
+        "product":  "Chipotle",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "chuckecheeseus",
+        "product":  "Chuck E Cheese\u0027s",
+        "currency":  "USD",
+        "category":  "entertainment - food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cinemark",
+        "product":  "Cinemark",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cinnabonus",
+        "product":  "Cinnabon",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "claimjumper",
+        "product":  "Claim Jumper",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "coldstonecreameryus",
+        "product":  "Cold Stone Creamery",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  10,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "columbia",
+        "product":  "Columbia",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "conocous",
+        "product":  "Conoco",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "costplusworldmarketus",
+        "product":  "Cost Plus World Market",
+        "currency":  "USD",
+        "category":  "online-shopping - food-and-drink - home - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "courtyardus",
+        "product":  "Courtyard by Marriott",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "crackerbarrelus",
+        "product":  "Cracker Barrel Old Country Store",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cratebarrelus",
+        "product":  "Crate \u0026 Barrel",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "crutchfield",
+        "product":  "Crutchfield",
+        "currency":  "USD",
+        "category":  "entertainment - home",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "cvs",
+        "product":  "CVS Pharmacy",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "davebustersus",
+        "product":  "Dave \u0026 Buster\u0027s",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "deezerus",
+        "product":  "Deezer",
+        "currency":  "USD",
+        "category":  "entertainment - lifestyle",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "delfriscosus",
+        "product":  "Del Frisco’s Double Eagle Steakhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "delta",
+        "product":  "Delta Air Lines",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "dickssportinggoodsus",
+        "product":  "DICK’S Sporting Goods",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle - wellness",
+        "minAmount":  0.01,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "disneyus",
+        "product":  "Disney",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "dominos",
+        "product":  "Domino\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "doordashus",
+        "product":  "DoorDash",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  15,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "dswus",
+        "product":  "DSW",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "dunkindonuts",
+        "product":  "Dunkin\u0027",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  2,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "dutchbroscoffeeus",
+        "product":  "Dutch Bros Coffee®",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  2,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "eaoriginapexus",
+        "product":  "EA Origin Access",
+        "currency":  "USD",
+        "category":  "entertainment - lifestyle",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "eaplayus",
+        "product":  "EA Play",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ebay1",
+        "product":  "eBay",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "etsyus",
+        "product":  "Etsy",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home - lifestyle",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "evertreenus",
+        "product":  "Evertreen",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "Fairmonthotelsresortsus",
+        "product":  "Fairmont Hotels \u0026 Resorts",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "famousfootwearus",
+        "product":  "Famous Footwear",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "fanatics",
+        "product":  "Fanatics",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "fandangous",
+        "product":  "Fandango",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  25,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "finishlineus",
+        "product":  "Finish Line",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "fiveguysus",
+        "product":  "Five Guys",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "flemingssteakhouseus",
+        "product":  "Fleming\u0027s Prime Steakhouse \u0026 Wine Bar",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "footlocker",
+        "product":  "Foot Locker",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "fruitbouquets",
+        "product":  "Fruit Bouquets",
+        "currency":  "USD",
+        "category":  "food-and-drink - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "gamestop",
+        "product":  "GameStop",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "gapus",
+        "product":  "Gap",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "gianteagleus",
+        "product":  "Giant Eagle®",
+        "currency":  "USD",
+        "category":  "food-and-drink - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "globalexperiencescardus",
+        "product":  "Global Experiences Card",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  5,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "globalhotelus",
+        "product":  "Global Hotel Card",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "goplaygolf",
+        "product":  "Go Play Golf",
+        "currency":  "USD",
+        "category":  "destination - lifestyle - wellness",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "googleplay",
+        "product":  "Google Play",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "greatamericandays",
+        "product":  "Great American Days",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "grouponus",
+        "product":  "Groupon",
+        "currency":  "USD",
+        "category":  "online-shopping - destination - lifestyle - wellness",
+        "minAmount":  10,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "grubhubus",
+        "product":  "Grubhub",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "guessus",
+        "product":  "GUESS",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "guitarcenterus",
+        "product":  "Guitar Center",
+        "currency":  "USD",
+        "category":  "lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "hannaanderssonus",
+        "product":  "Hanna Andersson",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "hardrockcafe",
+        "product":  "Hard Rock Cafe",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "hellofreshus",
+        "product":  "HelloFresh",
+        "currency":  "USD",
+        "category":  "food-and-drink - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "handmus",
+        "product":  "H\u0026M",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  300,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "hollister",
+        "product":  "Hollister",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "homechefus",
+        "product":  "Home Chef",
+        "currency":  "USD",
+        "category":  "food-and-drink - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "homegoodsus",
+        "product":  "HomeGoods",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "hotels",
+        "product":  "Hotels.com",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "huluus",
+        "product":  "Hulu",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  25,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ihop",
+        "product":  "IHOP",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ikeaus",
+        "product":  "IKEA",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "instacartus",
+        "product":  "Instacart",
+        "currency":  "USD",
+        "category":  "online-shopping - food-and-drink",
+        "minAmount":  25,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "jambajuiceus",
+        "product":  "Jamba Juice",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "jerseymikesus",
+        "product":  "Jersey Mike\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  10,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "jeweloscous",
+        "product":  "Jewel-Osco",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "jiggylube",
+        "product":  "Jiffy Lube",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "joescrabschackus",
+        "product":  "Joe\u0027s Crab Shack",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "jwmarriottus",
+        "product":  "JW Marriott",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "kfcus",
+        "product":  "Kentucky Fried Chicken",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "kigsogamesus",
+        "product":  "Kigso Games",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "kingsfoodmarketsus",
+        "product":  "Kings Food Markets",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "kohls",
+        "product":  "Kohl\u0027s",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "krispykremeus",
+        "product":  "Krispy Kreme",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "krogerus",
+        "product":  "Kroger",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "landrysseafoodhouseus",
+        "product":  "Landry\u0027s Seafood House",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "landsend",
+        "product":  "Land\u0027s End",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lanebryantus",
+        "product":  "Lane Bryant®",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "leagueoflegendsus",
+        "product":  "League of Legends",
+        "currency":  "USD",
+        "category":  "entertainment - lifestyle",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "legalseafoodsus",
+        "product":  "Legal Sea Foods",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "llbeanus",
+        "product":  "L.L.Bean",
+        "currency":  "USD",
+        "category":  "apparel - home - wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lobstergram",
+        "product":  "Lobster Gram",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "loftus",
+        "product":  "LOFT",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "longhornsteakhouseus",
+        "product":  "LongHorn Steakhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lowes",
+        "product":  "Lowe\u0027s",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "luckybrandus",
+        "product":  "Lucky Brand",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lululemonus",
+        "product":  "lululemon",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle - wellness",
+        "minAmount":  25,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lushus",
+        "product":  "LUSH",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  300,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "lyftus",
+        "product":  "Lyft",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "macysus",
+        "product":  "Macy\u0027s",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "maggianos",
+        "product":  "Maggiano\u0027s Little Italy",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mandarinorientalus",
+        "product":  "Mandarin Oriental Hotel Group",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  0.01,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "marriottus",
+        "product":  "Marriott",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "marshallsus",
+        "product":  "Marshalls",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mauricesus",
+        "product":  "Maurices",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mcalistersdelius",
+        "product":  "McAlister\u0027s Deli",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mccormickschmick",
+        "product":  "McCormick and Schmick\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "metaquestus",
+        "product":  "Meta Quest",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  15,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "michaelsus",
+        "product":  "Michael\u0027s",
+        "currency":  "USD",
+        "category":  "online-shopping - home - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mlbshop",
+        "product":  "MLB Shop",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "moessouthwestus",
+        "product":  "Moe\u0027s Southwest Grill",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mortons",
+        "product":  "Morton\u0027s The Steakhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nbastoreus",
+        "product":  "NBA Store",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nexonkarmakoin",
+        "product":  "Nexon Game Card",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nflshopus",
+        "product":  "NFL Shop",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nhlshopus",
+        "product":  "NHL Shop",
+        "currency":  "USD",
+        "category":  "apparel - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nike",
+        "product":  "Nike",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nintendoeshopus",
+        "product":  "Nintendo eShop",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nordstrom",
+        "product":  "Nordstrom",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "nordstromrackus",
+        "product":  "Nordstrom Rack",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "officedepotmaxus",
+        "product":  "Office Depot Office Max",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "oldnavyus",
+        "product":  "Old Navy",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "olivegardenus",
+        "product":  "Olive Garden",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "omahasteaks",
+        "product":  "Omaha Steaks",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ontheborder",
+        "product":  "On The Border",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "oshkoshbgoshus",
+        "product":  "OshKosh B’gosh",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ouraringus",
+        "product":  "Oura Ring",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  25,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "outback",
+        "product":  "Outback Steakhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "outdoorsyus",
+        "product":  "Outdoorsy",
+        "currency":  "USD",
+        "category":  "destination - lifestyle - wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "Pandaexpressus",
+        "product":  "Panda Express",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  15,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "panerabreadus",
+        "product":  "Panera Bread",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "papjohns",
+        "product":  "Papa John\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "paramountus",
+        "product":  "Paramount+",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pcrichardus",
+        "product":  "P.C. Richard \u0026 Son",
+        "currency":  "USD",
+        "category":  "home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "peets",
+        "product":  "Peet\u0027s Coffee",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  10,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pepboysus",
+        "product":  "Pep Boys",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "petcous",
+        "product":  "Petco",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  10,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "petsmartus",
+        "product":  "PetSmart",
+        "currency":  "USD",
+        "category":  "home - lifestyle",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pfchangs",
+        "product":  "P.F. Chang\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "phillips66us",
+        "product":  "Phillips 66",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pickleballcentralus",
+        "product":  "Pickleball Central",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pilotflyingus",
+        "product":  "Pilot Flying J",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "pinkberryus",
+        "product":  "Pinkberry",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "playstationus",
+        "product":  "PlayStation Store",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "poshmarkus",
+        "product":  "Poshmark",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "potterybarn",
+        "product":  "Pottery Barn",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "publixus",
+        "product":  "Publix",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "qdobaus",
+        "product":  "Qdoba Mexican Eats",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "quinceus",
+        "product":  "Quince",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "rainforestcafe",
+        "product":  "Rainforest Cafe",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "randallsus",
+        "product":  "Randalls",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "rixty",
+        "product":  "Razer Gold",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "redrobin",
+        "product":  "Red Robin",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  150,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "regal",
+        "product":  "Regal",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  10,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "reius",
+        "product":  "REI",
+        "currency":  "USD",
+        "category":  "online-shopping - wellness",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "robloxus",
+        "product":  "Roblox",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ruthschrisus",
+        "product":  "Ruth’s Chris Steak House",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "safewayus",
+        "product":  "Safeway",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "saksfifthavenueus",
+        "product":  "Saks Fifth Avenue",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "saltgrasssteakhouseus",
+        "product":  "Saltgrass Steak House",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "samsclubus",
+        "product":  "Sam\u0027s Club",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - food-and-drink - home - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "schlotzskysus",
+        "product":  "Schlotzsky\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "seasons52us",
+        "product":  "Seasons 52",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sephora",
+        "product":  "Sephora",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  10,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "shawsus",
+        "product":  "Shaw\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sheetzus",
+        "product":  "Sheetz",
+        "currency":  "USD",
+        "category":  "destination - food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "shiptus",
+        "product":  "Shipt",
+        "currency":  "USD",
+        "category":  "online-shopping - food-and-drink",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sierraus",
+        "product":  "Sierra",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "siriusxmus",
+        "product":  "SiriusXM",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "slingtvus",
+        "product":  "Sling TV",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  25,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "smashburgerus",
+        "product":  "Smashburger",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "smoothiekingus",
+        "product":  "Smoothie King",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  10,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "somaus",
+        "product":  "Soma",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sonicus",
+        "product":  "SONIC",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "southwestus",
+        "product":  "Southwest Airlines",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "spaweek",
+        "product":  "Spa \u0026 Wellness Gift Card by Spa Week",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sportsmanswarehouseus",
+        "product":  "Sportsman\u0027s Warehouse",
+        "currency":  "USD",
+        "category":  "online-shopping - lifestyle - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "staples",
+        "product":  "Staples",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "starbucksus",
+        "product":  "Starbucks",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "steaknshakeus",
+        "product":  "Steak \u0027n Shake",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "stitchfixus",
+        "product":  "Stitch Fix",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "stubhub",
+        "product":  "StubHub",
+        "currency":  "USD",
+        "category":  "destination - entertainment",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "subwayus",
+        "product":  "Subway®",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "surlatableus",
+        "product":  "Sur La Table",
+        "currency":  "USD",
+        "category":  "home - lifestyle - wellness",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "sweetfrogus",
+        "product":  "sweetFrog",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tacobellus",
+        "product":  "Taco Bell",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "target",
+        "product":  "Target",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - entertainment - food-and-drink - home - wellness",
+        "minAmount":  1,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "texasroadhouseus",
+        "product":  "Texas Roadhouse",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tgifridaysus",
+        "product":  "TGI Fridays",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "thecheesecakefactoryus",
+        "product":  "The Cheesecake Factory",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "childrensplaceus",
+        "product":  "The Children\u0027s Place",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "thecoffeebeanus",
+        "product":  "The Coffee Bean \u0026 Tea Leaf",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  3,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "thecontainerstoreus",
+        "product":  "The Container Store",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "homedepot",
+        "product":  "The Home Depot",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  3,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "picklrus",
+        "product":  "The Picklr",
+        "currency":  "USD",
+        "category":  "lifestyle - wellness",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ritzcarltonus",
+        "product":  "The Ritz-Carlton",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "vitaminshoppeus",
+        "product":  "The Vitamin Shoppe",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "thirdloveus",
+        "product":  "ThirdLove",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "thredupus",
+        "product":  "ThredUp",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - lifestyle",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tidalus",
+        "product":  "TIDAL",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  5,
+        "maxAmount":  1000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tjmaxx",
+        "product":  "T.J.Maxx",
+        "currency":  "USD",
+        "category":  "apparel - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tomthumbus",
+        "product":  "Tom Thumb",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "topgolfus",
+        "product":  "Topgolf",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "topsmarketsus",
+        "product":  "Tops Markets",
+        "currency":  "USD",
+        "category":  "food-and-drink - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "totsquadus",
+        "product":  "Tot Squad",
+        "currency":  "USD",
+        "category":  "home - wellness",
+        "minAmount":  50,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "tractorsupplyus",
+        "product":  "Tractor Supply Company",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - home - lifestyle - wellness",
+        "minAmount":  15,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "travelcardus",
+        "product":  "TravelCard by Inspire",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  1,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "trueclassicus",
+        "product":  "True Classic",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "turous",
+        "product":  "Turo",
+        "currency":  "USD",
+        "category":  "destination - lifestyle",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "twitchus",
+        "product":  "Twitch",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  15,
+        "maxAmount":  200,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "uber",
+        "product":  "Uber",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ubereats",
+        "product":  "Uber Eats",
+        "currency":  "USD",
+        "category":  "online-shopping - food-and-drink",
+        "minAmount":  15,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ultabeauty",
+        "product":  "Ulta Beauty",
+        "currency":  "USD",
+        "category":  "wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "underarmourus",
+        "product":  "Under Armour",
+        "currency":  "USD",
+        "category":  "apparel - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "untuckitus",
+        "product":  "UNTUCKit",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "valorantus",
+        "product":  "VALORANT",
+        "currency":  "USD",
+        "category":  "entertainment - lifestyle",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "vicandanthonysus",
+        "product":  "Vic \u0026 Anthony\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "victoriasecretus",
+        "product":  "Victoria\u0027s Secret",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "victoriasecretpinkus",
+        "product":  "Victoria\u0027s Secret Pink",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mastercardus",
+        "product":  "Virtual Prepaid Mastercard®",
+        "currency":  "USD",
+        "category":  "prepaid-cards",
+        "minAmount":  20,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "mastercardpathward",
+        "product":  "Virtual Prepaid Mastercard® International",
+        "currency":  "USD",
+        "category":  "prepaid-cards",
+        "minAmount":  1,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "visaphysicalus",
+        "product":  "Visa Incentive Physical Card",
+        "currency":  "USD",
+        "category":  "prepaid-cards",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "visavirtualus",
+        "product":  "Visa Incentive Virtual Card",
+        "currency":  "USD",
+        "category":  "prepaid-cards",
+        "minAmount":  10,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "visarewardvirtualaccount",
+        "product":  "Visa® Reward Virtual Account",
+        "currency":  "USD",
+        "category":  "prepaid-cards",
+        "minAmount":  0.01,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "vonsus",
+        "product":  "Vons",
+        "currency":  "USD",
+        "category":  "food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "vuduus",
+        "product":  "Vudu",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  25,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "whotelsus",
+        "product":  "W Hotels",
+        "currency":  "USD",
+        "category":  "destination",
+        "minAmount":  25,
+        "maxAmount":  2000,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "walgreensus",
+        "product":  "Walgreens",
+        "currency":  "USD",
+        "category":  "online-shopping - food-and-drink - home - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "walmart",
+        "product":  "Walmart",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - entertainment - food-and-drink - home - wellness",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "wawaus",
+        "product":  "Wawa",
+        "currency":  "USD",
+        "category":  "destination - food-and-drink",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "wayfairus",
+        "product":  "Wayfair",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  5,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "westelmus",
+        "product":  "west elm",
+        "currency":  "USD",
+        "category":  "online-shopping - home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "whitehouseblackmarketus",
+        "product":  "White House Black Market",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  10,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "williamssonomaus",
+        "product":  "Williams Sonoma",
+        "currency":  "USD",
+        "category":  "home",
+        "minAmount":  25,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "xbox",
+        "product":  "Xbox",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "xboxgamepassus",
+        "product":  "Xbox Game Pass Essential",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "xboxultimateus",
+        "product":  "Xbox Game Pass Ultimate",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "xsollaus",
+        "product":  "Xsolla",
+        "currency":  "USD",
+        "category":  "entertainment",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "yankeecandleus",
+        "product":  "Yankee Candle®",
+        "currency":  "USD",
+        "category":  "home - wellness",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "yardhouseus",
+        "product":  "Yard House",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  100,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "zappos",
+        "product":  "Zappos",
+        "currency":  "USD",
+        "category":  "apparel",
+        "minAmount":  null,
+        "maxAmount":  null,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "zaxbysus",
+        "product":  "Zaxby\u0027s",
+        "currency":  "USD",
+        "category":  "food-and-drink - restaurants",
+        "minAmount":  5,
+        "maxAmount":  250,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    },
+    {
+        "id":  "ziftzillionsus",
+        "product":  "Zift Zillions of Gifts",
+        "currency":  "USD",
+        "category":  "apparel - online-shopping - entertainment - food-and-drink - restaurants - home - lifestyle",
+        "minAmount":  20,
+        "maxAmount":  500,
+        "countries":  [
+                          "USA"
+                      ],
+        "countryCount":  1
+    }
+]

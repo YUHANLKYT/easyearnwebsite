@@ -203,12 +203,12 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "DISCORD_NITRO",
     label: "Discord Nitro",
-    minAmountCents: 300,
+    minAmountCents: 500,
     description: "1 month Discord Nitro options (USD only).",
-    amountChoicesCents: [300, 1000],
+    amountChoicesCents: [500, 1000],
     supportedRegions: ["US"],
     amountChoiceLabels: {
-      300: "1 MONTH BASIC",
+      500: "1 MONTH BASIC",
       1000: "1 MONTH NITRO",
     },
   },
@@ -230,9 +230,9 @@ export const REDEMPTION_OPTIONS: RedemptionOption[] = [
   {
     method: "CUSTOM_WITHDRAWAL",
     label: "Custom Withdrawal",
-    minAmountCents: 100,
+    minAmountCents: 500,
     description: "Request a custom payout item with manual admin review.",
-    amountChoicesCents: [100],
+    amountChoicesCents: [500],
     supportedRegions: ["US"],
   },
   // Legacy option kept for compatibility with older redemptions.

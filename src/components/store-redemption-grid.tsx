@@ -256,10 +256,10 @@ export function StoreRedemptionGrid({ options, canRedeem, initialRegionCode = "U
                         name="amount"
                         type="number"
                         required
-                        min="1"
+                        min="5"
                         max="1000"
                         step="0.01"
-                        placeholder="15.00"
+                        placeholder="5.00"
                         className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                       />
                     </label>

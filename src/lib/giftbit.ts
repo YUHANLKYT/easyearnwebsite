@@ -1,6 +1,6 @@
-import catalog from "@/data/tremendous-catalog.json";
+import catalog from "@/data/giftbit-catalog.json";
 
-export type TremendousCatalogEntry = {
+export type GiftbitCatalogEntry = {
   id: string;
   product: string;
   currency: string;
@@ -37,7 +37,7 @@ const POPULAR_PRODUCT_PATTERNS = [
   /fortnite/i,
 ];
 
-function normalizeEntry(raw: unknown): TremendousCatalogEntry | null {
+function normalizeEntry(raw: unknown): GiftbitCatalogEntry | null {
   if (!raw || typeof raw !== "object") {
     return null;
   }
@@ -70,37 +70,37 @@ function normalizeEntry(raw: unknown): TremendousCatalogEntry | null {
   };
 }
 
-const normalizedCatalog: TremendousCatalogEntry[] = (catalog as unknown[])
+const normalizedCatalog: GiftbitCatalogEntry[] = (catalog as unknown[])
   .map(normalizeEntry)
-  .filter((entry): entry is TremendousCatalogEntry => Boolean(entry));
+  .filter((entry): entry is GiftbitCatalogEntry => Boolean(entry));
 
-export function isMonetaryTremendousProduct(product: string): boolean {
+export function isMonetaryGiftbitProduct(product: string): boolean {
   return MONETARY_PRODUCT_PATTERN.test(product);
 }
 
-export function isPrepaidTremendousProduct(product: string): boolean {
+export function isPrepaidGiftbitProduct(product: string): boolean {
   return PREPAID_PRODUCT_PATTERN.test(product);
 }
 
-export function isPopularTremendousProduct(product: string): boolean {
+export function isPopularGiftbitProduct(product: string): boolean {
   return POPULAR_PRODUCT_PATTERNS.some((pattern) => pattern.test(product));
 }
 
-export function isCharityNonProfitTremendousProduct(product: string, category?: string): boolean {
+export function isCharityNonProfitGiftbitProduct(product: string, category?: string): boolean {
   return CHARITY_NONPROFIT_PATTERN.test(`${product} ${category ?? ""}`);
 }
 
-export function getTremendousCatalogEntries(): TremendousCatalogEntry[] {
-  return normalizedCatalog.filter((entry) => !isMonetaryTremendousProduct(entry.product));
+export function getGiftbitCatalogEntries(): GiftbitCatalogEntry[] {
+  return normalizedCatalog.filter((entry) => !isMonetaryGiftbitProduct(entry.product));
 }
 
-export function getTremendousCatalogEntryById(id: string): TremendousCatalogEntry | null {
+export function getGiftbitCatalogEntryById(id: string): GiftbitCatalogEntry | null {
   const cleanedId = id.trim();
   if (!cleanedId) {
     return null;
   }
   const match = normalizedCatalog.find((entry) => entry.id === cleanedId);
-  if (!match || isMonetaryTremendousProduct(match.product)) {
+  if (!match || isMonetaryGiftbitProduct(match.product)) {
     return null;
   }
   return match;

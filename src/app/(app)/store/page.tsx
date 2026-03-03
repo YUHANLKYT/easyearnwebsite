@@ -2,10 +2,10 @@ import { headers } from "next/headers";
 import Link from "next/link";
 
 import { FlashMessage } from "@/components/flash-message";
-import { TremendousCatalogGrid } from "@/components/tremendous-catalog-grid";
+import { GiftbitCatalogGrid } from "@/components/giftbit-catalog-grid";
 import { requireUser } from "@/lib/auth";
+import { getGiftbitCatalogEntries } from "@/lib/giftbit";
 import { formatUSD } from "@/lib/money";
-import { getTremendousCatalogEntries } from "@/lib/tremendous";
 
 type SearchParams = Promise<{
   notice?: string;
@@ -35,7 +35,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
   const ipCountryCode = requestHeaders.get("x-vercel-ip-country") ?? requestHeaders.get("cf-ipcountry");
   const detectedCountryName = getCountryNameFromCode(ipCountryCode);
   const canRedeem = user.status === "ACTIVE" && Boolean(user.emailVerifiedAt);
-  const tremendousEntries = getTremendousCatalogEntries();
+  const giftbitEntries = getGiftbitCatalogEntries();
 
   return (
     <div className="space-y-6">
@@ -74,7 +74,7 @@ export default async function StorePage({ searchParams }: { searchParams: Search
         <p className="text-xs text-slate-500">USD</p>
       </section>
 
-      <TremendousCatalogGrid entries={tremendousEntries} canRedeem={canRedeem} detectedCountryName={detectedCountryName} />
+      <GiftbitCatalogGrid entries={giftbitEntries} canRedeem={canRedeem} detectedCountryName={detectedCountryName} />
     </div>
   );
 }

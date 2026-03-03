@@ -3,14 +3,14 @@
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  type TremendousCatalogEntry,
-  isCharityNonProfitTremendousProduct,
-  isPopularTremendousProduct,
-  isPrepaidTremendousProduct,
-} from "@/lib/tremendous";
+  type GiftbitCatalogEntry,
+  isCharityNonProfitGiftbitProduct,
+  isPopularGiftbitProduct,
+  isPrepaidGiftbitProduct,
+} from "@/lib/giftbit";
 
-type TremendousCatalogGridProps = {
-  entries: TremendousCatalogEntry[];
+type GiftbitCatalogGridProps = {
+  entries: GiftbitCatalogEntry[];
   canRedeem: boolean;
   detectedCountryName: string | null;
 };
@@ -75,13 +75,13 @@ function getUsdEquivalentMinimum(currency: string, rates: Record<string, number>
   return toTwoDecimals(USD_MINIMUM * rate);
 }
 
-function getEntryMinimum(entry: TremendousCatalogEntry, rates: Record<string, number>): number {
+function getEntryMinimum(entry: GiftbitCatalogEntry, rates: Record<string, number>): number {
   const providerMinimum = entry.minAmount ?? 0;
   const usdEquivalentMinimum = getUsdEquivalentMinimum(entry.currency, rates);
   return toTwoDecimals(Math.max(providerMinimum, usdEquivalentMinimum));
 }
 
-function getRegionScopedEntries(entries: TremendousCatalogEntry[], countryName: string | null): TremendousCatalogEntry[] {
+function getRegionScopedEntries(entries: GiftbitCatalogEntry[], countryName: string | null): GiftbitCatalogEntry[] {
   if (!countryName) {
     return entries;
   }
@@ -93,7 +93,7 @@ function getRegionScopedEntries(entries: TremendousCatalogEntry[], countryName: 
   return filtered.length > 0 ? filtered : entries;
 }
 
-export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName }: TremendousCatalogGridProps) {
+export function GiftbitCatalogGrid({ entries, canRedeem, detectedCountryName }: GiftbitCatalogGridProps) {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [amountInput, setAmountInput] = useState("");
@@ -150,21 +150,21 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
   }, [query, scopedEntries]);
 
   const grouped = useMemo(() => {
-    const prepaid: TremendousCatalogEntry[] = [];
-    const charity: TremendousCatalogEntry[] = [];
-    const popular: TremendousCatalogEntry[] = [];
-    const more: TremendousCatalogEntry[] = [];
+    const prepaid: GiftbitCatalogEntry[] = [];
+    const charity: GiftbitCatalogEntry[] = [];
+    const popular: GiftbitCatalogEntry[] = [];
+    const more: GiftbitCatalogEntry[] = [];
 
     for (const entry of filteredEntries) {
-      if (isPrepaidTremendousProduct(entry.product)) {
+      if (isPrepaidGiftbitProduct(entry.product)) {
         prepaid.push(entry);
         continue;
       }
-      if (isCharityNonProfitTremendousProduct(entry.product, entry.category)) {
+      if (isCharityNonProfitGiftbitProduct(entry.product, entry.category)) {
         charity.push(entry);
         continue;
       }
-      if (isPopularTremendousProduct(entry.product)) {
+      if (isPopularGiftbitProduct(entry.product)) {
         popular.push(entry);
         continue;
       }
@@ -386,7 +386,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                 {formatMoney(selectedMaxAmount, selectedEntry.currency)}
               </p>
 
-              <form action="/api/redeem/tremendous" method="post" className="mt-4 space-y-3">
+              <form action="/api/redeem/giftbit" method="post" className="mt-4 space-y-3">
                 <input type="hidden" name="catalogId" value={selectedEntry.id} />
                 <input type="hidden" name="redirectTo" value="/store" />
                 <label className="block text-xs text-slate-600">
@@ -424,7 +424,7 @@ export function TremendousCatalogGrid({ entries, canRedeem, detectedCountryName 
                   disabled={!canRedeem}
                   className="w-full rounded-xl bg-gradient-to-r from-orange-400 to-sky-500 px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {canRedeem ? "Submit Redemption Request" : "Unavailable"}
+                  {canRedeem ? "Submit Giftbit Request" : "Unavailable"}
                 </button>
               </form>
             </>

@@ -123,34 +123,21 @@ function GiftCardTile({ item, compact = false }: { item: GiftCardVisual; compact
 }
 
 function SlidingBrandRow({ cards, direction, duration }: { cards: GiftCardVisual[]; direction: "left" | "right"; duration: number }) {
-  const endX = direction === "left" ? "-100%" : "100%";
-  const startSecond = direction === "left" ? "100%" : "-100%";
+  const repeated = [...cards, ...cards];
+  const fromX = direction === "left" ? "0%" : "-50%";
+  const toX = direction === "left" ? "-50%" : "0%";
 
   return (
     <div className="relative h-full overflow-hidden rounded-2xl border border-white/10 bg-slate-900/25">
       <motion.div
-        className="absolute inset-2 flex gap-3"
-        initial={{ x: 0 }}
-        animate={{ x: endX }}
+        className="absolute inset-y-2 left-0 flex w-max gap-3 px-2"
+        initial={{ x: fromX }}
+        animate={{ x: toX }}
         transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-        style={{ willChange: "transform" }}
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
       >
-        {cards.map((item) => (
-          <div key={`${direction}-${item.brand}-a`} className="h-full w-[calc(25%-0.5625rem)] flex-none">
-            <GiftCardTile item={item} compact />
-          </div>
-        ))}
-      </motion.div>
-
-      <motion.div
-        className="absolute inset-2 flex gap-3"
-        initial={{ x: startSecond }}
-        animate={{ x: 0 }}
-        transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-        style={{ willChange: "transform" }}
-      >
-        {cards.map((item) => (
-          <div key={`${direction}-${item.brand}-b`} className="h-full w-[calc(25%-0.5625rem)] flex-none">
+        {repeated.map((item, index) => (
+          <div key={`${direction}-${item.brand}-${index}`} className="h-full w-[calc(25%-0.5625rem)] flex-none">
             <GiftCardTile item={item} compact />
           </div>
         ))}
@@ -163,14 +150,14 @@ function OfferwallCard({ wall, index }: { wall: OfferwallVisual; index: number }
   return (
     <motion.div
       className={`relative h-[112px] w-[244px] flex-none overflow-hidden rounded-2xl border border-white/25 bg-gradient-to-br p-4 text-white shadow-xl ${wall.gradient}`}
-      animate={{ rotateY: [0, 8, 0, -8, 0], y: [0, -4, 0, 4, 0] }}
+      animate={{ rotate: [0, 1.2, 0, -1.2, 0], y: [0, -3, 0, 3, 0] }}
       transition={{
-        duration: 6 + (index % 3) * 0.7,
+        duration: 5.4 + (index % 3) * 0.55,
         ease: "easeInOut",
         repeat: Number.POSITIVE_INFINITY,
-        delay: index * 0.06,
+        delay: index * 0.05,
       }}
-      style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+      style={{ willChange: "transform", transform: "translateZ(0)" }}
     >
       <div className="absolute -top-10 -right-8 h-24 w-24 rounded-full bg-white/20" />
       <p className="relative text-lg font-semibold tracking-wide">{wall.name}</p>
@@ -187,10 +174,10 @@ function OfferwallMarquee({ cards, duration }: { cards: OfferwallVisual[]; durat
     <div className="relative h-[120px] overflow-hidden rounded-2xl border border-white/10 bg-slate-900/25">
       <motion.div
         className="absolute inset-y-2 left-0 flex w-max gap-3 px-2"
-        initial={{ x: "-50%" }}
-        animate={{ x: "0%" }}
+        initial={{ x: "0%" }}
+        animate={{ x: "-50%" }}
         transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-        style={{ willChange: "transform" }}
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
       >
         {repeated.map((wall, index) => (
           <OfferwallCard key={`${wall.name}-${index}`} wall={wall} index={index} />

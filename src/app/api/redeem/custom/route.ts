@@ -57,10 +57,10 @@ export async function POST(request: Request) {
   }
 
   const amountCents = parseDollarInputToCents(parsed.data.amount);
-  if (amountCents === null || amountCents < 100 || amountCents > 100000) {
+  if (amountCents === null || amountCents < 500 || amountCents > 100000) {
     redirect(
       buildRedirect(redirectTo, {
-        error: "Custom request price must be between $1.00 and $1000.00.",
+        error: "Custom request price must be between $5.00 and $1000.00.",
       }),
     );
   }
