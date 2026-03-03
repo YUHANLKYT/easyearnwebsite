@@ -48,7 +48,6 @@ type OfferwallVisual = {
   logoWidth: number;
   logoHeight: number;
   logoClass: string;
-  panelClass: string;
 };
 
 type HeroMode = "stack" | "brands" | "offerwalls";
@@ -79,17 +78,15 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 220,
     logoHeight: 48,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "offerwall-logo-panel",
   },
   {
     name: "BitLabs",
     description: "Survey wall",
     gradient: "from-indigo-600 via-blue-600 to-cyan-500",
-    logo: "/bitlabs-batterphoto.png",
+    logo: "/bitlabs-logo.svg",
     logoWidth: 340,
     logoHeight: 72,
     logoClass: "h-auto w-full max-w-[240px]",
-    panelClass: "offerwall-logo-panel",
   },
   {
     name: "TheoremReach",
@@ -99,7 +96,6 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 300,
     logoHeight: 72,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "offerwall-logo-panel",
   },
   {
     name: "KiwiWall",
@@ -109,17 +105,15 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 480,
     logoHeight: 96,
     logoClass: "h-auto w-[115%] max-w-none -ml-3",
-    panelClass: "offerwall-logo-panel",
   },
   {
     name: "Revtoo",
     description: "Mixed offers",
     gradient: "from-cyan-500 to-indigo-500",
-    logo: "/revtoo-logo.png",
+    logo: "/revtoo-logo.svg",
     logoWidth: 905,
     logoHeight: 234,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "offerwall-logo-panel offerwall-logo-panel-revtoo",
   },
   {
     name: "AdtoGame",
@@ -129,7 +123,6 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 667,
     logoHeight: 168,
     logoClass: "h-auto w-full max-w-[230px]",
-    panelClass: "offerwall-logo-panel",
   },
 ];
 
@@ -234,13 +227,13 @@ function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
     >
       <div className="absolute -top-8 -right-8 h-20 w-20 rounded-full bg-slate-950/45" />
       <div className="relative flex h-full flex-col">
-        <div className={`flex h-10 items-center rounded-xl px-3 ${wall.panelClass}`}>
+        <div className="flex h-10 items-center px-1">
           <Image
             src={wall.logo}
             alt={`${wall.name} logo`}
             width={wall.logoWidth}
             height={wall.logoHeight}
-            className={wall.logoClass}
+            className={`${wall.logoClass} drop-shadow-[0_6px_14px_rgba(2,6,23,0.22)]`}
           />
         </div>
         <p className="mt-2 text-sm font-semibold tracking-wide text-white/95">{wall.name}</p>
