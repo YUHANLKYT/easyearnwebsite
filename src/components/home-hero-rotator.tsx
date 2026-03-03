@@ -196,35 +196,34 @@ function GiftCardTile({ item, compact = false }: { item: GiftCardVisual; compact
   );
 }
 
-function SlidingGiftCardRow({
+function DriftingGiftCardRow({
   cards,
-  direction,
+  rowIndex,
   duration,
 }: {
   cards: GiftCardVisual[];
-  direction: "left" | "right";
+  rowIndex: number;
   duration: number;
 }) {
+  const rowDrift = rowIndex === 1 ? 12 : -12;
+
   return (
-    <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
-      <motion.div
-        className="absolute inset-0 flex w-[200%]"
-        initial={{ x: direction === "left" ? "0%" : "-50%" }}
-        animate={{ x: direction === "left" ? "-50%" : "0%" }}
-        transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-        style={{ willChange: "transform", transform: "translateZ(0)" }}
-      >
-        {[0, 1].map((copyIndex) => (
-          <div key={`${direction}-gift-copy-${copyIndex}`} className="grid h-full w-full grid-cols-4 gap-3">
-            {cards.map((item, itemIndex) => (
-              <div key={`${direction}-${copyIndex}-${item.brand}-${itemIndex}`} className="h-full">
-                <GiftCardTile item={item} compact={false} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </motion.div>
-    </div>
+    <motion.div
+      className="grid h-full grid-cols-4 gap-3"
+      animate={{ x: [0, rowDrift, 0, -rowDrift, 0] }}
+      transition={{
+        duration,
+        ease: "easeInOut",
+        repeat: Number.POSITIVE_INFINITY,
+      }}
+      style={{ willChange: "transform", transform: "translateZ(0)" }}
+    >
+      {cards.map((item, itemIndex) => (
+        <div key={`gift-row-${rowIndex}-${item.brand}-${itemIndex}`} className="h-full">
+          <GiftCardTile item={item} compact={false} />
+        </div>
+      ))}
+    </motion.div>
   );
 }
 
@@ -381,9 +380,9 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="grid h-full grid-rows-3 gap-3">
-                <SlidingGiftCardRow cards={giftCardCloud.slice(0, 4)} direction="left" duration={18} />
-                <SlidingGiftCardRow cards={giftCardCloud.slice(4, 8)} direction="right" duration={20} />
-                <SlidingGiftCardRow cards={giftCardCloud.slice(8, 12)} direction="left" duration={19} />
+                <DriftingGiftCardRow cards={giftCardCloud.slice(0, 4)} rowIndex={0} duration={10.2} />
+                <DriftingGiftCardRow cards={giftCardCloud.slice(4, 8)} rowIndex={1} duration={11.3} />
+                <DriftingGiftCardRow cards={giftCardCloud.slice(8, 12)} rowIndex={2} duration={10.7} />
               </div>
             </motion.div>
           ) : null}
