@@ -205,19 +205,22 @@ function SlidingGiftCardRow({
   direction: "left" | "right";
   duration: number;
 }) {
-  const repeated = [...cards, ...cards];
   return (
     <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
       <motion.div
-        className="absolute inset-y-1 left-0 flex w-max gap-3 px-2"
+        className="absolute inset-0 flex w-[200%]"
         initial={{ x: direction === "left" ? "0%" : "-50%" }}
         animate={{ x: direction === "left" ? "-50%" : "0%" }}
         transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
         style={{ willChange: "transform", transform: "translateZ(0)" }}
       >
-        {repeated.map((item, index) => (
-          <div key={`${direction}-${item.brand}-${index}`} style={{ width: "clamp(190px, 19vw, 265px)" }} className="h-full flex-none">
-            <GiftCardTile item={item} compact />
+        {[0, 1].map((copyIndex) => (
+          <div key={`${direction}-gift-copy-${copyIndex}`} className="grid h-full w-full grid-cols-4 gap-3">
+            {cards.map((item, itemIndex) => (
+              <div key={`${direction}-${copyIndex}-${item.brand}-${itemIndex}`} className="h-full">
+                <GiftCardTile item={item} compact={false} />
+              </div>
+            ))}
           </div>
         ))}
       </motion.div>
@@ -258,19 +261,22 @@ function SlidingOfferwallRow({
   direction: "left" | "right";
   duration: number;
 }) {
-  const repeated = [...cards, ...cards];
   return (
     <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
       <motion.div
-        className="absolute inset-y-1 left-0 flex w-max gap-3 px-2"
+        className="absolute inset-0 flex w-[200%]"
         initial={{ x: direction === "left" ? "0%" : "-50%" }}
         animate={{ x: direction === "left" ? "-50%" : "0%" }}
         transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
         style={{ willChange: "transform", transform: "translateZ(0)" }}
       >
-        {repeated.map((wall, index) => (
-          <div key={`${direction}-${wall.name}-${index}`} style={{ width: "clamp(205px, 20vw, 280px)" }} className="h-full flex-none">
-            <OfferwallTile wall={wall} />
+        {[0, 1].map((copyIndex) => (
+          <div key={`${direction}-offer-copy-${copyIndex}`} className="grid h-full w-full grid-cols-4 gap-3">
+            {cards.map((wall, wallIndex) => (
+              <div key={`${direction}-${copyIndex}-${wall.name}-${wallIndex}`} className="h-full">
+                <OfferwallTile wall={wall} />
+              </div>
+            ))}
           </div>
         ))}
       </motion.div>
