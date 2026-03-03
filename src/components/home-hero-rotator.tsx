@@ -1,9 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { IconType } from "react-icons";
 import {
   FaAmazon,
@@ -40,19 +39,9 @@ type GiftCardVisual = {
   orb: string;
 };
 
-type OfferwallVisual = {
-  name: string;
-  description: string;
-  gradient: string;
-  logo: string;
-  logoWidth: number;
-  logoHeight: number;
-  logoClass: string;
-};
+type HeroMode = "stack" | "brands";
 
-type HeroMode = "stack" | "brands" | "offerwalls";
-
-const heroModes: HeroMode[] = ["stack", "brands", "offerwalls"];
+const heroModes: HeroMode[] = ["stack", "brands"];
 
 const giftCardCloud: GiftCardVisual[] = [
   { brand: "Amazon", icon: FaAmazon, gradient: "from-amber-400 to-orange-500", orb: "bg-amber-300/60" },
@@ -69,62 +58,6 @@ const giftCardCloud: GiftCardVisual[] = [
   { brand: "Valorant", icon: SiValorant, gradient: "from-pink-500 to-red-500", orb: "bg-pink-300/55" },
 ];
 
-const offerwallCards: OfferwallVisual[] = [
-  {
-    name: "CPX Research",
-    description: "Surveys",
-    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
-    logo: "/cpx-research-logo.svg",
-    logoWidth: 220,
-    logoHeight: 48,
-    logoClass: "h-auto w-full max-w-[220px]",
-  },
-  {
-    name: "BitLabs",
-    description: "Survey wall",
-    gradient: "from-indigo-600 via-blue-600 to-cyan-500",
-    logo: "/bitlabs-logo.svg",
-    logoWidth: 340,
-    logoHeight: 72,
-    logoClass: "h-auto w-full max-w-[240px]",
-  },
-  {
-    name: "TheoremReach",
-    description: "Premium surveys",
-    gradient: "from-indigo-600 via-violet-600 to-purple-500",
-    logo: "/theoremreach-logo.svg",
-    logoWidth: 300,
-    logoHeight: 72,
-    logoClass: "h-auto w-full max-w-[220px]",
-  },
-  {
-    name: "KiwiWall",
-    description: "High paying",
-    gradient: "from-lime-500 via-emerald-500 to-green-500",
-    logo: "/kiwiwall-logo.svg",
-    logoWidth: 480,
-    logoHeight: 96,
-    logoClass: "h-auto w-[115%] max-w-none -ml-3",
-  },
-  {
-    name: "Revtoo",
-    description: "Mixed offers",
-    gradient: "from-cyan-500 to-indigo-500",
-    logo: "/revtoo-logo.svg",
-    logoWidth: 905,
-    logoHeight: 234,
-    logoClass: "h-auto w-full max-w-[220px]",
-  },
-  {
-    name: "AdtoGame",
-    description: "Offerwall tasks",
-    gradient: "from-sky-600 via-cyan-500 to-teal-500",
-    logo: "/adtogame-logo.png",
-    logoWidth: 667,
-    logoHeight: 168,
-    logoClass: "h-auto w-full max-w-[230px]",
-  },
-];
 
 const stackLayouts: CardLayout[] = [
   { left: 64, top: 6, width: 17, height: 16, rotate: -10 },
@@ -174,12 +107,15 @@ function GiftCardTile({ item, compact = false }: { item: GiftCardVisual; compact
       className={`relative h-full w-full overflow-hidden rounded-[16px] border border-white/35 bg-gradient-to-br p-3 text-white shadow-2xl ${item.gradient}`}
     >
       <div className={`absolute -top-8 -right-8 h-20 w-20 rounded-full ${item.orb}`} />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/5 to-black/20" />
       <div className="relative flex h-full flex-col">
         <item.icon className={compact ? "h-4.5 w-4.5 text-white/95" : "h-5 w-5 text-white/95"} />
-        <p className={`font-semibold tracking-wide ${compact ? "mt-1 text-[11px]" : "mt-2 text-xs"}`}>{item.brand}</p>
-        <p className={`font-medium text-white/85 ${compact ? "text-[10px]" : "text-[10px]"}`}>Gift Card</p>
+        <p className={`font-semibold tracking-wide text-white ${compact ? "mt-1 text-[11px]" : "mt-2 text-sm"}`}>
+          {item.brand}
+        </p>
+        <p className={`font-medium text-white/90 ${compact ? "text-[10px]" : "text-xs"}`}>Gift Card</p>
         <div
-          className={`mt-auto flex items-center justify-between font-semibold text-white/90 ${compact ? "text-[9px]" : "text-[9px]"}`}
+          className={`mt-auto flex items-center justify-between font-semibold text-white/95 ${compact ? "text-[9px]" : "text-[11px]"}`}
         >
           <span>USD</span>
           <span>Easy Earn</span>
@@ -199,11 +135,12 @@ function DriftingGiftCardRow({
   duration: number;
 }) {
   const rowDrift = rowIndex === 1 ? 12 : -12;
+  const rowTilt = rowIndex === 1 ? -0.6 : 0.6;
 
   return (
     <motion.div
       className="grid h-full grid-cols-4 gap-3"
-      animate={{ x: [0, rowDrift, 0, -rowDrift, 0] }}
+      animate={{ x: [0, rowDrift, 0, -rowDrift, 0], rotate: [0, rowTilt, 0, -rowTilt, 0] }}
       transition={{
         duration,
         ease: "easeInOut",
@@ -214,61 +151,6 @@ function DriftingGiftCardRow({
       {cards.map((item, itemIndex) => (
         <div key={`gift-row-${rowIndex}-${item.brand}-${itemIndex}`} className="h-full">
           <GiftCardTile item={item} compact={false} />
-        </div>
-      ))}
-    </motion.div>
-  );
-}
-
-function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
-  return (
-    <div
-      className={`relative h-full w-full overflow-hidden rounded-2xl border border-white/30 bg-gradient-to-br ${wall.gradient} p-3 text-white shadow-xl`}
-    >
-      <div className="absolute -top-8 -right-8 h-20 w-20 rounded-full bg-slate-950/45" />
-      <div className="relative flex h-full flex-col">
-        <div className="flex h-10 items-center px-1">
-          <Image
-            src={wall.logo}
-            alt={`${wall.name} logo`}
-            width={wall.logoWidth}
-            height={wall.logoHeight}
-            className={`${wall.logoClass} drop-shadow-[0_6px_14px_rgba(2,6,23,0.22)]`}
-          />
-        </div>
-        <p className="mt-2 text-sm font-semibold tracking-wide text-white/95">{wall.name}</p>
-        <p className="text-[11px] font-medium text-white/90">{wall.description}</p>
-        <p className="mt-auto text-[11px] font-semibold text-white/80">Integrated in Easy Earn</p>
-      </div>
-    </div>
-  );
-}
-
-function DriftingOfferwallRow({
-  cards,
-  rowIndex,
-  duration,
-}: {
-  cards: OfferwallVisual[];
-  rowIndex: number;
-  duration: number;
-}) {
-  const rowDrift = rowIndex === 1 ? 22 : -22;
-
-  return (
-    <motion.div
-      className="grid h-full grid-cols-4 gap-3"
-      animate={{ x: [0, rowDrift, 0, -rowDrift, 0] }}
-      transition={{
-        duration,
-        ease: "easeInOut",
-        repeat: Number.POSITIVE_INFINITY,
-      }}
-      style={{ willChange: "transform", transform: "translateZ(0)" }}
-    >
-      {cards.map((wall, wallIndex) => (
-        <div key={`offerwall-row-${rowIndex}-${wall.name}-${wallIndex}`} className="h-full">
-          <OfferwallTile wall={wall} />
         </div>
       ))}
     </motion.div>
@@ -299,18 +181,8 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
 
   const heroMode = heroModes[modeIndex] ?? "stack";
   const showBrands = heroMode === "brands";
-  const showOfferwalls = heroMode === "offerwalls";
   const isOverlayMode = heroMode !== "stack";
   const activeLayouts = showBrands ? gridLayouts : stackLayouts;
-
-  const offerwallRows = useMemo(
-    () => [
-      offerwallCards.slice(0, 4),
-      [...offerwallCards.slice(2), ...offerwallCards.slice(0, 2)].slice(0, 4),
-      [...offerwallCards.slice(4), ...offerwallCards.slice(0, 4)].slice(0, 4),
-    ],
-    [],
-  );
 
   const primaryCtaHref = isSignedIn ? signedInHome : `/signup${referralParam}`;
   const primaryCtaLabel = isSignedIn ? "Open Dashboard" : `Sign up and claim your ${signupBonusText}`;
@@ -332,31 +204,11 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
               exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
               transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
             >
-              <p className="bg-gradient-to-r from-cyan-200 via-white to-indigo-200 bg-clip-text text-3xl font-extrabold tracking-[0.08em] text-transparent md:text-4xl">
+              <p className="home-hero-scene-title text-3xl font-extrabold tracking-[0.08em] md:text-4xl">
                 UP TO 2400+ BRANDS
               </p>
-              <p className="mt-1 text-xs font-medium text-slate-100/90 md:text-sm">
+              <p className="home-hero-scene-subtitle mt-1 text-xs font-medium md:text-sm">
                 Redeem your money across gaming, shopping, and prepaid cards.
-              </p>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-
-        <AnimatePresence>
-          {showOfferwalls ? (
-            <motion.div
-              key="offerwalls-title"
-              className="absolute top-5 left-0 right-0 z-30 text-center"
-              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
-              transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="bg-gradient-to-r from-fuchsia-200 via-white to-cyan-200 bg-clip-text text-3xl font-extrabold tracking-[0.08em] text-transparent md:text-4xl">
-                COMPLETE OFFERWALLS
-              </p>
-              <p className="mt-1 text-xs font-medium text-slate-100/90 md:text-sm">
-                Run surveys and tasks across our integrated offerwall partners.
               </p>
             </motion.div>
           ) : null}
@@ -394,8 +246,8 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                 width: `${layout.width}%`,
                 height: `${layout.height}%`,
                 rotate: layout.rotate,
-                opacity: showOfferwalls || (showBrands && brandsMarqueeVisible) ? 0 : 1,
-                filter: showOfferwalls || (showBrands && brandsMarqueeVisible) ? "blur(5px)" : "blur(0px)",
+                opacity: showBrands && brandsMarqueeVisible ? 0 : 1,
+                filter: showBrands && brandsMarqueeVisible ? "blur(5px)" : "blur(0px)",
               }}
               transition={{
                 duration: 0.78,
@@ -423,25 +275,6 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
             </motion.div>
           );
         })}
-
-        <AnimatePresence>
-          {showOfferwalls ? (
-            <motion.div
-              key="offerwall-grid"
-              className="absolute inset-0 z-30 px-4 pt-[22%] pb-[5%]"
-              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div className="grid h-full grid-rows-3 gap-3">
-                <DriftingOfferwallRow cards={offerwallRows[0]} rowIndex={0} duration={10.5} />
-                <DriftingOfferwallRow cards={offerwallRows[1]} rowIndex={1} duration={11.4} />
-                <DriftingOfferwallRow cards={offerwallRows[2]} rowIndex={2} duration={10.9} />
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
       </div>
 
       <motion.div
