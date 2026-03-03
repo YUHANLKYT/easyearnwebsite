@@ -79,7 +79,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 220,
     logoHeight: 48,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "bg-white/92 border border-white/70",
+    panelClass: "offerwall-logo-panel",
   },
   {
     name: "BitLabs",
@@ -89,7 +89,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 340,
     logoHeight: 72,
     logoClass: "h-auto w-full max-w-[240px]",
-    panelClass: "bg-white/92 border border-white/70",
+    panelClass: "offerwall-logo-panel",
   },
   {
     name: "TheoremReach",
@@ -99,7 +99,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 300,
     logoHeight: 72,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "bg-white/92 border border-white/70",
+    panelClass: "offerwall-logo-panel",
   },
   {
     name: "KiwiWall",
@@ -109,7 +109,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 480,
     logoHeight: 96,
     logoClass: "h-auto w-[115%] max-w-none -ml-3",
-    panelClass: "bg-white/92 border border-white/70",
+    panelClass: "offerwall-logo-panel",
   },
   {
     name: "Revtoo",
@@ -119,7 +119,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 905,
     logoHeight: 234,
     logoClass: "h-auto w-full max-w-[220px]",
-    panelClass: "bg-slate-900/86 border border-sky-200/30",
+    panelClass: "offerwall-logo-panel offerwall-logo-panel-revtoo",
   },
   {
     name: "AdtoGame",
@@ -129,7 +129,7 @@ const offerwallCards: OfferwallVisual[] = [
     logoWidth: 667,
     logoHeight: 168,
     logoClass: "h-auto w-full max-w-[230px]",
-    panelClass: "bg-white/92 border border-white/70",
+    panelClass: "offerwall-logo-panel",
   },
 ];
 
@@ -244,43 +244,42 @@ function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
             className={wall.logoClass}
           />
         </div>
-        <p className="mt-2 text-[12px] font-semibold tracking-wide text-white/95">{wall.name}</p>
-        <p className="text-[10px] font-medium text-white/90">{wall.description}</p>
-        <p className="mt-auto text-[10px] font-semibold text-white/80">Integrated in Easy Earn</p>
+        <p className="mt-2 text-sm font-semibold tracking-wide text-white/95">{wall.name}</p>
+        <p className="text-[11px] font-medium text-white/90">{wall.description}</p>
+        <p className="mt-auto text-[11px] font-semibold text-white/80">Integrated in Easy Earn</p>
       </div>
     </div>
   );
 }
 
-function SlidingOfferwallRow({
+function DriftingOfferwallRow({
   cards,
-  direction,
+  rowIndex,
   duration,
 }: {
   cards: OfferwallVisual[];
-  direction: "left" | "right";
+  rowIndex: number;
   duration: number;
 }) {
+  const rowDrift = rowIndex === 1 ? 22 : -22;
+
   return (
-    <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
-      <motion.div
-        className="absolute inset-0 flex w-[200%]"
-        initial={{ x: direction === "left" ? "0%" : "-50%" }}
-        animate={{ x: direction === "left" ? "-50%" : "0%" }}
-        transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
-        style={{ willChange: "transform", transform: "translateZ(0)" }}
-      >
-        {[0, 1].map((copyIndex) => (
-          <div key={`${direction}-offer-copy-${copyIndex}`} className="grid h-full w-full grid-cols-4 gap-3">
-            {cards.map((wall, wallIndex) => (
-              <div key={`${direction}-${copyIndex}-${wall.name}-${wallIndex}`} className="h-full">
-                <OfferwallTile wall={wall} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </motion.div>
-    </div>
+    <motion.div
+      className="grid h-full grid-cols-4 gap-3"
+      animate={{ x: [0, rowDrift, 0, -rowDrift, 0] }}
+      transition={{
+        duration,
+        ease: "easeInOut",
+        repeat: Number.POSITIVE_INFINITY,
+      }}
+      style={{ willChange: "transform", transform: "translateZ(0)" }}
+    >
+      {cards.map((wall, wallIndex) => (
+        <div key={`offerwall-row-${rowIndex}-${wall.name}-${wallIndex}`} className="h-full">
+          <OfferwallTile wall={wall} />
+        </div>
+      ))}
+    </motion.div>
   );
 }
 
@@ -444,9 +443,9 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="grid h-full grid-rows-3 gap-3">
-                <SlidingOfferwallRow cards={offerwallRows[0]} direction="left" duration={19} />
-                <SlidingOfferwallRow cards={offerwallRows[1]} direction="right" duration={21} />
-                <SlidingOfferwallRow cards={offerwallRows[2]} direction="left" duration={20} />
+                <DriftingOfferwallRow cards={offerwallRows[0]} rowIndex={0} duration={10.5} />
+                <DriftingOfferwallRow cards={offerwallRows[1]} rowIndex={1} duration={11.4} />
+                <DriftingOfferwallRow cards={offerwallRows[2]} rowIndex={2} duration={10.9} />
               </div>
             </motion.div>
           ) : null}
