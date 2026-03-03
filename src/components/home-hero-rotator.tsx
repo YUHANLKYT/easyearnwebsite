@@ -45,6 +45,10 @@ type OfferwallVisual = {
   description: string;
   gradient: string;
   logo: string;
+  logoWidth: number;
+  logoHeight: number;
+  logoClass: string;
+  panelClass: string;
 };
 
 type HeroMode = "stack" | "brands" | "offerwalls";
@@ -70,38 +74,62 @@ const offerwallCards: OfferwallVisual[] = [
   {
     name: "CPX Research",
     description: "Surveys",
-    gradient: "from-emerald-500 to-cyan-500",
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
     logo: "/cpx-research-logo.svg",
+    logoWidth: 220,
+    logoHeight: 48,
+    logoClass: "h-auto w-full max-w-[220px]",
+    panelClass: "bg-white/92 border border-white/70",
   },
   {
     name: "BitLabs",
     description: "Survey wall",
-    gradient: "from-blue-500 to-indigo-500",
+    gradient: "from-indigo-600 via-blue-600 to-cyan-500",
     logo: "/bitlabs-batterphoto.png",
+    logoWidth: 340,
+    logoHeight: 72,
+    logoClass: "h-auto w-full max-w-[240px]",
+    panelClass: "bg-white/92 border border-white/70",
   },
   {
     name: "TheoremReach",
     description: "Premium surveys",
-    gradient: "from-violet-500 to-fuchsia-500",
+    gradient: "from-indigo-600 via-violet-600 to-purple-500",
     logo: "/theoremreach-logo.svg",
+    logoWidth: 300,
+    logoHeight: 72,
+    logoClass: "h-auto w-full max-w-[220px]",
+    panelClass: "bg-white/92 border border-white/70",
   },
   {
     name: "KiwiWall",
     description: "High paying",
-    gradient: "from-lime-500 to-emerald-500",
+    gradient: "from-lime-500 via-emerald-500 to-green-500",
     logo: "/kiwiwall-logo.svg",
+    logoWidth: 480,
+    logoHeight: 96,
+    logoClass: "h-auto w-[115%] max-w-none -ml-3",
+    panelClass: "bg-white/92 border border-white/70",
   },
   {
     name: "Revtoo",
     description: "Mixed offers",
     gradient: "from-cyan-500 to-indigo-500",
-    logo: "/revtoo-logo.svg",
+    logo: "/revtoo-logo.png",
+    logoWidth: 905,
+    logoHeight: 234,
+    logoClass: "h-auto w-full max-w-[220px]",
+    panelClass: "bg-slate-900/86 border border-sky-200/30",
   },
   {
     name: "AdtoGame",
     description: "Offerwall tasks",
-    gradient: "from-orange-500 to-rose-500",
+    gradient: "from-sky-600 via-cyan-500 to-teal-500",
     logo: "/adtogame-logo.png",
+    logoWidth: 667,
+    logoHeight: 168,
+    logoClass: "h-auto w-full max-w-[230px]",
+    panelClass: "bg-white/92 border border-white/70",
   },
 ];
 
@@ -168,6 +196,35 @@ function GiftCardTile({ item, compact = false }: { item: GiftCardVisual; compact
   );
 }
 
+function SlidingGiftCardRow({
+  cards,
+  direction,
+  duration,
+}: {
+  cards: GiftCardVisual[];
+  direction: "left" | "right";
+  duration: number;
+}) {
+  const repeated = [...cards, ...cards];
+  return (
+    <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
+      <motion.div
+        className="absolute inset-y-1 left-0 flex w-max gap-3 px-2"
+        initial={{ x: direction === "left" ? "0%" : "-50%" }}
+        animate={{ x: direction === "left" ? "-50%" : "0%" }}
+        transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
+      >
+        {repeated.map((item, index) => (
+          <div key={`${direction}-${item.brand}-${index}`} style={{ width: "clamp(190px, 19vw, 265px)" }} className="h-full flex-none">
+            <GiftCardTile item={item} compact />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
   return (
     <div
@@ -175,8 +232,14 @@ function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
     >
       <div className="absolute -top-8 -right-8 h-20 w-20 rounded-full bg-slate-950/45" />
       <div className="relative flex h-full flex-col">
-        <div className="relative h-8 w-full">
-          <Image src={wall.logo} alt={`${wall.name} logo`} fill className="object-contain object-left" />
+        <div className={`flex h-10 items-center rounded-xl px-3 ${wall.panelClass}`}>
+          <Image
+            src={wall.logo}
+            alt={`${wall.name} logo`}
+            width={wall.logoWidth}
+            height={wall.logoHeight}
+            className={wall.logoClass}
+          />
         </div>
         <p className="mt-2 text-[12px] font-semibold tracking-wide text-white/95">{wall.name}</p>
         <p className="text-[10px] font-medium text-white/90">{wall.description}</p>
@@ -186,8 +249,38 @@ function OfferwallTile({ wall }: { wall: OfferwallVisual }) {
   );
 }
 
+function SlidingOfferwallRow({
+  cards,
+  direction,
+  duration,
+}: {
+  cards: OfferwallVisual[];
+  direction: "left" | "right";
+  duration: number;
+}) {
+  const repeated = [...cards, ...cards];
+  return (
+    <div className="relative h-full overflow-hidden rounded-2xl border border-white/12 bg-slate-950/22">
+      <motion.div
+        className="absolute inset-y-1 left-0 flex w-max gap-3 px-2"
+        initial={{ x: direction === "left" ? "0%" : "-50%" }}
+        animate={{ x: direction === "left" ? "-50%" : "0%" }}
+        transition={{ duration, ease: "linear", repeat: Number.POSITIVE_INFINITY }}
+        style={{ willChange: "transform", transform: "translateZ(0)" }}
+      >
+        {repeated.map((wall, index) => (
+          <div key={`${direction}-${wall.name}-${index}`} style={{ width: "clamp(205px, 20vw, 280px)" }} className="h-full flex-none">
+            <OfferwallTile wall={wall} />
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
+
 export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signupBonusText }: HomeHeroRotatorProps) {
   const [modeIndex, setModeIndex] = useState(0);
+  const [brandsMarqueeVisible, setBrandsMarqueeVisible] = useState(false);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -196,14 +289,29 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
     return () => window.clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    if ((heroModes[modeIndex] ?? "stack") !== "brands") {
+      setBrandsMarqueeVisible(false);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setBrandsMarqueeVisible(true);
+    }, 650);
+    return () => window.clearTimeout(timer);
+  }, [modeIndex]);
+
   const heroMode = heroModes[modeIndex] ?? "stack";
   const showBrands = heroMode === "brands";
   const showOfferwalls = heroMode === "offerwalls";
   const isOverlayMode = heroMode !== "stack";
   const activeLayouts = showBrands ? gridLayouts : stackLayouts;
 
-  const offerwallDeck = useMemo(
-    () => Array.from({ length: 12 }, (_, index) => offerwallCards[index % offerwallCards.length]),
+  const offerwallRows = useMemo(
+    () => [
+      offerwallCards.slice(0, 4),
+      [...offerwallCards.slice(2), ...offerwallCards.slice(0, 2)].slice(0, 4),
+      [...offerwallCards.slice(4), ...offerwallCards.slice(0, 4)].slice(0, 4),
+    ],
     [],
   );
 
@@ -257,10 +365,28 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
           ) : null}
         </AnimatePresence>
 
+        <AnimatePresence>
+          {showBrands && brandsMarqueeVisible ? (
+            <motion.div
+              key="brands-marquee"
+              className="absolute inset-0 z-30 px-4 pt-[22%] pb-[5%]"
+              initial={{ opacity: 0, y: 8, filter: "blur(3px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="grid h-full grid-rows-3 gap-3">
+                <SlidingGiftCardRow cards={giftCardCloud.slice(0, 4)} direction="left" duration={18} />
+                <SlidingGiftCardRow cards={giftCardCloud.slice(4, 8)} direction="right" duration={20} />
+                <SlidingGiftCardRow cards={giftCardCloud.slice(8, 12)} direction="left" duration={19} />
+              </div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
+
         {giftCardCloud.map((item, index) => {
           const layout = activeLayouts[index] ?? stackLayouts[index];
           const row = Math.floor(index / 4);
-          const rowDrift = row === 1 ? 13 : -13;
           return (
             <motion.div
               key={item.brand}
@@ -271,8 +397,8 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                 width: `${layout.width}%`,
                 height: `${layout.height}%`,
                 rotate: layout.rotate,
-                opacity: showOfferwalls ? 0 : 1,
-                filter: showOfferwalls ? "blur(5px)" : "blur(0px)",
+                opacity: showOfferwalls || (showBrands && brandsMarqueeVisible) ? 0 : 1,
+                filter: showOfferwalls || (showBrands && brandsMarqueeVisible) ? "blur(5px)" : "blur(0px)",
               }}
               transition={{
                 duration: 0.78,
@@ -285,11 +411,11 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
                 className="h-full w-full"
                 animate={
                   showBrands
-                    ? { x: [0, rowDrift, 0, -rowDrift, 0], y: [0, -2, 0, 2, 0] }
+                    ? { x: 0, y: [0, -1.8, 0, 1.8, 0] }
                     : { x: 0, y: [0, -6, 0, 6, 0] }
                 }
                 transition={{
-                  duration: showBrands ? 10 + row * 1.1 : 5.8 + (index % 4) * 0.45,
+                  duration: showBrands ? 7.8 + row * 0.65 : 5.8 + (index % 4) * 0.45,
                   repeat: Number.POSITIVE_INFINITY,
                   ease: "easeInOut",
                   delay: index * 0.05,
@@ -312,27 +438,9 @@ export function HomeHeroRotator({ isSignedIn, signedInHome, referralParam, signu
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="grid h-full grid-rows-3 gap-3">
-                {[0, 1, 2].map((rowIndex) => {
-                  const rowCards = offerwallDeck.slice(rowIndex * 4, rowIndex * 4 + 4);
-                  const rowDrift = rowIndex === 1 ? 12 : -12;
-                  return (
-                    <motion.div
-                      key={`offerwall-row-${rowIndex}`}
-                      className="grid grid-cols-4 gap-3"
-                      animate={{ x: [0, rowDrift, 0, -rowDrift, 0] }}
-                      transition={{
-                        duration: 10 + rowIndex * 1.1,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: "easeInOut",
-                      }}
-                      style={{ willChange: "transform" }}
-                    >
-                      {rowCards.map((wall, cardIndex) => (
-                        <OfferwallTile key={`${wall.name}-${rowIndex}-${cardIndex}`} wall={wall} />
-                      ))}
-                    </motion.div>
-                  );
-                })}
+                <SlidingOfferwallRow cards={offerwallRows[0]} direction="left" duration={19} />
+                <SlidingOfferwallRow cards={offerwallRows[1]} direction="right" duration={21} />
+                <SlidingOfferwallRow cards={offerwallRows[2]} direction="left" duration={20} />
               </div>
             </motion.div>
           ) : null}
